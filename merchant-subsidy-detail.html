@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>商户补贴风险评估详情</title>
+    <link href="https://cdn.tailwindcss.com/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #1677ff;
+            --primary-blue-hover: #4096ff;
+            --primary-blue-active: #0958d9;
+            --primary-blue-light: #e6f4ff;
+            --success-green: #52c41a;
+            --warning-orange: #fa8c16;
+            --error-red: #ff4d4f;
+            --bg-layout: #f5f5f5;
+            --bg-container: #ffffff;
+            --border-color: #d9d9d9;
+            --border-color-light: #f0f0f0;
+            --text-primary: #000000d9;
+            --text-secondary: #00000073;
+            --text-disabled: #00000040;
+            --shadow-card: 0 1px 2px 0 rgba(0, 0, 0, 0.03), 0 1px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px 0 rgba(0, 0, 0, 0.02);
+        }
+
+        * {
+            font-family: 'PingFang SC', 'Microsoft YaHei', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background: var(--bg-layout);
+            color: var(--text-primary);
+            font-size: 14px;
+            line-height: 1.5715;
+            margin: 0;
+            padding: 0;
+        }
+
+        .page-container {
+            padding: 24px;
+        }
+
+        .page-header {
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: end;
+        }
+
+        .page-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 0;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--primary-blue);
+            text-decoration: none;
+            font-size: 14px;
+            padding: 8px 16px;
+            border: 1px solid var(--primary-blue);
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .back-btn:hover {
+            background: var(--primary-blue-light);
+        }
+
+        .card {
+            background: var(--bg-container);
+            border-radius: 8px;
+            box-shadow: var(--shadow-card);
+            border: 1px solid var(--border-color-light);
+            margin-bottom: 16px;
+        }
+
+        .card-header {
+            padding: 16px 24px;
+            border-bottom: 1px solid var(--border-color-light);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .card-body {
+            padding: 24px;
+        }
+
+        .card-title {
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin: 0;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        .info-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .info-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        .info-value {
+            font-size: 14px;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .risk-tag {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            display: inline-block;
+        }
+
+        .risk-high {
+            background: #fff2f0;
+            color: var(--error-red);
+        }
+
+        .risk-medium {
+            background: #fff7e6;
+            color: var(--warning-orange);
+        }
+
+        .risk-low {
+            background: #f6ffed;
+            color: var(--success-green);
+        }
+
+        .alert {
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            border: 1px solid;
+        }
+
+        .alert-warning {
+            background: #fffbe6;
+            border-color: #ffe58f;
+            color: #d48806;
+        }
+
+        .alert-danger {
+            background: #fff2f0;
+            border-color: #ffccc7;
+            color: #cf1322;
+        }
+
+        .alert-success {
+            background: #f6ffed;
+            border-color: #b7eb8f;
+            color: #389e0d;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        .data-table th {
+            background: #fafafa;
+            padding: 12px 16px;
+            text-align: left;
+            font-weight: 500;
+            color: var(--text-primary);
+            border-bottom: 1px solid var(--border-color-light);
+            font-size: 14px;
+        }
+
+        .data-table td {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border-color-light);
+            font-size: 14px;
+            color: var(--text-primary);
+        }
+
+        .data-table tr:hover {
+            background: #fafafa;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #f5f5f5;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            transition: width 0.3s ease;
+        }
+
+        .progress-high {
+            background: var(--error-red);
+        }
+
+        .progress-medium {
+            background: var(--warning-orange);
+        }
+
+        .progress-low {
+            background: var(--success-green);
+        }
+
+        .metric-card {
+            background: var(--bg-container);
+            border: 1px solid var(--border-color-light);
+            border-radius: 8px;
+            padding: 16px;
+            text-align: center;
+        }
+
+        .metric-number {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .metric-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .chart-container {
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #fafafa;
+            border-radius: 8px;
+            color: var(--text-secondary);
+        }
+
+        .btn {
+            height: 32px;
+            padding: 4px 15px;
+            border-radius: 6px;
+            font-weight: 400;
+            font-size: 14px;
+            border: 1px solid transparent;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background: var(--primary-blue);
+            border-color: var(--primary-blue);
+            color: #ffffff;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-blue-hover);
+            border-color: var(--primary-blue-hover);
+        }
+
+        .btn-default {
+            background: var(--bg-container);
+            border-color: var(--border-color);
+            color: var(--text-primary);
+        }
+
+        .btn-default:hover {
+            border-color: var(--primary-blue);
+            color: var(--primary-blue);
+        }
+
+
+
+        /* 评估概要样式 */
+        .evaluation-summary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 24px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .evaluation-summary h3 {
+            margin: 0 0 20px 0;
+            font-size: 18px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .evaluation-summary h3 i {
+            font-size: 20px;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .summary-item {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 16px;
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
+        }
+
+        .summary-number {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: white;
+        }
+
+        .summary-number1 {
+            font-size: 14px;
+            font-weight: 400;
+            opacity: 0.9;
+        }
+
+        .summary-label {
+            font-size: 14px;
+            opacity: 0.9;
+            color: white;
+        }
+
+        /* 风险指标区域样式 */
+        .risk-section {
+            margin-bottom: 32px;
+        }
+
+        .risk-section-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            padding: 12px 16px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .risk-section-title.high-risk {
+            background: #fff2f0;
+            color: var(--error-red);
+            border-left: 4px solid var(--error-red);
+        }
+
+        .risk-section-title.medium-risk {
+            background: #fff7e6;
+            color: var(--warning-orange);
+            border-left: 4px solid var(--warning-orange);
+        }
+
+        .risk-section-title.low-risk {
+            background: #f6ffed;
+            color: var(--success-green);
+            border-left: 4px solid var(--success-green);
+        }
+
+        .risk-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            max-width: 100%;
+            gap: 20px;
+        }
+
+        /* 确保每行最多3个卡片 */
+        @media (min-width: 1200px) {
+            .risk-cards-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (min-width: 768px) and (max-width: 1199px) {
+            .risk-cards-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 767px) {
+            .risk-cards-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* 统一的风险卡片样式 */
+        .unified-risk-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--border-color-light);
+            transition: all 0.3s ease;
+            overflow: visible;
+            position: static !important;
+            width: auto !important;
+        }
+
+        .unified-risk-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .unified-risk-card-header {
+            padding: 16px;
+            border-bottom: 1px solid var(--border-color-light);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .unified-risk-card-header i {
+            font-size: 16px;
+        }
+
+        .unified-risk-card-header .risk-title {
+            flex: 1;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .unified-risk-card-content {
+            padding: 16px;
+        }
+
+        .unified-risk-item {
+            display: flex;
+            margin-bottom: 8px;
+            font-size: 12px;
+            line-height: 1.4;
+        }
+
+        .unified-risk-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .unified-risk-label {
+            color: var(--text-secondary);
+            min-width: 70px;
+            margin-right: 8px;
+        }
+
+        /* 高风险卡片样式 */
+        .unified-risk-card.high-risk .unified-risk-card-header {
+            background: #fff2f0;
+        }
+
+        .unified-risk-card.high-risk .unified-risk-card-header i {
+            color: var(--error-red);
+        }
+
+        .unified-risk-card.high-risk .risk-tag {
+            background: #fff2f0;
+            color: var(--error-red);
+        }
+
+        /* 中风险卡片样式 */
+        .unified-risk-card.medium-risk .unified-risk-card-header {
+            background: #fff7e6;
+        }
+
+        .unified-risk-card.medium-risk .unified-risk-card-header i {
+            color: var(--warning-orange);
+        }
+
+        .unified-risk-card.medium-risk .risk-tag {
+            background: #fff7e6;
+            color: var(--warning-orange);
+        }
+
+        /* 低风险卡片样式 */
+        .unified-risk-card.low-risk .unified-risk-card-header {
+            background: #f6ffed;
+        }
+
+        .unified-risk-card.low-risk .unified-risk-card-header i {
+            color: var(--success-green);
+        }
+
+        .unified-risk-card.low-risk .risk-tag {
+            background: #f6ffed;
+            color: var(--success-green);
+        }
+
+        /* 信息提示图标样式 */
+        .info-icon {
+            margin-left: 4px;
+            margin-right: 0px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .info-icon:hover {
+            transform: scale(1.1);
+        }
+
+        /* 高风险卡片的信息图标 */
+        .unified-risk-card.high-risk .info-icon {
+            color: var(--error-red);
+        }
+
+        /* 中风险卡片的信息图标 */
+        .unified-risk-card.medium-risk .info-icon {
+            color: var(--warning-orange);
+        }
+
+        /* 低风险卡片的信息图标 */
+        .unified-risk-card.low-risk .info-icon {
+            color: var(--success-green);
+        }
+
+        /* 浮动提示框样式 */
+        .tooltip {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 12px 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            z-index: 99999;
+            min-width: 280px;
+            max-width: 320px;
+            font-size: 12px;
+            line-height: 1.5;
+            color: var(--text-primary);
+            display: none;
+            margin-top: 8px;
+        }
+
+        .tooltip::before {
+            content: '';
+            position: absolute;
+            top: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-bottom: 6px solid white;
+        }
+
+        .tooltip::after {
+            content: '';
+            position: absolute;
+            top: -7px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 7px solid transparent;
+            border-right: 7px solid transparent;
+            border-bottom: 7px solid var(--border-color);
+        }
+
+        .tooltip.show {
+            display: block;
+        }
+
+        .tooltip-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .tooltip-content {
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <!-- 页面头部 -->
+        <div class="page-header" style="justify-content: flex-end;">
+            <button class="btn btn-primary" id="notifyRiskBtn" onclick="sendRiskNotification()" style="border-radius: 8px; padding: 8px 8px;">
+                <i class="fas fa-bullhorn"></i>
+                下发风险通知
+            </button>
+        </div>
+        <script>
+        /**
+         * 下发风险通知按钮点击事件
+         * 该函数可扩展为实际的下发逻辑，如弹窗确认、接口调用等
+         */
+        function sendRiskNotification() {
+            // 这里可以收集页面内容并下发，当前为演示弹窗
+            alert('风险通知已下发！\n\n（此处可集成实际下发逻辑，如API调用、内容收集等）');
+        }
+        </script>
+        <!-- 评估概要 -->
+        <div class="evaluation-summary">
+            <h3><i class="fas fa-chart-line"></i> 补贴风险评估概要</h3>
+            <div class="summary-grid">
+                <div class="summary-item">
+                    <div class="summary-number">张三便利店 <span class="summary-number1">(M202401001)</span></div>
+                    <div class="summary-label">商户名称</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-number">高风险</div>
+                    <div class="summary-label">综合风险等级</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-number">1个</div>
+                    <div class="summary-label">高风险指标</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-number">1个</div>
+                    <div class="summary-label">中风险指标</div>
+                </div>
+            </div>
+        </div>
+        <!-- 商户基本信息 -->
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">商户基本信息</h3>
+                
+            </div>
+            <div class="card-body">
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-label">商户号</div>
+                        <div class="info-value">M202401001</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">商户名称</div>
+                        <div class="info-value">张三便利店</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">商户负责人</div>
+                        <div class="info-value">张三</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">负责人联系方式</div>
+                        <div class="info-value">13882735678</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">市级分公司</div>
+                        <div class="info-value">北京分公司</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">区县分公司</div>
+                        <div class="info-value">朝阳区分公司</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">营业所</div>
+                        <div class="info-value">朝阳路营业所</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">所属客户经理</div>
+                        <div class="info-value">李四</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">联系方式</div>
+                        <div class="info-value">13882735678</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+
+        <!-- 补贴风险画像 -->
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">商户补贴风险画像</h3>
+            </div>
+            <div class="card-body">
+                <!-- 高风险指标区域 -->
+                <div class="risk-section">
+                    <div class="risk-section-title high-risk">
+                        <i class="fas fa-exclamation-circle"></i>
+                        高风险指标
+                    </div>
+                    <div class="risk-cards-grid">
+                        <div class="unified-risk-card high-risk">
+                            <div class="unified-risk-card-header" style="display: flex; align-items: center; justify-content: space-between; position: relative;">
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <i class="fas fa-coins"></i>
+                                    <span class="risk-title">本月耗能预警</span>
+                                    <i class="fas fa-info-circle info-icon" onclick="toggleTooltip(this)"></i>
+                                    <div class="tooltip">
+                                        <div class="tooltip-title">数据更新说明</div>
+                                        <div class="tooltip-content">
+                                            本月累计补贴消耗：每日凌晨更新前一日数据并累计汇总，本月累计数据统计范围为本月1日至当前日期<br>
+                                            客户月均收益：统计商户结算人近6个月月均收益数据。
+                                        </div>
+                                    </div>
+                                </div>
+                                <span class="risk-tag">高风险</span>
+                            </div>
+                            <div class="unified-risk-card-content">
+                                <div class="unified-risk-item">
+                                    <span class="unified-risk-label">本月累计补贴消耗：</span>
+                                    <span>12000元</span>
+                                </div>
+                                <div class="unified-risk-item">
+                                    <span class="unified-risk-label">客户月均收益：</span>
+                                    <span>13000元</span>
+                                </div>
+                                <div class="unified-risk-item">
+                                    <span class="unified-risk-label">判定原因：</span>
+                                    <span>本月累计补贴消耗与月均收益的比例为： 92.31%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 中风险指标区域 -->
+                <div class="risk-section">
+                    <div class="risk-section-title medium-risk">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        中风险指标
+                    </div>
+                    <div class="risk-cards-grid">
+                        <div class="unified-risk-card medium-risk">
+                            <div class="unified-risk-card-header" style="display: flex; align-items: center; justify-content: space-between; position: relative;">
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <i class="fas fa-chart-line"></i>
+                                    <span class="risk-title">上月耗能预警</span>
+                                    <i class="fas fa-info-circle info-icon" onclick="toggleTooltip(this)"></i>
+                                    <div class="tooltip">
+                                        <div class="tooltip-title">数据更新说明</div>
+                                        <div class="tooltip-content">
+                                            上月补贴消耗数据：每月1号更新上个月数据。<br>
+                                            上月新增收益：统计上个月商户结算人的月增全省收益。
+                                        </div>
+                                    </div>
+                                </div>
+                                <span class="risk-tag">中风险</span>
+                            </div>
+                            <div class="unified-risk-card-content">
+                                
+                                <div class="unified-risk-item">
+                                    <span class="unified-risk-label">上月补贴消耗：</span>
+                                    <span>8000元</span>
+                                </div>
+                                <div class="unified-risk-item">
+                                    <span class="unified-risk-label">上月新增收益：</span>
+                                    <span>10000元</span>
+                                </div>
+                                <div class="unified-risk-item">
+                                    <span class="unified-risk-label">判定原因：</span>
+                                    <span>上月补贴消耗与上月新增收益的比例为： 80%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 低风险指标区域 -->
+                <div class="risk-section">
+                    <div class="risk-section-title low-risk">
+                        <i class="fas fa-check-circle"></i>
+                        低风险指标
+                    </div>
+                    <div class="risk-cards-grid">
+                        <div class="unified-risk-card low-risk">
+                            <div class="unified-risk-card-header" style="display: flex; align-items: center; justify-content: space-between; position: relative;">
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <i class="fas fa-shield-alt"></i>
+                                    <span class="risk-title">补贴激增预警</span>
+                                    <i class="fas fa-info-circle info-icon" onclick="toggleTooltip(this)"></i>
+                                    <div class="tooltip">
+                                        <div class="tooltip-title">数据更新说明</div>
+                                        <div class="tooltip-content">
+                                            本月累计补贴消耗：每日凌晨更新前一日数据并累计汇总，本月累计数据统计范围为本月1日至当前日期。<br>
+                                            上月同期补贴消耗：统计上月同周期补贴消耗数据。
+                                        </div>
+                                    </div>
+                                </div>
+                                <span class="risk-tag">低风险</span>
+                            </div>
+                            <div class="unified-risk-card-content">
+                                
+                                <div class="unified-risk-item">
+                                    <span class="unified-risk-label">本月累计补贴消耗：</span>
+                                    <span>1000元</span>
+                                </div>
+                                <div class="unified-risk-item">
+                                    <span class="unified-risk-label">上月同期补贴消耗：</span>
+                                    <span>10000元</span>
+                                </div>
+                                <div class="unified-risk-item">
+                                    <span class="unified-risk-label">判定原因：</span>
+                                    <span>本月累计补贴消耗与上月同期补贴消耗的同比【下降】：10%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // 获取URL参数
+        function getUrlParameter(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+
+        // 切换提示框显示状态
+        function toggleTooltip(iconElement) {
+            const tooltip = iconElement.nextElementSibling;
+            const isVisible = tooltip.classList.contains('show');
+
+            // 隐藏所有其他提示框
+            document.querySelectorAll('.tooltip.show').forEach(tip => {
+                tip.classList.remove('show');
+            });
+
+            // 切换当前提示框
+            if (!isVisible) {
+                tooltip.classList.add('show');
+            }
+        }
+
+        // 点击其他区域隐藏提示框
+        function hideAllTooltips() {
+            document.querySelectorAll('.tooltip.show').forEach(tip => {
+                tip.classList.remove('show');
+            });
+        }
+
+        // 页面加载时初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            const merchantId = getUrlParameter('id');
+            if (merchantId) {
+                console.log('商户ID:', merchantId);
+                // 这里可以根据商户ID加载具体数据
+            }
+
+            // 点击页面其他区域时隐藏所有提示框
+            document.addEventListener('click', function(event) {
+                // 如果点击的不是信息图标或提示框内容，则隐藏所有提示框
+                if (!event.target.classList.contains('info-icon') &&
+                    !event.target.closest('.tooltip')) {
+                    hideAllTooltips();
+                }
+            });
+
+            // 阻止提示框内部点击事件冒泡
+            document.querySelectorAll('.tooltip').forEach(tooltip => {
+                tooltip.addEventListener('click', function(event) {
+                    event.stopPropagation();
+                });
+            });
+        });
+    </script>
+</body>
+</html>

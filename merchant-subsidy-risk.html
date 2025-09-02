@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>商户补贴风险评估</title>
+    <link href="https://cdn.tailwindcss.com/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #1677ff;
+            --primary-blue-hover: #4096ff;
+            --primary-blue-active: #0958d9;
+            --primary-blue-light: #e6f4ff;
+            --success-green: #52c41a;
+            --warning-orange: #fa8c16;
+            --error-red: #ff4d4f;
+            --bg-layout: #f5f5f5;
+            --bg-container: #ffffff;
+            --border-color: #d9d9d9;
+            --border-color-light: #f0f0f0;
+            --text-primary: #000000d9;
+            --text-secondary: #00000073;
+            --text-disabled: #00000040;
+            --shadow-card: 0 1px 2px 0 rgba(0, 0, 0, 0.03), 0 1px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px 0 rgba(0, 0, 0, 0.02);
+        }
+
+        * {
+            font-family: 'PingFang SC', 'Microsoft YaHei', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background: var(--bg-layout);
+            color: var(--text-primary);
+            font-size: 14px;
+            line-height: 1.5715;
+            margin: 0;
+            padding: 0;
+        }
+
+        .page-container {
+            padding: 24px;
+        }
+
+        .page-header {
+            margin-bottom: 24px;
+        }
+
+        .page-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 0 0 8px 0;
+        }
+
+        .page-description {
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin: 0;
+        }
+
+        .card {
+            background: var(--bg-container);
+            border-radius: 8px;
+            box-shadow: var(--shadow-card);
+            border: 1px solid var(--border-color-light);
+            margin-bottom: 16px;
+        }
+
+        .card-header {
+            padding: 16px 24px;
+            border-bottom: 1px solid var(--border-color-light);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .card-body {
+            padding: 24px;
+        }
+
+        .card-title {
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin: 0;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-label {
+            font-weight: 400;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .form-input,
+        .form-select {
+            height: 32px;
+            padding: 4px 11px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 14px;
+            transition: all 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+            background: var(--bg-container);
+            color: var(--text-primary);
+        }
+
+        .form-input:focus,
+        .form-select:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 2px var(--primary-blue-light);
+        }
+
+        .form-input:hover,
+        .form-select:hover {
+            border-color: var(--primary-blue);
+        }
+
+        .btn {
+            height: 32px;
+            padding: 4px 15px;
+            border-radius: 6px;
+            font-weight: 400;
+            font-size: 14px;
+            border: 1px solid transparent;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+        .btn1 {
+            height: 32px;
+            padding: 8px 15px;
+            margin-top: 28px;
+            border-radius: 6px;
+            font-weight: 400;
+            font-size: 14px;
+            border: 1px solid transparent;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background: var(--primary-blue);
+            border-color: var(--primary-blue);
+            color: #ffffff;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-blue-hover);
+            border-color: var(--primary-blue-hover);
+        }
+
+        .btn-default {
+            background: var(--bg-container);
+            border-color: var(--border-color);
+            color: var(--text-primary);
+        }
+
+        .btn-default:hover {
+            border-color: var(--primary-blue);
+            color: var(--primary-blue);
+        }
+
+        .btn-success {
+            background: var(--success-green);
+            border-color: var(--success-green);
+            color: #ffffff;
+        }
+
+        .btn-success:hover {
+            background: #389e0d;
+            border-color: #389e0d;
+        }
+
+        .btn-link {
+            background: transparent;
+            border: none;
+            color: var(--primary-blue);
+            padding: 0;
+            height: auto;
+        }
+
+        .btn-link:hover {
+            color: var(--primary-blue-hover);
+        }
+
+        .table-wrapper {
+            overflow: hidden;
+            border-radius: 8px 8px 0 0;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        .data-table th {
+            background: #fafafa;
+            padding: 12px 16px;
+            text-align: left;
+            font-weight: 500;
+            color: var(--text-primary);
+            border-bottom: 1px solid var(--border-color-light);
+            font-size: 14px;
+            white-space: nowrap;
+        }
+
+        .data-table td {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border-color-light);
+            font-size: 14px;
+            color: var(--text-primary);
+            vertical-align: middle;
+        }
+
+        .data-table tr:hover {
+            background: #fafafa;
+        }
+
+        .data-table th input[type="checkbox"],
+        .data-table td input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+
+        .status-tag {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            display: inline-block;
+        }
+
+        .status-pending {
+            background: #f5f5f5;
+            color: #8c8c8c;
+        }
+
+        .status-processing {
+            background: var(--primary-blue-light);
+            color: var(--primary-blue);
+        }
+
+        .status-completed {
+            background: #f6ffed;
+            color: var(--success-green);
+        }
+
+        .risk-tag {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            display: inline-block;
+        }
+
+        .risk-high {
+            background: #fff2f0;
+            color: var(--error-red);
+        }
+
+        .risk-medium {
+            background: #fff7e6;
+            color: var(--warning-orange);
+        }
+
+        .risk-low {
+            background: #f6ffed;
+            color: var(--success-green);
+        }
+
+        .pagination {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 24px;
+            background: var(--bg-container);
+            border-top: 1px solid var(--border-color-light);
+        }
+
+        .pagination-info {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .pagination-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .pagination-btn {
+            width: 32px;
+            height: 32px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-container);
+            color: var(--text-primary);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .pagination-btn:hover {
+            border-color: var(--primary-blue);
+            color: var(--primary-blue);
+        }
+
+        .pagination-btn.active {
+            background: var(--primary-blue);
+            border-color: var(--primary-blue);
+            color: white;
+        }
+
+        .pagination-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .stats-card {
+            background: var(--bg-container);
+            border: 1px solid var(--border-color-light);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stats-card:hover {
+            border-color: var(--primary-blue);
+            box-shadow: 0 4px 12px rgba(22, 119, 255, 0.1);
+        }
+
+        .stats-number {
+            font-size: 28px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .stats-label {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .stats-card.total .stats-number {
+            color: var(--primary-blue);
+        }
+
+        .stats-card.high-risk .stats-number {
+            color: var(--error-red);
+        }
+
+        .stats-card.medium-risk .stats-number {
+            color: var(--warning-orange);
+        }
+
+        .stats-card.low-risk .stats-number {
+            color: var(--success-green);
+        }
+
+        .batch-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+            padding: 16px 24px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 1px solid var(--border-color-light);
+        }
+
+        .batch-actions .selected-count {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <!-- 筛选区域 -->
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">筛选条件</h3>
+            </div>
+            <div class="card-body">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label">商户号</label>
+                        <input type="text" class="form-input" placeholder="请输入商户号" id="merchantId">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">商户名称</label>
+                        <input type="text" class="form-input" placeholder="请输入商户名称" id="merchantName">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">市级分公司</label>
+                        <select class="form-select" id="cityCompany">
+                            <option value="">请选择</option>
+                            <option value="beijing">北京分公司</option>
+                            <option value="shanghai">上海分公司</option>
+                            <option value="guangzhou">广州分公司</option>
+                            <option value="shenzhen">深圳分公司</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">区县分公司</label>
+                        <select class="form-select" id="districtCompany">
+                            <option value="">请选择</option>
+                            <option value="chaoyang">朝阳区分公司</option>
+                            <option value="haidian">海淀区分公司</option>
+                            <option value="dongcheng">东城区分公司</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">营业所</label>
+                        <select class="form-select" id="branch">
+                            <option value="">请选择</option>
+                            <option value="branch1">朝阳路营业所</option>
+                            <option value="branch2">建国门营业所</option>
+                            <option value="branch3">国贸营业所</option>
+                        </select>
+                    </div>
+                   
+                    
+                    <div class="form-group">
+                        <label class="form-label">风险等级</label>
+                        <select class="form-select" id="riskLevel">
+                            <option value="">全部等级</option>
+                            <option value="high">高风险</option>
+                            <option value="medium">中风险</option>
+                            <option value="low">低风险</option>
+                        </select>
+                    </div>
+                    <div class="flex gap-2">
+                        <button class="btn1 btn-primary" onclick="searchMerchants()">
+                            <i class="fas fa-search"></i>
+                            查询
+                        </button>
+                        <button class="btn1 btn-default" onclick="resetFilters()">
+                            <i class="fas fa-undo"></i>
+                            重置
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 统计卡片 -->
+        <div class="stats-grid">
+            <div class="stats-card total">
+                <div class="stats-number">2,156</div>
+                <div class="stats-label">补贴商户总数</div>
+            </div>
+            <div class="stats-card high-risk">
+                <div class="stats-number">156</div>
+                <div class="stats-label">高风险商户</div>
+            </div>
+            <div class="stats-card medium-risk">
+                <div class="stats-number">432</div>
+                <div class="stats-label">中风险商户</div>
+            </div>
+            <div class="stats-card low-risk">
+                <div class="stats-number">1,568</div>
+                <div class="stats-label">低风险商户</div>
+            </div>
+        </div>
+
+        <!-- 批量操作 -->
+        <div class="batch-actions" id="batchActions" style="display: none;">
+            <span class="selected-count">已选择 <span id="selectedCount">0</span> 项</span>
+            <button class="btn btn-success" onclick="batchExport()">
+                <i class="fas fa-download"></i>
+                批量导出
+            </button>
+            <button class="btn btn-default" onclick="clearSelection()">
+                <i class="fas fa-times"></i>
+                取消选择
+            </button>
+        </div>
+
+        <!-- 数据列表 -->
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">商户补贴风险评估列表</h3>
+                <div class="flex gap-2">
+                    <button class="btn btn-primary" onclick="batchSendRiskNotification()">
+                        <i class="fas fa-bullhorn"></i>
+                        批量下发风险通知
+                    </button>
+                    <button class="btn btn-default" onclick="exportAll()">
+                        <i class="fas fa-download"></i>
+                        导出报告
+                    </button>
+                </div>
+            </div>
+            <div class="table-wrapper">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>
+                                <input type="checkbox" id="selectAll" onchange="toggleSelectAll()">
+                            </th>
+                            <th>商户号</th>
+                            <th>商户名称</th>
+                            <th>市级分公司</th>
+                            <th>区县分公司</th>
+                            <th>营业所</th>
+                            
+                            <!-- <th>本月消耗补贴金额</th> -->
+                            <th>风险等级</th>
+                            <th>更新时间</th>
+                            
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="merchantTableBody">
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" value="M202401001" onchange="updateSelection()"></td>
+                            <td>M202401001</td>
+                            <td>张三便利店</td>
+                            <td>北京分公司</td>
+                            <td>朝阳区分公司</td>
+                            <td>朝阳路营业所</td>
+                            
+                            <!-- <td>¥12,580</td> -->
+                            <td><span class="risk-tag risk-high">高风险</span></td>
+                            
+                            <td>2024-01-20</td>
+                            <td>
+                                <button class="btn-link" onclick="viewMerchantDetail('M202401001')">
+                                    详情
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" value="M202401002" onchange="updateSelection()"></td>
+                            <td>M202401002</td>
+                            <td>李四超市</td>
+                            <td>北京分公司</td>
+                            <td>海淀区分公司</td>
+                            <td>建国门营业所</td>
+                             <!-- <td>¥8,200</td> -->
+                             <td><span class="risk-tag risk-medium">中风险</span></td>
+                             <td>2024-01-20</td>
+                           
+                            <td>
+                                <button class="btn-link" onclick="viewMerchantDetail('M202401002')">
+                                    详情
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" value="M202401003" onchange="updateSelection()"></td>
+                            <td>M202401003</td>
+                            <td>王五餐厅</td>
+                            <td>上海分公司</td>
+                            <td>浦东新区分公司</td>
+                            <td>陆家嘴营业所</td>
+                             <!-- <td>¥15,600</td> -->
+                             <td><span class="risk-tag risk-low">低风险</span></td>
+                             <td>2024-01-20</td>
+                            <td>
+                                <button class="btn-link" onclick="viewMerchantDetail('M202401003')">
+                                    详情
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" value="M202401004" onchange="updateSelection()"></td>
+                            <td>M202401004</td>
+                            <td>赵六药店</td>
+                            <td>广州分公司</td>
+                            <td>天河区分公司</td>
+                            <td>珠江新城营业所</td>
+                             <!-- <td>¥22,300</td> -->
+                             <td><span class="risk-tag risk-medium">中风险</span></td>
+                             <td>2024-01-20</td>
+                            <td>
+                                <button class="btn-link" onclick="viewMerchantDetail('M202401004')">
+                                    详情
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" value="M202401005" onchange="updateSelection()"></td>
+                            <td>M202401005</td>
+                            <td>孙七服装店</td>
+                            <td>深圳分公司</td>
+                            <td>南山区分公司</td>
+                            <td>科技园营业所</td>
+                             <!-- <td>¥9,800</td> -->
+                             <td><span class="risk-tag risk-high">高风险</span></td>
+                             <td>2024-01-20</td>
+                            <td>
+                                <button class="btn-link" onclick="viewMerchantDetail('M202401005')">
+                                    详情
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="pagination">
+                <div class="pagination-info">
+                    显示第 1-5 条，共 2,156 条记录
+                </div>
+                <div class="pagination-controls">
+                    <button class="pagination-btn" disabled>
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="pagination-btn active">1</button>
+                    <button class="pagination-btn">2</button>
+                    <button class="pagination-btn">3</button>
+                    <button class="pagination-btn">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 详情弹窗 -->
+    <div id="detailModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>商户补贴风险评估报告</h3>
+                <button class="modal-close" onclick="closeDetailModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <iframe id="detailFrame" src="" frameborder="0" width="100%" height="100%"></iframe>
+                <!-- 弹窗返回按钮 -->
+                <div class="modal-footer">
+                    <button class="btn2 btn-primary" onclick="closeDetailModal()">
+                        <i class="fas fa-arrow-left"></i>
+                        返回列表
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            height: 90%;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-header {
+            padding: 20px;
+            border-bottom: 1px solid #e8e8e8;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            color: #333;
+            font-size: 18px;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #999;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-close:hover {
+            color: #333;
+        }
+
+        .modal-body {
+            flex: 1;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .modal-body iframe {
+            border: none;
+            width: 100%;
+            height: calc(100% - 60px); /* 为底部按钮留出空间 */
+        }
+
+        .btn2 {
+            height: 32px;
+            padding: 8px 15px;
+            margin-top: 2px;
+            border-radius: 6px;
+            font-weight: 400;
+            font-size: 14px;
+            border: 1px solid transparent;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .modal-footer {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 16px 20px;
+            background: white;
+            border-top: 1px solid #e8e8e8;
+            display: flex;
+            justify-content: flex-end;
+            z-index: 10;
+        }
+    </style>
+
+    <script>
+        let selectedItems = new Set();
+
+        // 搜索功能
+        function searchMerchants() {
+            const filters = {
+                merchantId: document.getElementById('merchantId').value,
+                merchantName: document.getElementById('merchantName').value,
+                cityCompany: document.getElementById('cityCompany').value,
+                districtCompany: document.getElementById('districtCompany').value,
+                branch: document.getElementById('branch').value,
+                subsidyType: document.getElementById('subsidyType').value,
+                evaluationMonth: document.getElementById('evaluationMonth').value,
+                riskLevel: document.getElementById('riskLevel').value
+            };
+
+            console.log('搜索条件:', filters);
+            alert('搜索功能已触发，请查看控制台');
+        }
+
+        // 重置筛选条件
+        function resetFilters() {
+            document.getElementById('merchantId').value = '';
+            document.getElementById('merchantName').value = '';
+            document.getElementById('cityCompany').value = '';
+            document.getElementById('districtCompany').value = '';
+            document.getElementById('branch').value = '';
+            document.getElementById('subsidyType').value = '';
+            document.getElementById('evaluationMonth').value = '';
+            document.getElementById('riskLevel').value = '';
+        }
+
+        // 查看商户详情
+        function viewMerchantDetail(merchantId) {
+            // 在弹窗中打开详情页
+            const modal = document.getElementById('detailModal');
+            const iframe = document.getElementById('detailFrame');
+            iframe.src = `merchant-subsidy-detail.html?id=${merchantId}`;
+            modal.style.display = 'block';
+        }
+
+        // 关闭详情弹窗
+        function closeDetailModal() {
+            const modal = document.getElementById('detailModal');
+            const iframe = document.getElementById('detailFrame');
+            modal.style.display = 'none';
+            iframe.src = '';
+        }
+
+        // 全选/取消全选
+        function toggleSelectAll() {
+            const selectAll = document.getElementById('selectAll');
+            const checkboxes = document.querySelectorAll('.row-checkbox');
+
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = selectAll.checked;
+                if (selectAll.checked) {
+                    selectedItems.add(checkbox.value);
+                } else {
+                    selectedItems.delete(checkbox.value);
+                }
+            });
+
+            updateSelection();
+        }
+
+        // 更新选择状态
+        function updateSelection() {
+            const checkboxes = document.querySelectorAll('.row-checkbox');
+            const selectAll = document.getElementById('selectAll');
+            const batchActions = document.getElementById('batchActions');
+            const selectedCount = document.getElementById('selectedCount');
+
+            // 更新selectedItems
+            selectedItems.clear();
+            checkboxes.forEach(checkbox => {
+                if (checkbox.checked) {
+                    selectedItems.add(checkbox.value);
+                }
+            });
+
+            // 更新全选状态
+            const checkedCount = selectedItems.size;
+            const totalCount = checkboxes.length;
+            selectAll.checked = checkedCount === totalCount;
+            selectAll.indeterminate = checkedCount > 0 && checkedCount < totalCount;
+
+            // 显示/隐藏批量操作
+            if (checkedCount > 0) {
+                batchActions.style.display = 'flex';
+                selectedCount.textContent = checkedCount;
+            } else {
+                batchActions.style.display = 'none';
+            }
+        }
+
+        // 清除选择
+        function clearSelection() {
+            const checkboxes = document.querySelectorAll('.row-checkbox');
+            const selectAll = document.getElementById('selectAll');
+
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = false;
+            });
+            selectAll.checked = false;
+            selectedItems.clear();
+            updateSelection();
+        }
+
+        // 批量导出
+        function batchExport() {
+            if (selectedItems.size === 0) {
+                alert('请先选择要导出的商户');
+                return;
+            }
+
+            const merchantIds = Array.from(selectedItems);
+            console.log('批量导出商户:', merchantIds);
+            alert(`正在导出 ${merchantIds.length} 个商户的补贴风险评估报告...`);
+            // 这里可以调用API进行批量导出
+        }
+
+        // 导出全部
+        function exportAll() {
+            if (confirm('确定要导出所有商户的补贴风险评估报告吗？')) {
+                alert('正在导出全部商户的补贴风险评估报告，请稍候...');
+                // 这里可以调用API导出全部
+            }
+        }
+
+        // 添加事件监听器
+        document.addEventListener('DOMContentLoaded', function() {
+            const modal = document.getElementById('detailModal');
+
+            // 点击弹窗背景关闭弹窗
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    closeDetailModal();
+                }
+            });
+
+            // ESC键关闭弹窗
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && modal.style.display === 'block') {
+                    closeDetailModal();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

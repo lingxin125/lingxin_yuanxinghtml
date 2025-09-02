@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>微邮付 - 商户健康度监测系统</title>
+    <link href="https://cdn.tailwindcss.com/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #1677ff;
+            --primary-blue-hover: #4096ff;
+            --primary-blue-active: #0958d9;
+            --primary-blue-light: #e6f4ff;
+            --success-green: #52c41a;
+            --warning-orange: #fa8c16;
+            --error-red: #ff4d4f;
+            --bg-layout: #f5f5f5;
+            --bg-container: #ffffff;
+            --border-color: #d9d9d9;
+            --border-color-light: #f0f0f0;
+            --text-primary: #000000d9;
+            --text-secondary: #00000073;
+            --text-disabled: #00000040;
+            --shadow-card: 0 1px 2px 0 rgba(0, 0, 0, 0.03), 0 1px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px 0 rgba(0, 0, 0, 0.02);
+        }
+
+        * {
+            font-family: 'PingFang SC', 'Microsoft YaHei', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background: var(--bg-layout);
+            color: var(--text-primary);
+            font-size: 14px;
+            line-height: 1.5715;
+            margin: 0;
+            padding: 0;
+        }
+
+        .sidebar {
+            width: 256px;
+            background: var(--bg-container);
+            border-right: 1px solid var(--border-color-light);
+            box-shadow: var(--shadow-card);
+            position: fixed;
+            left: 0;
+            top: 0;
+            height: 100vh;
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            height: 64px;
+            padding: 16px 24px;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color-light);
+            background: var(--bg-container);
+        }
+
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .sidebar-logo i {
+            width: 28px;
+            height: 28px;
+            margin-right: 12px;
+            color: var(--primary-blue);
+            font-size: 24px;
+        }
+
+        .sidebar-nav {
+            padding: 16px 8px;
+        }
+
+        .nav-section {
+            margin-bottom: 24px;
+        }
+
+        .nav-section-title {
+            padding: 0 16px 8px;
+            font-size: 12px;
+            color: var(--text-disabled);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            margin: 2px 0;
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 400;
+            font-size: 14px;
+            transition: all 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+            cursor: pointer;
+            border-radius: 6px;
+            position: relative;
+        }
+
+        .nav-item:hover {
+            background: var(--primary-blue-light);
+            color: var(--primary-blue);
+        }
+
+        .nav-item.active {
+            background: var(--primary-blue-light);
+            color: var(--primary-blue);
+            font-weight: 500;
+        }
+
+        .nav-item .nav-icon {
+            width: 16px;
+            height: 16px;
+            margin-right: 12px;
+            opacity: 0.65;
+        }
+
+        .nav-item:hover .nav-icon,
+        .nav-item.active .nav-icon {
+            opacity: 1;
+        }
+
+        .main-content {
+            margin-left: 256px;
+            min-height: 100vh;
+            background: var(--bg-layout);
+        }
+
+        .top-header {
+            background: var(--bg-container);
+            border-bottom: 1px solid var(--border-color-light);
+            padding: 0 24px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: var(--shadow-card);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .breadcrumb-separator {
+            margin: 0 8px;
+            color: var(--text-disabled);
+        }
+
+        .breadcrumb-active {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .content-frame {
+            width: 100%;
+            height: calc(100vh - 64px);
+            border: none;
+            background: var(--bg-layout);
+        }
+
+        .welcome-container {
+            padding: 40px;
+            text-align: center;
+            background: var(--bg-container);
+            margin: 24px;
+            border-radius: 8px;
+            box-shadow: var(--shadow-card);
+        }
+
+        .welcome-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+        }
+
+        .welcome-description {
+            font-size: 16px;
+            color: var(--text-secondary);
+            margin-bottom: 32px;
+            line-height: 1.6;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-top: 32px;
+        }
+
+        .feature-card {
+            background: var(--bg-container);
+            border: 1px solid var(--border-color-light);
+            border-radius: 8px;
+            padding: 24px;
+            text-align: left;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .feature-card:hover {
+            border-color: var(--primary-blue);
+            box-shadow: 0 4px 12px rgba(22, 119, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--primary-blue-light);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+        }
+
+        .feature-icon i {
+            font-size: 24px;
+            color: var(--primary-blue);
+        }
+
+        .feature-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .feature-description {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <!-- 侧边栏 -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">
+                <i class="fas fa-shield-alt"></i>
+                <span>微邮付</span>
+            </div>
+        </div>
+        <nav class="sidebar-nav">
+            <div class="nav-section">
+                <div class="nav-section-title">商户风险评估</div>
+                <a href="#" class="nav-item active" onclick="loadPage('new-merchant-audit')">
+                    <i class="fas fa-user-plus nav-icon"></i>
+                    <span>商户资料风险评估</span>
+                </a>
+                <a href="#" class="nav-item" onclick="loadPage('existing-merchant-risk')">
+                    <i class="fas fa-chart-line nav-icon"></i>
+                    <span>商户交易风险评估</span>
+                </a>
+                <a href="#" class="nav-item" onclick="loadPage('merchant-subsidy-risk')">
+                    <i class="fas fa-coins nav-icon"></i>
+                    <span>商户补贴风险评估</span>
+                </a>
+            </div>
+        </nav>
+    </div>
+
+    <!-- 主内容区 -->
+    <div class="main-content">
+        <!-- 顶部导航 -->
+        <header class="top-header">
+            <div class="breadcrumb">
+                <span>商户管理</span>
+                <span class="breadcrumb-separator">/</span>
+                <span class="breadcrumb-active" id="current-page">商户资料风险评估</span>
+            </div>
+            <div class="user-info">
+                <span class="text-sm text-gray-600">欢迎，张经理</span>
+                <div class="flex items-center gap-2">
+                    <span class="text-sm text-gray-500">省级分公司</span>
+                    <i class="fas fa-user-circle text-xl text-gray-400"></i>
+                </div>
+            </div>
+        </header>
+
+        <!-- 内容区域 -->
+        <div id="content-area">
+            <iframe src="new-merchant-audit.html" class="content-frame"></iframe>
+        </div>
+    </div>
+
+    <script>
+        // 页面导航功能
+        function loadPage(pageName) {
+            // 更新导航状态
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            event.target.closest('.nav-item').classList.add('active');
+            
+            // 更新面包屑
+            const pageNames = {
+                'new-merchant-audit': '商户资料风险评估',
+                'existing-merchant-risk': '商户交易风险评估',
+                'merchant-subsidy-risk': '商户补贴风险评估'
+            };
+            
+            document.getElementById('current-page').textContent = pageNames[pageName] || '商户资料风险评估';
+            
+            // 加载对应页面
+            loadPageContent(pageName);
+        }
+        
+
+        
+        function loadPageContent(pageName) {
+            const contentArea = document.getElementById('content-area');
+            contentArea.innerHTML = `<iframe src="${pageName}.html" class="content-frame"></iframe>`;
+        }
+    </script>
+</body>
+</html>
