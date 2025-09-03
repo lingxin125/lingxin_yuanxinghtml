@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -99,6 +100,7 @@
             color: var(--text-primary);
             margin: 0;
         }
+
         .card-title1 {
             font-size: 20px;
             font-weight: 500;
@@ -609,10 +611,25 @@
         }
 
         /* 风险卡片位置 */
-        .risk-card-1 { top: 10%; left: 10%; }
-        .risk-card-2 { top: 10%; right: 10%; }
-        .risk-card-3 { bottom: 10%; left: 10%; }
-        .risk-card-4 { bottom: 10%; right: 10%; }
+        .risk-card-1 {
+            top: 10%;
+            left: 10%;
+        }
+
+        .risk-card-2 {
+            top: 10%;
+            right: 10%;
+        }
+
+        .risk-card-3 {
+            bottom: 10%;
+            left: 10%;
+        }
+
+        .risk-card-4 {
+            bottom: 10%;
+            right: 10%;
+        }
 
         /* 低风险指标底部排列 */
         .low-risk-section {
@@ -641,7 +658,7 @@
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 24px;
-            margin-bottom: 24px;
+            margin-bottom: 2px;
         }
 
         .info-item {
@@ -718,6 +735,7 @@
             text-decoration: none;
             white-space: nowrap;
         }
+
         .btn-success {
             background: var(--success-green);
             border-color: var(--success-green);
@@ -846,21 +864,22 @@
 
         .status-tag {
             padding: 4px 12px;
-            
+
             border-radius: 20px;
             font-size: 12px;
             font-weight: 500;
             display: inline-block;
         }
+
         .status-tag1 {
             padding: 4px 12px;
-            margin-right:4px;
+            margin-right: 4px;
             border-radius: 20px;
             font-size: 12px;
             font-weight: 500;
             display: inline-block;
         }
-        
+
         .status-pending {
             background: #f5f5f5;
             color: #8c8c8c;
@@ -1102,11 +1121,13 @@
             font-weight: 600;
             margin-bottom: 4px;
         }
+
         .summary-number0 {
             font-size: 24px;
             font-weight: 600;
             margin-bottom: 4px;
         }
+
         .summary-number1 {
             font-size: 14px;
             font-weight: 600;
@@ -1117,12 +1138,156 @@
             font-size: 14px;
             opacity: 0.9;
         }
+
+        /* 固定底部按钮样式 */
+        .fixed-bottom-actions {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            border-top: 1px solid var(--border-color-light);
+            padding: 16px 24px;
+            display: flex;
+            justify-content: end;
+            gap: 16px;
+            box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        /* 为页面内容添加底部间距，避免被固定按钮遮挡 */
+        .page-container {
+            padding-bottom: 80px;
+        }
+
+        /* 卡片式布局样式 */
+        .info-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border: 2px solid transparent;
+            margin-bottom: 16px;
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .info-card.selectable {
+            border: 2px solid #e5e7eb;
+        }
+
+        .info-card.selectable:hover {
+            border-color: var(--primary-blue-light);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .info-card.selectable.selected {
+            border-color: var(--primary-blue);
+            box-shadow: 0 4px 16px rgba(59, 130, 246, 0.3);
+        }
+
+        .card-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid #f3f4f6;
+            background: #fafbfc;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+        }
+
+        .card-header.non-selectable {
+            cursor: default;
+        }
+
+        .card-title-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .card-checkbox {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: var(--primary-blue);
+        }
+
+        .card-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 0;
+        }
+
+        .card-toggle {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .toggle-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .toggle-icon.expanded {
+            transform: rotate(180deg);
+        }
+
+        .card-content {
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .card-content.collapsed {
+            display: none;
+        }
+
+        /* Toast 提示样式 */
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #ef4444;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 10000;
+            opacity: 0;
+            transform: translateX(100%);
+            transition: all 0.3s ease;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* 任务类型标签样式 */
+        .task-type-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .task-type-tag {
+            background: var(--primary-blue-light);
+            color: var(--primary-blue);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
     </style>
 </head>
+
 <body>
     <div class="page-container">
         <!-- 页面标题 -->
-        
+
 
         <!-- 纵向Tab布局 -->
         <div class="tabs-container">
@@ -1148,965 +1313,1160 @@
                 <!-- 审查详情Tab -->
                 <div id="audit-tab" class="tab-content">
 
-           <div class="tab-header">
+                    <div class="tab-header">
                         <h3 class="card-title1">商户详情</h3>
-                        <div class="tab-actions">
-                            <button class="btn btn-success" onclick="markCompleted()">
-                                <i class="fas fa-check"></i>
-                                标记完成
-                            </button>
-                            <button class="btn btn-warning" onclick="createRectificationTask()">
-                                <i class="fas fa-tasks"></i>
-                                下发整改任务
-                            </button>
-                        </div>
                     </div>
-                             <div class="tab-body">
-                                                   <div class="section">
-                    <h3 class="section-title">审查信息</h3>
-                    <div class="info-grid">
-                        
-                        
-                        <div class="info-item">
-                            <div class="info-label">审查时间</div>
-                            <div class="info-value">2024-01-16 09:15:30</div>
-                        </div>
-                        <div class="info-item">
-                            <div class="info-label">审查状态</div>
-                            <div class="info-value"><span class="status-tag status-pending">待审查</span></div>
-                        </div>
-                        
-                    </div>
-                </div>
-                          <!-- 商户信息 -->
-                <div class="section">
-                    <h3 class="section-title">商户基本信息</h3>
-                    <div class="info-grid">
-                        <div class="info-item" >
-                            <div class="info-label">商户号</div>
-                            <div class="info-value">M202401001</div>
-                        </div>
-                        <div class="info-item">
-                            <div class="info-label">商户名称</div>
-                            <div class="info-value">北京张三便利店有限公司</div>
-                        </div>
-                        <div class="info-item">
-                            <div class="info-label">商户简称</div>
-                            <div class="info-value">张三便利店</div>
-                        </div>
-                        
-                        <div class="info-item">
-                            <div class="info-label">商户类型</div>
-                            <div class="info-value">个体工商户</div>
-                        </div>
-                        <div class="info-item">
-                            <div class="info-label">经营范围</div>
-                            <div class="info-value">日用百货、食品销售</div>
-                        </div>
-                        <div class="info-item">
-                            <div class="info-label">商户地址</div>
-                            <div class="info-value">北京市朝阳区朝阳路123号</div>
-                        </div>
-                        
-                        <div class="info-item">
-                            <div class="info-label">进件时间</div>
-                            <div class="info-value">2024-01-15 14:30:25</div>
-                        </div>
-                        <div class="info-item">
-                            <div class="info-label">商户标签</div>
-                            <div class="info-value"><span class="status-tag1 status-pending">固定场所</span><span class="status-tag1 status-pending">批发市场</span><span class="status-tag status-pending">水果</span></div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="section">
-                    <h3 class="section-title">负责人信息</h3>
-                    <div class="info-grid">
-                        <div class="info-item">
-                            <div class="info-label">负责人</div>
-                            <div class="info-value">张三</div>
-                        </div>
-                        <div class="info-item">
-                            <div class="info-label">身份证号</div>
-                            <div class="info-value">110101199001011234</div>
-                        </div>
-                        <div class="info-item">
-                            <div class="info-label">手机号</div>
-                            <div class="info-value">13800138001</div>
-                        </div>
-                        
-                    </div>
-                </div>
-                <!-- 机构信息 -->
-                <div class="section">
-                    <h3 class="section-title">机构信息</h3>
-                    <div class="info-grid">
-                        <div class="info-item">
-                            <div class="info-label">市级分公司</div>
-                            <div class="info-value">北京分公司</div>
-                        </div>
-                        <div class="info-item">
-                            <div class="info-label">区县分公司</div>
-                            <div class="info-value">朝阳区分公司</div>
-                        </div>
-                        <div class="info-item">
-                            <div class="info-label">营业所</div>
-                            <div class="info-value">朝阳路营业所</div>
-                        </div>
-                        <div class="info-item">
-                            <div class="info-label">所属客户经理</div>
-                            <div class="info-value">李四</div>
-                        </div>
-                        <div class="info-item">
-                            <div class="info-label">联系方式</div>
-                            <div class="info-value">13800138001</div>
-                        </div>
-                        
-                    </div>
-                </div>
-
-                <!-- 店面照片 -->
-                <div class="section">
-                    <h3 class="section-title">店面照片</h3>
-                    <div class="photo-grid">
-                        <!-- 门头照片展位图 -->
-                        <div class="photo-item">
-                            <!-- SVG展位图：门头照片 -->
-                            <svg width="120" height="120" viewBox="0 0 120 80" fill="none" xmlns="http://www.w3.org/2000/svg" style="background:#f3f4f6;border-radius:8px;">
-                                <rect width="120" height="80" rx="8" fill="#f3f4f6"/>
-                                <rect x="20" y="40" width="80" height="24" rx="4" fill="#e5e7eb"/>
-                                <rect x="30" y="20" width="60" height="20" rx="3" fill="#d1d5db"/>
-                                <text x="60" y="60" text-anchor="middle" fill="#9ca3af" font-size="12" font-family="Arial" dy="0.35em">门头照片</text>
-                            </svg>
-                            <div class="photo-label">门头照片</div>
-                        </div>
-                        <!-- 收银台场景照展位图 -->
-                        <div class="photo-item">
-                            <!-- SVG展位图：收银台场景照 -->
-                            <svg width="120" height="120" viewBox="0 0 120 80" fill="none" xmlns="http://www.w3.org/2000/svg" style="background:#f3f4f6;border-radius:8px;">
-                                <rect width="120" height="80" rx="8" fill="#f3f4f6"/>
-                                <rect x="15" y="50" width="90" height="18" rx="4" fill="#e5e7eb"/>
-                                <rect x="35" y="30" width="50" height="16" rx="3" fill="#d1d5db"/>
-                                <circle cx="60" cy="40" r="8" fill="#e5e7eb"/>
-                                <text x="60" y="65" text-anchor="middle" fill="#9ca3af" font-size="12" font-family="Arial" dy="0.35em">收银台场景照</text>
-                            </svg>
-                            <div class="photo-label">收银台场景照</div>
-                        </div>
-                        <!-- 店内场景照展位图 -->
-                        <div class="photo-item">
-                            <!-- SVG展位图：店内场景照 -->
-                            <svg width="120" height="120" viewBox="0 0 120 80" fill="none" xmlns="http://www.w3.org/2000/svg" style="background:#f3f4f6;border-radius:8px;">
-                                <rect width="120" height="80" rx="8" fill="#f3f4f6"/>
-                                <rect x="18" y="30" width="84" height="30" rx="6" fill="#e5e7eb"/>
-                                <rect x="30" y="20" width="20" height="10" rx="2" fill="#d1d5db"/>
-                                <rect x="70" y="20" width="20" height="10" rx="2" fill="#d1d5db"/>
-                                <text x="60" y="60" text-anchor="middle" fill="#9ca3af" font-size="12" font-family="Arial" dy="0.35em">店内场景照</text>
-                            </svg>
-                            <div class="photo-label">店内场景照</div>
-                        </div>
-                    </div>
-                </div>
-   <!-- 证件资料 -->
-                
-
-                <div class="section">
-                    <h3 class="section-title">营业执照信息</h3>
-                    <div class="info-grid">
-                        <div class="info-item">
-                            <div class="info-label">营业执照正面</div>
-                            <div class="info-value">图片占位</div>
-                        </div>
-                        <div class="info-item">
-                            <div class="info-label">营业执照号</div>
-                             <div class="info-value">91110105MA01234567</div>
-                        </div>
-                        <div class="info-item">
-                            <div class="info-label">营业地址</div>
-                            <div class="info-value">北京市朝阳区朝阳路123号</div>
-                        </div>
-                       
-                        <div class="info-item">
-                            <div class="info-label">是否长期执照</div>
-                            <div class="info-value">是</div>
-                        </div>
-                        <div class="info-item">
-                            <div class="info-label">起始时间</div>
-                            <div class="info-value">2023-06-15</div>
-                        </div>
-                        
-                    </div>
-                </div>
-                <!-- 法人信息 -->
-                <div class="section">
-                    <h3 class="section-title">法人信息</h3>
-                    <div class="info-grid">
-                        <div class="info-item">
-                            <div class="info-label">身份证正面</div>
-                            <div class="info-value">图片占位</div>
-                        </div>
-                        <div class="info-item">
-                            <div class="info-label">身份证国徽面</div>
-                            <div class="info-value">图片占位</div>
-                        </div>
-                        <div class="info-item">
-                            <div class="info-label">姓名</div>
-                            <div class="info-value">灵心</div>
-                        </div>
-                       
-                        <div class="info-item">
-                            <div class="info-label">手机号</div>
-                            <div class="info-value">13800138001</div>
-                        </div>
-                        <div class="info-item">
-                            <div class="info-label">证件类型</div>
-                            <div class="info-value">身份证</div>
+                    <div class="tab-body">
+                        <!-- 通道信息 -->
+                        <div class="info-card">
+                            <div class="card-header non-selectable">
+                                <div class="card-title-section">
+                                    <h3 class="card-title">上游驳回信息（有展示，没有隐藏）</h3>
+                                </div>
+                            </div>
+                            <div class="card-content">
+                                <div class="info-grid">
+                                    <div class="info-item">
+                                        <div class="info-label">驳回原因</div>
+                                        <div class="info-value">-</div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="info-item">
-                            <div class="info-label">证件号码</div>
-                            <div class="info-value">110101199001011234</div>
-                        </div>
-                        <div class="info-item">
-                            <div class="info-label">法人地址</div>
-                            <div class="info-value">北京市朝阳区朝阳路123号</div>
-                        </div>
-                        <div class="info-item">
-                            <div class="info-label">证件类型</div>
-                            <div class="info-value">身份证</div>
-                        </div>
-                        <div class="info-item">
-                            <div class="info-label">是否长期证件</div>
-                            <div class="info-value">否</div>
-                        </div>
-                        <div class="info-item">
-                            <div class="info-label">证件起始时间</div>
-                            <div class="info-value">2023-06-15</div>
-                        </div>
-                        <div class="info-item">
-                            <div class="info-label">证件结束时间</div>
-                            <div class="info-value">2043-06-15</div>
-                        </div>
-                    </div>
-                </div>
-                   <!--结算人信息-->
-                <div class="section">
-                    <h3 class="section-title">结算人信息</h3>
-                    <div class="info-grid">
-                        <div class="info-item">
-                            <div class="info-label">身份证正面</div>
-                            <div class="info-value">图片占位</div>
-                        </div>
-                        <div class="info-item">
-                            <div class="info-label">身份证国徽面</div>
-                            <div class="info-value">图片占位</div>
-                        </div>
-                        <div class="info-item">
-                            <div class="info-label">手持身份证</div>
-                            <div class="info-value">图片占位</div>
-                        </div>
-                        <div class="info-item">
-                            <div class="info-label">姓名</div>
-                            <div class="info-value">灵心</div>
-                        </div>
-                       
-                        <div class="info-item">
-                            <div class="info-label">手机号</div>
-                            <div class="info-value">13800138001</div>
-                        </div>
-                        <div class="info-item">
-                            <div class="info-label">证件类型</div>
-                            <div class="info-value">身份证</div>
+                        <!-- 审查信息 -->
+                        <div class="info-card">
+                            <div class="card-header non-selectable">
+                                <div class="card-title-section">
+                                    <h3 class="card-title">审查信息</h3>
+                                </div>
+                            </div>
+                            <div class="card-content">
+                                <div class="info-grid">
+                                    <div class="info-item">
+                                        <div class="info-label">审查时间</div>
+                                        <div class="info-value">2024-01-16 09:15:30</div>
+                                    </div>
+                                    <div class="info-item">
+                                        <div class="info-label">审查状态</div>
+                                        <div class="info-value"><span class="status-tag status-pending">待审查</span></div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="info-item">
-                            <div class="info-label">证件号码</div>
-                            <div class="info-value">110101199001011234</div>
+                        <!-- 机构信息 -->
+                        <div class="info-card">
+                            <div class="card-header non-selectable">
+                                <div class="card-title-section">
+                                    <h3 class="card-title">机构信息</h3>
+                                </div>
+                            </div>
+                            <div class="card-content">
+                                <div class="info-grid">
+                                    <div class="info-item">
+                                        <div class="info-label">市级分公司</div>
+                                        <div class="info-value">北京分公司</div>
+                                    </div>
+                                    <div class="info-item">
+                                        <div class="info-label">区县分公司</div>
+                                        <div class="info-value">朝阳区分公司</div>
+                                    </div>
+                                    <div class="info-item">
+                                        <div class="info-label">营业所</div>
+                                        <div class="info-value">朝阳路营业所</div>
+                                    </div>
+                                    <div class="info-item">
+                                        <div class="info-label">所属客户经理</div>
+                                        <div class="info-value">李四</div>
+                                    </div>
+                                    <div class="info-item">
+                                        <div class="info-label">联系方式</div>
+                                        <div class="info-value">13800138001</div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        
-                        <div class="info-item">
-                            <div class="info-label">证件类型</div>
-                            <div class="info-value">身份证</div>
+
+                        <!-- 商户基本信息 -->
+                        <div class="info-card">
+                            <div class="card-header non-selectable">
+                                <div class="card-title-section">
+                                    <h3 class="card-title">商户基本信息</h3>
+                                </div>
+                            </div>
+                            <div class="card-content">
+                                <div class="info-grid">
+                                    <div class="info-item">
+                                        <div class="info-label">商户号</div>
+                                        <div class="info-value">M202401001</div>
+                                    </div>
+                                    <div class="info-item">
+                                        <div class="info-label">商户名称</div>
+                                        <div class="info-value">北京张三便利店有限公司</div>
+                                    </div>
+                                    <div class="info-item">
+                                        <div class="info-label">商户类型</div>
+                                        <div class="info-value">个体工商户</div>
+                                    </div>
+                                    <div class="info-item">
+                                        <div class="info-label">经营范围</div>
+                                        <div class="info-value">日用百货、食品销售</div>
+                                    </div>
+                                    <div class="info-item">
+                                        <div class="info-label">进件时间</div>
+                                        <div class="info-value">2024-01-15 14:30:25</div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="info-item">
-                            <div class="info-label">是否长期证件</div>
-                            <div class="info-value">否</div>
+
+                        <!-- 负责人信息 -->
+                        <div class="info-card">
+                            <div class="card-header non-selectable">
+                                <div class="card-title-section">
+                                    <h3 class="card-title">负责人信息</h3>
+                                </div>
+                            </div>
+                            <div class="card-content">
+                                <div class="info-grid">
+                                    <div class="info-item">
+                                        <div class="info-label">负责人</div>
+                                        <div class="info-value">张三</div>
+                                    </div>
+                                    <div class="info-item">
+                                        <div class="info-label">身份证号</div>
+                                        <div class="info-value">110101199001011234</div>
+                                    </div>
+                                    <div class="info-item">
+                                        <div class="info-label">手机号</div>
+                                        <div class="info-value">13800138001</div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="info-item">
-                            <div class="info-label">证件起始时间</div>
-                            <div class="info-value">2023-06-15</div>
+
+                        <!-- 基础资料 -->
+                        <div class="info-card selectable" data-task-type="基础资料补充任务">
+                            <div class="card-header" onclick="toggleCardExpansion(this)">
+                                <div class="card-title-section">
+                                    <input type="checkbox" class="card-checkbox" onchange="toggleCardSelection(this)"
+                                        onclick="event.stopPropagation()">
+                                    <h3 class="card-title">基础资料</h3>
+                                </div>
+                                <div class="card-toggle">
+                                    <span>展开</span>
+                                    <i class="fas fa-chevron-down toggle-icon"></i>
+                                </div>
+                            </div>
+                            <div class="card-content">
+                                <div class="info-grid">
+                                    <div class="info-item">
+                                        <div class="info-label">商户简称</div>
+                                        <div class="info-value">张三便利店</div>
+                                    </div>
+                                    <div class="info-item">
+                                        <div class="info-label">商户地址</div>
+                                        <div class="info-value">北京市朝阳区朝阳路123号</div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="info-item">
-                            <div class="info-label">证件结束时间</div>
-                            <div class="info-value">2043-06-15</div>
+
+                        <!-- 商户标签 -->
+                        <div class="info-card selectable" data-task-type="商户标签资料任务">
+                            <div class="card-header" onclick="toggleCardExpansion(this)">
+                                <div class="card-title-section">
+                                    <input type="checkbox" class="card-checkbox" onchange="toggleCardSelection(this)"
+                                        onclick="event.stopPropagation()">
+                                    <h3 class="card-title">商户标签</h3>
+                                </div>
+                                <div class="card-toggle">
+                                    <span>展开</span>
+                                    <i class="fas fa-chevron-down toggle-icon"></i>
+                                </div>
+                            </div>
+                            <div class="card-content">
+                                <div class="info-grid">
+                                    <div class="info-item">
+                                        <div class="info-label">商户标签</div>
+                                        <div class="info-value"><span
+                                                class="status-tag1 status-pending">固定场所</span><span
+                                                class="status-tag1 status-pending">批发市场</span><span
+                                                class="status-tag status-pending">水果</span></div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                      <div class="section">
-                    <h3 class="section-title">结算银行信息</h3>
-                    <div class="info-grid">
-                        <div class="info-item">
-                            <div class="info-label">银行卡正面</div>
-                            <div class="info-value">图片占位</div>
-                        </div>
-                        <div class="info-item">
-                            <div class="info-label">结算银行</div>
-                            <div class="info-value">中国邮政储蓄银行朝阳支行</div>
-                        </div>
-                        <div class="info-item">
-                            <div class="info-label">结算联行号</div>
-                            <div class="info-value">403100000007</div>
-                        </div>
-                        <div class="info-item">
-                            <div class="info-label">银行卡号</div>
-                            <div class="info-value">6222021234567890123</div>
-                        </div>
-                        
-                        
-                    </div>
-                    <div class="section">
-                        <h3 class="section-title">非法人授权函</h3>
-                        <div class="info-grid">
-                            <div class="info-item">
-                                <div class="info-label">附件</div>
-                                <div class="info-value" style="display: flex; align-items: center; gap: 16px;">
-                                    <!-- 真实PDF文件样式预览，带PDF图标和文件名 -->
-                                    <a href="https://file-examples.com/storage/fe7b6e2e2e2e2e2e2e2e2e2e2e2e2e2e/sample.pdf" target="_blank" class="pdf-preview-link" style="display: flex; align-items: center; text-decoration: none; margin-right: 12px;">
-                                        <!-- SVG PDF图标 -->
-                                        <svg width="28" height="36" viewBox="0 0 28 36" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-right:8px;">
-                                            <rect x="2" y="2" width="24" height="32" rx="4" fill="#F2F2F2" stroke="#E53E3E" stroke-width="2"/>
-                                            <rect x="2" y="2" width="24" height="8" rx="2" fill="#E53E3E"/>
-                                            <text x="14" y="9" text-anchor="middle" fill="#fff" font-size="10" font-family="Arial" font-weight="bold">PDF</text>
+                        <!-- 店面照片 -->
+                        <div class="info-card selectable" data-task-type="三照补充任务">
+                            <div class="card-header" onclick="toggleCardExpansion(this)">
+                                <div class="card-title-section">
+                                    <input type="checkbox" class="card-checkbox" onchange="toggleCardSelection(this)"
+                                        onclick="event.stopPropagation()">
+                                    <h3 class="card-title">店面照片</h3>
+                                </div>
+                                <div class="card-toggle">
+                                    <span>展开</span>
+                                    <i class="fas fa-chevron-down toggle-icon"></i>
+                                </div>
+                            </div>
+                            <div class="card-content">
+                                <div class="photo-grid">
+                                    <!-- 门头照片展位图 -->
+                                    <div class="photo-item">
+                                        <!-- SVG展位图：门头照片 -->
+                                        <svg width="120" height="120" viewBox="0 0 120 80" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            style="background:#f3f4f6;border-radius:8px;">
+                                            <rect width="120" height="80" rx="8" fill="#f3f4f6" />
+                                            <rect x="20" y="40" width="80" height="24" rx="4" fill="#e5e7eb" />
+                                            <rect x="30" y="20" width="60" height="20" rx="3" fill="#d1d5db" />
+                                            <text x="60" y="60" text-anchor="middle" fill="#9ca3af" font-size="12"
+                                                font-family="Arial" dy="0.35em">门头照片</text>
                                         </svg>
-                                        <span style="color: var(--text-primary); font-size: 14px; font-weight: 500;">非法人授权函.pdf</span>
-                                    </a>
-                                    <span style="color: var(--text-secondary); font-size: 12px;">PDF格式，支持在线预览与下载</span>
+                                        <div class="photo-label">门头照片</div>
+                                    </div>
+                                    <!-- 收银台场景照展位图 -->
+                                    <div class="photo-item">
+                                        <!-- SVG展位图：收银台场景照 -->
+                                        <svg width="120" height="120" viewBox="0 0 120 80" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            style="background:#f3f4f6;border-radius:8px;">
+                                            <rect width="120" height="80" rx="8" fill="#f3f4f6" />
+                                            <rect x="15" y="50" width="90" height="18" rx="4" fill="#e5e7eb" />
+                                            <rect x="35" y="30" width="50" height="16" rx="3" fill="#d1d5db" />
+                                            <circle cx="60" cy="40" r="8" fill="#e5e7eb" />
+                                            <text x="60" y="65" text-anchor="middle" fill="#9ca3af" font-size="12"
+                                                font-family="Arial" dy="0.35em">收银台场景照</text>
+                                        </svg>
+                                        <div class="photo-label">收银台场景照</div>
+                                    </div>
+                                    <!-- 店内场景照展位图 -->
+                                    <div class="photo-item">
+                                        <!-- SVG展位图：店内场景照 -->
+                                        <svg width="120" height="120" viewBox="0 0 120 80" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            style="background:#f3f4f6;border-radius:8px;">
+                                            <rect width="120" height="80" rx="8" fill="#f3f4f6" />
+                                            <rect x="18" y="30" width="84" height="30" rx="6" fill="#e5e7eb" />
+                                            <rect x="30" y="20" width="20" height="10" rx="2" fill="#d1d5db" />
+                                            <rect x="70" y="20" width="20" height="10" rx="2" fill="#d1d5db" />
+                                            <text x="60" y="60" text-anchor="middle" fill="#9ca3af" font-size="12"
+                                                font-family="Arial" dy="0.35em">店内场景照</text>
+                                        </svg>
+                                        <div class="photo-label">店内场景照</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 营业执照信息 -->
+                        <div class="info-card selectable" data-task-type="营业执照补充任务">
+                            <div class="card-header" onclick="toggleCardExpansion(this)">
+                                <div class="card-title-section">
+                                    <input type="checkbox" class="card-checkbox" onchange="toggleCardSelection(this)"
+                                        onclick="event.stopPropagation()">
+                                    <h3 class="card-title">营业执照信息</h3>
+                                </div>
+                                <div class="card-toggle">
+                                    <span>展开</span>
+                                    <i class="fas fa-chevron-down toggle-icon"></i>
+                                </div>
+                            </div>
+                            <div class="card-content">
+                                <div class="info-grid">
+                                    <div class="info-item">
+                                        <div class="info-label">营业执照正面</div>
+                                        <div class="info-value">图片占位</div>
+                                    </div>
+                                    <div class="info-item">
+                                        <div class="info-label">营业执照号</div>
+                                        <div class="info-value">91110105MA01234567</div>
+                                    </div>
+                                    <div class="info-item">
+                                        <div class="info-label">营业地址</div>
+                                        <div class="info-value">北京市朝阳区朝阳路123号</div>
+                                    </div>
+                                    <div class="info-item">
+                                        <div class="info-label">是否长期执照</div>
+                                        <div class="info-value">是</div>
+                                    </div>
+                                    <div class="info-item">
+                                        <div class="info-label">起始时间</div>
+                                        <div class="info-value">2023-06-15</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 法人信息 -->
+                        <div class="info-card selectable" data-task-type="法人身份证补充任务">
+                            <div class="card-header" onclick="toggleCardExpansion(this)">
+                                <div class="card-title-section">
+                                    <input type="checkbox" class="card-checkbox" onchange="toggleCardSelection(this)"
+                                        onclick="event.stopPropagation()">
+                                    <h3 class="card-title">法人信息</h3>
+                                </div>
+                                <div class="card-toggle">
+                                    <span>展开</span>
+                                    <i class="fas fa-chevron-down toggle-icon"></i>
+                                </div>
+                            </div>
+                            <div class="card-content">
+                                <div class="info-grid">
+                                    <div class="info-item">
+                                        <div class="info-label">身份证正面</div>
+                                        <div class="info-value">图片占位</div>
+                                    </div>
+                                    <div class="info-item">
+                                        <div class="info-label">身份证国徽面</div>
+                                        <div class="info-value">图片占位</div>
+                                    </div>
+                                    <div class="info-item">
+                                        <div class="info-label">姓名</div>
+                                        <div class="info-value">灵心</div>
+                                    </div>
+
+                                    <div class="info-item">
+                                        <div class="info-label">手机号</div>
+                                        <div class="info-value">13800138001</div>
+                                    </div>
+                                    <div class="info-item">
+                                        <div class="info-label">证件类型</div>
+                                        <div class="info-value">身份证</div>
+                                    </div>
+
+                                    <div class="info-item">
+                                        <div class="info-label">证件号码</div>
+                                        <div class="info-value">110101199001011234</div>
+                                    </div>
+                                    <div class="info-item">
+                                        <div class="info-label">法人地址</div>
+                                        <div class="info-value">北京市朝阳区朝阳路123号</div>
+                                    </div>
+                                    <div class="info-item">
+                                        <div class="info-label">证件类型</div>
+                                        <div class="info-value">身份证</div>
+                                    </div>
+                                    <div class="info-item">
+                                        <div class="info-label">是否长期证件</div>
+                                        <div class="info-value">否</div>
+                                    </div>
+                                    <div class="info-item">
+                                        <div class="info-label">证件起始时间</div>
+                                        <div class="info-value">2023-06-15</div>
+                                    </div>
+                                    <div class="info-item">
+                                        <div class="info-label">证件结束时间</div>
+                                        <div class="info-value">2043-06-15</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 结算人信息 -->
+                        <div class="info-card selectable" data-task-type="结算人身份证补充任务">
+                            <div class="card-header" onclick="toggleCardExpansion(this)">
+                                <div class="card-title-section">
+                                    <input type="checkbox" class="card-checkbox" onchange="toggleCardSelection(this)"
+                                        onclick="event.stopPropagation()">
+                                    <h3 class="card-title">结算人信息</h3>
+                                </div>
+                                <div class="card-toggle">
+                                    <span>展开</span>
+                                    <i class="fas fa-chevron-down toggle-icon"></i>
+                                </div>
+                            </div>
+                            <div class="card-content">
+                                <div class="info-grid">
+                                    <div class="info-item">
+                                        <div class="info-label">身份证正面</div>
+                                        <div class="info-value">图片占位</div>
+                                    </div>
+                                    <div class="info-item">
+                                        <div class="info-label">身份证国徽面</div>
+                                        <div class="info-value">图片占位</div>
+                                    </div>
+                                    <div class="info-item">
+                                        <div class="info-label">手持身份证</div>
+                                        <div class="info-value">图片占位</div>
+                                    </div>
+                                    <div class="info-item">
+                                        <div class="info-label">姓名</div>
+                                        <div class="info-value">灵心</div>
+                                    </div>
+
+                                    <div class="info-item">
+                                        <div class="info-label">手机号</div>
+                                        <div class="info-value">13800138001</div>
+                                    </div>
+                                    <div class="info-item">
+                                        <div class="info-label">证件类型</div>
+                                        <div class="info-value">身份证</div>
+                                    </div>
+
+                                    <div class="info-item">
+                                        <div class="info-label">证件号码</div>
+                                        <div class="info-value">110101199001011234</div>
+                                    </div>
+
+                                    <div class="info-item">
+                                        <div class="info-label">证件类型</div>
+                                        <div class="info-value">身份证</div>
+                                    </div>
+                                    <div class="info-item">
+                                        <div class="info-label">是否长期证件</div>
+                                        <div class="info-value">否</div>
+                                    </div>
+                                    <div class="info-item">
+                                        <div class="info-label">证件起始时间</div>
+                                        <div class="info-value">2023-06-15</div>
+                                    </div>
+                                    <div class="info-item">
+                                        <div class="info-label">证件结束时间</div>
+                                        <div class="info-value">2043-06-15</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 结算银行信息 -->
+                        <div class="info-card selectable" data-task-type="银行卡补充任务">
+                            <div class="card-header" onclick="toggleCardExpansion(this)">
+                                <div class="card-title-section">
+                                    <input type="checkbox" class="card-checkbox" onchange="toggleCardSelection(this)"
+                                        onclick="event.stopPropagation()">
+                                    <h3 class="card-title">结算银行信息</h3>
+                                </div>
+                                <div class="card-toggle">
+                                    <span>展开</span>
+                                    <i class="fas fa-chevron-down toggle-icon"></i>
+                                </div>
+                            </div>
+                            <div class="card-content">
+                                <div class="info-grid">
+                                    <div class="info-item">
+                                        <div class="info-label">银行卡正面</div>
+                                        <div class="info-value">图片占位</div>
+                                    </div>
+                                    <div class="info-item">
+                                        <div class="info-label">结算银行</div>
+                                        <div class="info-value">中国邮政储蓄银行朝阳支行</div>
+                                    </div>
+                                    <div class="info-item">
+                                        <div class="info-label">结算联行号</div>
+                                        <div class="info-value">403100000007</div>
+                                    </div>
+                                    <div class="info-item">
+                                        <div class="info-label">银行卡号</div>
+                                        <div class="info-value">6222021234567890123</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 非法人授权函 -->
+                        <div class="info-card selectable" data-task-type="非法人授权书补充任务">
+                            <div class="card-header" onclick="toggleCardExpansion(this)">
+                                <div class="card-title-section">
+                                    <input type="checkbox" class="card-checkbox" onchange="toggleCardSelection(this)"
+                                        onclick="event.stopPropagation()">
+                                    <h3 class="card-title">非法人授权函</h3>
+                                </div>
+                                <div class="card-toggle">
+                                    <span>展开</span>
+                                    <i class="fas fa-chevron-down toggle-icon"></i>
+                                </div>
+                            </div>
+                            <div class="card-content">
+                                <div class="info-grid">
+                                    <div class="info-item">
+                                        <div class="info-label">附件</div>
+                                        <div class="info-value" style="display: flex; align-items: center; gap: 16px;">
+                                            <!-- 真实PDF文件样式预览，带PDF图标和文件名 -->
+                                            <a href="https://file-examples.com/storage/fe7b6e2e2e2e2e2e2e2e2e2e2e2e2e2e/sample.pdf"
+                                                target="_blank" class="pdf-preview-link"
+                                                style="display: flex; align-items: center; text-decoration: none; margin-right: 12px;">
+                                                <!-- SVG PDF图标 -->
+                                                <svg width="28" height="36" viewBox="0 0 28 36" fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg" style="margin-right:8px;">
+                                                    <rect x="2" y="2" width="24" height="32" rx="4" fill="#F2F2F2"
+                                                        stroke="#E53E3E" stroke-width="2" />
+                                                    <rect x="2" y="2" width="24" height="8" rx="2" fill="#E53E3E" />
+                                                    <text x="14" y="9" text-anchor="middle" fill="#fff" font-size="10"
+                                                        font-family="Arial" font-weight="bold">PDF</text>
+                                                </svg>
+                                                <span
+                                                    style="color: var(--text-primary); font-size: 14px; font-weight: 500;">非法人授权函.pdf</span>
+                                            </a>
+                                            <span
+                                                style="color: var(--text-secondary); font-size: 12px;">PDF格式，支持在线预览与下载</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                             </div>
-                             
-                </div>
-               
 
                 <!-- 风险详情Tab -->
-                <div id="risk-tab" class="tab-content active" style="display: block;">
-                    <div class="tab-header">
-                        <h3 class="card-title1">风险评估</h3>
-                        <button class="btn btn-primary" onclick="createVisitTask()">
-                            <i class="fas fa-map-marker-alt"></i>
-                            下发走访任务
-                        </button>
-                    </div>
-                    <div class="tab-body">
-                        <!-- 风险评估概要 -->
-                        <div class="evaluation-summary">
-                            <h3><i class="fas fa-chart-line"></i> 风险评估概要</h3>
-                            <div class="summary-grid">
-                                <div class="summary-item">
-                                    <div class="summary-number0">张三便利店<span class="summary-number1">(6026245559)</span></div>
-                                    <div class="summary-label">商户名称 </div>
-                                </div>
-                                <div class="summary-item">
-                                    <div class="summary-number">高风险</div>
-                                    <div class="summary-label">综合风险等级</div>
-                                </div>
-                                <div class="summary-item">
-                                    <div class="summary-number">1个</div>
-                                    <div class="summary-label">高风险指标</div>
-                                </div>
-                                <div class="summary-item">
-                                    <div class="summary-number">3个</div>
-                                    <div class="summary-label">中风险指标</div>
-                                </div>
+                        <div id="risk-tab" class="tab-content active" style="display: block;">
+                            <div class="tab-header">
+                                <h3 class="card-title1">风险评估</h3>
                             </div>
-                        </div>
-
-
-
-                        <!-- 高风险指标区域 -->
-                        <div class="risk-section">
-                            <div class="risk-section-title high-risk">
-                                <i class="fas fa-exclamation-circle"></i>
-                                高风险指标
-                            </div>
-                            <div class="risk-cards-grid">
-                                <div class="unified-risk-card high-risk">
-                                    <div class="unified-risk-card-header">
-                                        <i class="fas fa-redo-alt"></i>
-                                        <span class="risk-title">进件次数</span>
-                                        <span class="risk-tag">高风险</span>
+                            <div class="tab-body">
+                                <!-- 风险评估概要 -->
+                                <div class="evaluation-summary">
+                                    <h3><i class="fas fa-chart-line"></i> 风险评估概要</h3>
+                                    <div class="summary-grid">
+                                        <div class="summary-item">
+                                            <div class="summary-number0">张三便利店<span
+                                                    class="summary-number1">(6026245559)</span></div>
+                                            <div class="summary-label">商户名称 </div>
+                                        </div>
+                                        <div class="summary-item">
+                                            <div class="summary-number">高风险</div>
+                                            <div class="summary-label">综合风险等级</div>
+                                        </div>
+                                        <div class="summary-item">
+                                            <div class="summary-number">1个</div>
+                                            <div class="summary-label">高风险指标</div>
+                                        </div>
+                                        <div class="summary-item">
+                                            <div class="summary-number">3个</div>
+                                            <div class="summary-label">中风险指标</div>
+                                        </div>
                                     </div>
-                                    <div class="unified-risk-card-content">
-                                        <div class="unified-risk-item">
-                                            <span class="unified-risk-label">判定原因：</span>
-                                            <span>该商户历史进件7次</span>
+                                </div>
+
+
+
+                                <!-- 高风险指标区域 -->
+                                <div class="risk-section">
+                                    <div class="risk-section-title high-risk">
+                                        <i class="fas fa-exclamation-circle"></i>
+                                        高风险指标
+                                    </div>
+                                    <div class="risk-cards-grid">
+                                        <div class="unified-risk-card high-risk">
+                                            <div class="unified-risk-card-header">
+                                                <i class="fas fa-redo-alt"></i>
+                                                <span class="risk-title">进件次数</span>
+                                                <span class="risk-tag">高风险</span>
+                                            </div>
+                                            <div class="unified-risk-card-content">
+                                                <div class="unified-risk-item">
+                                                    <span class="unified-risk-label">判定原因：</span>
+                                                    <span>该商户历史进件7次</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- 中风险指标区域 -->
+                                <div class="risk-section">
+                                    <div class="risk-section-title medium-risk">
+                                        <i class="fas fa-exclamation-triangle"></i>
+                                        中风险指标
+                                    </div>
+                                    <div class="risk-cards-grid">
+                                        <div class="unified-risk-card medium-risk">
+                                            <div class="unified-risk-card-header">
+                                                <i class="fas fa-camera"></i>
+                                                <span class="risk-title">门头照重复</span>
+                                                <span class="risk-tag">中风险</span>
+                                            </div>
+                                            <div class="unified-risk-card-content">
+                                                <div class="unified-risk-item">
+                                                    <span class="unified-risk-label">判定原因：</span>
+                                                    <span>门头照重复使用3次</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="unified-risk-card medium-risk">
+                                            <div class="unified-risk-card-header">
+                                                <i class="fas fa-cash-register"></i>
+                                                <span class="risk-title">收银台照重复</span>
+                                                <span class="risk-tag">中风险</span>
+                                            </div>
+                                            <div class="unified-risk-card-content">
+                                                <div class="unified-risk-item">
+                                                    <span class="unified-risk-label">判定原因：</span>
+                                                    <span>收银台照重复使用2次</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="unified-risk-card medium-risk">
+                                            <div class="unified-risk-card-header">
+                                                <i class="fas fa-building"></i>
+                                                <span class="risk-title">场景照重复</span>
+                                                <span class="risk-tag">中风险</span>
+                                            </div>
+                                            <div class="unified-risk-card-content">
+                                                <div class="unified-risk-item">
+                                                    <span class="unified-risk-label">判定原因：</span>
+                                                    <span>场景照重复使用4次</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- 低风险指标区域 -->
+                                <div class="risk-section">
+                                    <div class="risk-section-title low-risk">
+                                        <i class="fas fa-check-circle"></i>
+                                        低风险指标
+                                    </div>
+                                    <div class="risk-cards-grid">
+                                        <div class="unified-risk-card low-risk">
+                                            <div class="unified-risk-card-header">
+                                                <i class="fas fa-id-card"></i>
+                                                <span class="risk-title">三照导入方式</span>
+                                                <span class="risk-tag">低风险</span>
+                                            </div>
+                                            <div class="unified-risk-card-content">
+                                                <div class="unified-risk-item">
+                                                    <span class="unified-risk-label">判定原因：</span>
+                                                    <span>三张均为拍摄上传</span>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- 中风险指标区域 -->
-                        <div class="risk-section">
-                            <div class="risk-section-title medium-risk">
-                                <i class="fas fa-exclamation-triangle"></i>
-                                中风险指标
+                        <!-- 操作历史Tab -->
+                        <div id="history-tab" class="tab-content">
+                            <div class="tab-header">
+                                <h3 class="card-title1">操作记录</h3>
                             </div>
-                            <div class="risk-cards-grid">
-                                <div class="unified-risk-card medium-risk">
-                                    <div class="unified-risk-card-header">
-                                        <i class="fas fa-camera"></i>
-                                        <span class="risk-title">门头照重复</span>
-                                        <span class="risk-tag">中风险</span>
-                                    </div>
-                                    <div class="unified-risk-card-content">
-                                        <div class="unified-risk-item">
-                                            <span class="unified-risk-label">判定原因：</span>
-                                            <span>门头照重复使用3次</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="unified-risk-card medium-risk">
-                                    <div class="unified-risk-card-header">
-                                        <i class="fas fa-cash-register"></i>
-                                        <span class="risk-title">收银台照重复</span>
-                                        <span class="risk-tag">中风险</span>
-                                    </div>
-                                    <div class="unified-risk-card-content">
-                                        <div class="unified-risk-item">
-                                            <span class="unified-risk-label">判定原因：</span>
-                                            <span>收银台照重复使用2次</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="unified-risk-card medium-risk">
-                                    <div class="unified-risk-card-header">
-                                        <i class="fas fa-building"></i>
-                                        <span class="risk-title">场景照重复</span>
-                                        <span class="risk-tag">中风险</span>
-                                    </div>
-                                    <div class="unified-risk-card-content">
-                                        <div class="unified-risk-item">
-                                            <span class="unified-risk-label">判定原因：</span>
-                                            <span>场景照重复使用4次</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                            <div class="tab-body">
+                                <div class="table-container">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>操作时间</th>
+                                                <th>操作人</th>
+                                                <th>操作类型</th>
+                                                <th>任务类型</th>
+                                                <th>备注</th>
 
-                        <!-- 低风险指标区域 -->
-                        <div class="risk-section">
-                            <div class="risk-section-title low-risk">
-                                <i class="fas fa-check-circle"></i>
-                                低风险指标
-                            </div>
-                            <div class="risk-cards-grid">
-                                <div class="unified-risk-card low-risk">
-                                    <div class="unified-risk-card-header">
-                                        <i class="fas fa-id-card"></i>
-                                        <span class="risk-title">三照导入方式</span>
-                                        <span class="risk-tag">低风险</span>
-                                    </div>
-                                    <div class="unified-risk-card-content">
-                                        <div class="unified-risk-item">
-                                            <span class="unified-risk-label">判定原因：</span>
-                                            <span>三张均为拍摄上传</span>
-                                        </div>
-                                    </div>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>2024-01-15 14:30:00</td>
+                                                <td>张经理</td>
+                                                <td>走访</td>
+                                                <td>打卡</td>
+                                                <td>高风险商户，需走访确认</td>
+                                            </tr>
+                                            <tr>
+                                                <td>2024-01-15 15:00:00</td>
+                                                <td>张经理</td>
+                                                <td>整改</td>
+                                                <td>资料补充</td>
+                                                <td>要求补充门头照片</td>
+                                            </tr>
+                                            <tr>
+                                                <td>2024-01-14 16:20:00</td>
+                                                <td>张三</td>
+                                                <td>标记</td>
+                                                <td>-</td>
+                                                <td>该商户审查没问题，记录</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
+
+
+
                         </div>
                     </div>
                 </div>
-
-                <!-- 操作历史Tab -->
-                <div id="history-tab" class="tab-content">
-                    <div class="tab-header">
-                        <h3 class="card-title1">操作记录</h3>
-                    </div>
-                    <div class="tab-body">
-                        <div class="table-container">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th>操作时间</th>
-                                        <th>操作人</th>
-                                        <th>操作类型</th>
-                                        <th>任务类型</th>
-                                        <th>备注</th>
-                                        
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>2024-01-15 14:30:00</td>
-                                        <td>张经理</td>
-                                        <td>走访</td>
-                                        <td>打卡</td>
-                                        <td>高风险商户，需走访确认</td>
-                                           </tr>
-                                    <tr>
-                                        <td>2024-01-15 15:00:00</td>
-                                        <td>张经理</td>
-                                        <td>整改</td>
-                                        <td>资料补充</td>
-                                        <td>要求补充门头照片</td>
-                                          </tr>
-                                    <tr>
-                                        <td>2024-01-14 16:20:00</td>
-                                        <td>张三</td>
-                                        <td>标记</td>
-                                        <td>-</td>
-                                        <td>该商户审查没问题，记录</td>
-                                       </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-
-                    
-
-                </div>
             </div>
-        </div>
 
-    <!-- 标记完成弹框 -->
-    <div id="markCompletedModal" class="modal-overlay">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>标记审查完成</h3>
-                <button class="modal-close" onclick="closeMarkCompletedModal()">&times;</button>
+
+            <!-- 底部固定按钮区域 -->
+            <div class="fixed-bottom-actions">
+                <button class="btn btn-primary" onclick="createVisitTask()">
+                    <i class="fas fa-map-marker-alt"></i>
+                    下发走访任务
+                </button>
+                <button class="btn btn-warning" onclick="createRectificationTask()">
+                    <i class="fas fa-tasks"></i>
+                    下发整改任务
+                </button>
+                <button class="btn btn-success" onclick="markCompleted()">
+                    <i class="fas fa-check"></i>
+                    标记完成
+                </button>
+                <button class="btn btn-primary" id="btnReturnList">
+                    <i class="fas fa-arrow-left"></i>
+                    返回
+                </button>
             </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label>审查状态</label>
-                    <input type="text" value="已完成" readonly class="form-control">
-                </div>
-                <div class="form-group">
-                    <label>备注</label>
-                    <textarea id="completedRemark" class="form-control" rows="3" placeholder="请输入备注信息..."></textarea>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" onclick="closeMarkCompletedModal()">取消</button>
-                <button class="btn btn-primary" onclick="confirmMarkCompleted()">确认</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- 下发整改任务弹框 -->
-    <div id="rectificationModal" class="modal-overlay">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>下发整改任务</h3>
-                <button class="modal-close" onclick="closeRectificationModal()">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label>任务类型</label>
-                    <div class="multi-select-container">
-                        <div class="multi-select-input" id="taskTypesInput" onclick="toggleTaskTypeDropdown()">
-                            <div class="selected-items" id="selectedTaskTypes">
-                                <span class="placeholder">请选择任务类型</span>
-                            </div>
-                            <i class="fas fa-chevron-down dropdown-arrow"></i>
-                        </div>
-                        <div class="multi-select-dropdown" id="taskTypesDropdown">
-                            <div class="dropdown-option" data-value="基础资料补充">
-                                <input type="checkbox" id="task1">
-                                <label for="task1">基础资料补充</label>
-                            </div>
-                            <div class="dropdown-option" data-value="商户标签资料">
-                                <input type="checkbox" id="task2">
-                                <label for="task2">商户标签资料</label>
-                            </div>
-                            <div class="dropdown-option" data-value="法人身份证补充">
-                                <input type="checkbox" id="task3">
-                                <label for="task3">法人身份证补充</label>
-                            </div>
-                            <div class="dropdown-option" data-value="结算人身份证补充">
-                                <input type="checkbox" id="task4">
-                                <label for="task4">结算人身份证补充</label>
-                            </div>
-                            <div class="dropdown-option" data-value="licenses补充">
-                                  <input type="checkbox" id="task5">
-                                 <label for="task5">licenses补充</label>
-                              </div>
-                            <div class="dropdown-option" data-value="三证补充">
-                                <input type="checkbox" id="task6">
-                                <label for="task6">三证补充</label>
-                            </div>
-                            <div class="dropdown-option" data-value="银行卡补充">
-                                <input type="checkbox" id="task7">
-                                <label for="task7">银行卡补充</label>
-                            </div>
-                            <div class="dropdown-option" data-value="非法人授权书补充">
-                                <input type="checkbox" id="task8">
-                                <label for="task8">非法人授权书补充</label>
-                            </div>
-                        </div>
-                    </div>
-                    <small class="form-text">可选择多个任务类型</small>
-                </div>
-                <div class="form-group">
-                    <label>备注</label>
-                    <textarea id="rectificationRemark" class="form-control" rows="3" placeholder="请输入备注信息..."></textarea>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" onclick="closeRectificationModal()">取消</button>
-                <button class="btn btn-warning" onclick="confirmRectificationTask()">确认下发</button>
-            </div>
-        </div>
-
-
-    </div>
-
-    <script>
-        /**
-         * Tab切换功能
-         * @param {string} tabName - tab名称 (audit, risk, history)
-         */
-        function switchTab(tabName) {
-            console.log('Switching to tab:', tabName);
-            
-            // 移除所有tab按钮和内容的active类
-            document.querySelectorAll('.tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            document.querySelectorAll('.tab-content').forEach(content => {
-                content.classList.remove('active');
-                // 确保内容被隐藏
-                content.style.display = 'none';
-            });
-
-            // 添加active类到当前tab按钮
-            document.querySelectorAll('.tab').forEach(tab => {
-                const onclick = tab.getAttribute('onclick');
-                if (onclick && onclick.includes(`'${tabName}'`)) {
-                    tab.classList.add('active');
-                }
-            });
-
-            // 显示对应的tab内容
-            const targetTab = document.getElementById(tabName + '-tab');
-            console.log('Target tab element:', targetTab);
-
-            if (targetTab) {
-                // 使用CSS类来控制显示，因为CSS中使用了!important
-                targetTab.classList.add('active');
-                // 确保内容显示
-                targetTab.style.display = 'block';
-                console.log('Tab switched successfully to:', tabName);
-            } else {
-                console.error('Tab content not found for:', tabName + '-tab');
-            }
-        }
-
-        // 创建整改任务
-        function createRectificationTask() {
-            if (confirm('确定要为该商户下发整改任务吗？')) {
-                alert('整改任务已下发，任务编号：RT202401001');
-                // 这里可以调用API创建整改任务
-            }
-        }
-
-        // 创建走访任务
-        function createVisitTask() {
-            if (confirm('确定要为该商户下发走访任务吗？')) {
-                alert('走访任务已下发，任务编号：VT202401001');
-                // 这里可以调用API创建走访任务
-            }
-        }
-
-        // 添加风险卡片悬停效果
-        document.addEventListener('DOMContentLoaded', function() {
-            const riskCards = document.querySelectorAll('.risk-card');
-            riskCards.forEach(card => {
-                card.addEventListener('mouseenter', function() {
-                    this.style.transform = 'translateY(-4px) scale(1.02)';
-                });
-
-                card.addEventListener('mouseleave', function() {
-                    this.style.transform = 'translateY(0) scale(1)';
-                });
-            });
-        });
-        
-        // 创建走访任务
-        function createVisitTask() {
-            if (confirm('确定要为该商户下发走访任务吗？')) {
-                alert('走访任务已下发，任务编号：VT202401001');
-                // 这里可以调用API创建走访任务
-            }
-        }
-        
-        // 获取URL参数
-        function getUrlParameter(name) {
-            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-            var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
-            var results = regex.exec(location.search);
-            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
-        }
-        
-        // Tab切换函数
-        function switchTab(tabId) {
-            console.log('切换到Tab:', tabId);
-            
-            // 获取所有tab内容和导航
-            const tabContents = document.querySelectorAll('.tab-content');
-            const tabs = document.querySelectorAll('.tab');
-            
-            // 先移除所有tab的激活状态
-            tabs.forEach(tab => {
-                tab.classList.remove('active');
-            });
-            
-            // 先隐藏所有tab内容
-            tabContents.forEach(content => {
-                content.classList.remove('active');
-                content.style.display = 'none';
-            });
-            
-            // 激活选中的tab导航
-            const selectedTabNav = document.querySelector(`.tab[onclick="switchTab('${tabId}')"]`);
-            if (selectedTabNav) {
-                selectedTabNav.classList.add('active');
-            }
-            
-            // 激活选中的tab内容
-            const selectedTab = document.getElementById(tabId + '-tab');
-            if (selectedTab) {
-                // 先添加active类
-                selectedTab.classList.add('active');
-                // 直接修改DOM元素的style属性
-                selectedTab.style.display = 'block';
-                console.log('显示Tab内容:', tabId + '-tab', selectedTab);
-            } else {
-                console.error('找不到Tab内容:', tabId + '-tab');
-            }
-        }
-        
-        // 页面加载完成后初始化Tab
-        document.addEventListener('DOMContentLoaded', function() {
-            // 确保默认Tab正确显示
-            const defaultTab = document.querySelector('.tab-content.active');
-            if (defaultTab) {
-                defaultTab.style.display = 'block';
-            }
-            
-            // 为所有Tab添加点击事件
-            document.querySelectorAll('.tab').forEach(tab => {
-                const onclick = tab.getAttribute('onclick');
-                if (onclick) {
-                    const match = onclick.match(/switchTab\('([^']+)'\)/); 
-                    if (match && match[1]) {
-                        const tabId = match[1];
-                        tab.addEventListener('click', function(e) {
-                            // 阻止默认行为，避免可能的冲突
-                            e.preventDefault();
-                            switchTab(tabId);
+            <script>
+                /**
+                 * 返回列表按钮事件处理
+                 * 关闭详情弹窗
+                 */
+                document.addEventListener('DOMContentLoaded', function () {
+                    var btnReturnList = document.getElementById('btnReturnList');
+                    if (btnReturnList) {
+                        btnReturnList.addEventListener('click', function () {
+                            // 关闭详情弹窗
+                            if (typeof closeDetailModal === 'function') {
+                                closeDetailModal();
+                            } else {
+                                // 兼容性处理：如果没有定义closeDetailModal，则尝试隐藏父弹窗
+                                var parentModal = window.parent && window.parent.document.getElementById('detailModal');
+                                if (parentModal) {
+                                    parentModal.style.display = 'none';
+                                }
+                            }
                         });
                     }
-                }
+                });
+            </script>
+
+            <!-- 标记完成弹框 -->
+            <div id="markCompletedModal" class="modal-overlay">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>标记审查完成</h3>
+                        <button class="modal-close" onclick="closeMarkCompletedModal()">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>审查状态</label>
+                            <input type="text" value="已完成" readonly class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>备注</label>
+                            <textarea id="completedRemark" class="form-control" rows="3"
+                                placeholder="请输入备注信息..."></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" onclick="closeMarkCompletedModal()">取消</button>
+                        <button class="btn btn-primary" onclick="confirmMarkCompleted()">确认</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 下发整改任务弹框 -->
+            <div id="rectificationModal" class="modal-overlay">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>下发整改任务</h3>
+                        <button class="modal-close" onclick="closeRectificationModal()">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- 选中的任务类型将在这里动态显示 -->
+                        <div class="form-group">
+                            <label>备注</label>
+                            <textarea id="rectificationRemark" class="form-control" rows="3"
+                                placeholder="请输入备注信息..."></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" onclick="closeRectificationModal()">取消</button>
+                        <button class="btn btn-warning" onclick="confirmRectificationTask()">确认下发</button>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <!-- 下发走访任务弹框 -->
+            <div id="visitTaskModal" class="modal-overlay">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>下发走访任务</h3>
+                        <button class="modal-close" onclick="closeVisitTaskModal()">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>走访类型</label>
+                            <select class="form-control" id="visitType">
+                                <option value="现场核查">现场核查</option>
+                                <option value="风险排查">风险排查</option>
+                                <option value="定期巡检">定期巡检</option>
+                                <option value="投诉处理">投诉处理</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>优先级</label>
+                            <select class="form-control" id="visitPriority">
+                                <option value="高">高</option>
+                                <option value="中">中</option>
+                                <option value="低">低</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>备注</label>
+                            <textarea id="visitRemark" class="form-control" rows="3"
+                                placeholder="请输入备注信息..."></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" onclick="closeVisitTaskModal()">取消</button>
+                        <button class="btn btn-primary" onclick="confirmVisitTask()">确认下发</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+<script>
+
+
+    /**
+     * Tab切换功能
+     * @param {string} tabName - tab名称 (audit, risk, history)
+     */
+    function switchTab(tabName) {
+        console.log('Switching to tab:', tabName);
+
+        // 移除所有tab按钮和内容的active类
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.classList.remove('active');
+        });
+        document.querySelectorAll('.tab-content').forEach(content => {
+            content.classList.remove('active');
+            // 确保内容被隐藏
+            content.style.display = 'none';
+        });
+
+        // 添加active类到当前tab按钮
+        document.querySelectorAll('.tab').forEach(tab => {
+            const onclick = tab.getAttribute('onclick');
+            if (onclick && onclick.includes(`'${tabName}'`)) {
+                tab.classList.add('active');
+            }
+        });
+
+        // 显示对应的tab内容
+        const targetTab = document.getElementById(tabName + '-tab');
+        console.log('Target tab element:', targetTab);
+
+        if (targetTab) {
+            // 使用CSS类来控制显示，因为CSS中使用了!important
+            targetTab.classList.add('active');
+            // 确保内容显示
+            targetTab.style.display = 'block';
+            console.log('Tab switched successfully to:', tabName);
+        } else {
+            console.error('Tab content not found for:', tabName + '-tab');
+        }
+    }
+
+
+
+    // 卡片选择功能
+    function toggleCardSelection(checkbox) {
+        const card = checkbox.closest('.info-card');
+        if (checkbox.checked) {
+            card.classList.add('selected');
+        } else {
+            card.classList.remove('selected');
+        }
+    }
+
+    // 卡片展开/收起功能
+    function toggleCardExpansion(header) {
+        const card = header.closest('.info-card');
+        const content = card.querySelector('.card-content');
+        const toggleIcon = header.querySelector('.toggle-icon');
+        const toggleText = header.querySelector('.card-toggle span');
+
+        if (content.classList.contains('collapsed')) {
+            content.classList.remove('collapsed');
+            toggleIcon.classList.add('expanded');
+            toggleText.textContent = '收起';
+        } else {
+            content.classList.add('collapsed');
+            toggleIcon.classList.remove('expanded');
+            toggleText.textContent = '展开';
+        }
+    }
+
+    // 获取选中的任务类型
+    function getSelectedTaskTypes() {
+        const selectedCards = document.querySelectorAll('.info-card.selectable.selected');
+        return Array.from(selectedCards).map(card => card.getAttribute('data-task-type'));
+    }
+
+    // 显示Toast提示
+    function showToast(message, type = 'error') {
+        const toast = document.createElement('div');
+        toast.className = `toast ${type}`;
+        toast.textContent = message;
+        document.body.appendChild(toast);
+
+        setTimeout(() => {
+            toast.classList.add('show');
+        }, 100);
+
+        setTimeout(() => {
+            toast.classList.remove('show');
+            setTimeout(() => {
+                document.body.removeChild(toast);
+            }, 300);
+        }, 3000);
+    }
+
+    // 兼容旧的模块选择功能
+    function toggleSectionSelection(checkbox) {
+        toggleCardSelection(checkbox);
+    }
+
+    // 创建走访任务
+    function createVisitTask() {
+        document.getElementById('visitTaskModal').style.display = 'block';
+    }
+
+    function closeVisitTaskModal() {
+        document.getElementById('visitTaskModal').style.display = 'none';
+        document.getElementById('visitType').value = '现场核查';
+        document.getElementById('visitPriority').value = '中';
+        document.getElementById('visitRemark').value = '';
+    }
+
+    function confirmVisitTask() {
+        const visitType = document.getElementById('visitType').value;
+        const priority = document.getElementById('visitPriority').value;
+        const remark = document.getElementById('visitRemark').value;
+
+        // 生成任务编号
+        const taskId = 'VT' + new Date().getFullYear() +
+            String(new Date().getMonth() + 1).padStart(2, '0') +
+            String(new Date().getDate()).padStart(2, '0') +
+            String(Math.floor(Math.random() * 1000)).padStart(3, '0');
+
+        // 添加操作历史记录
+        addOperationHistory('下发走访任务', visitType,
+            `优先级：${priority}${remark ? '；备注：' + remark : ''}`);
+
+        closeVisitTaskModal();
+        alert(`走访任务已下发，任务编号：${taskId}`);
+    }
+
+    // 添加风险卡片悬停效果
+    document.addEventListener('DOMContentLoaded', function () {
+        const riskCards = document.querySelectorAll('.risk-card');
+        riskCards.forEach(card => {
+            card.addEventListener('mouseenter', function () {
+                this.style.transform = 'translateY(-4px) scale(1.02)';
+            });
+
+            card.addEventListener('mouseleave', function () {
+                this.style.transform = 'translateY(0) scale(1)';
             });
         });
-        
-        // 页面加载时获取商户ID
-        document.addEventListener('DOMContentLoaded', function() {
-            const merchantId = getUrlParameter('id');
-            if (merchantId) {
-                document.querySelector('.page-title').textContent = `商户详情 - ${merchantId}`;
-                // 这里可以根据商户ID加载具体数据
-            }
+    });
 
-            // 默认激活第一个tab（风险评估）
-            switchTab('risk');
 
-            // 弹框背景点击关闭
-            const modals = ['markCompletedModal', 'rectificationModal'];
-            modals.forEach(modalId => {
-                const modal = document.getElementById(modalId);
-                if (modal) {
-                    modal.addEventListener('click', function(e) {
-                        if (e.target === modal) {
-                            modal.style.display = 'none';
-                        }
-                    });
-                }
-            });
+    // 获取URL参数
+    function getUrlParameter(name) {
+        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+        var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+        var results = regex.exec(location.search);
+        return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+    }
 
-            // ESC键关闭弹框
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape') {
-                    modals.forEach(modalId => {
-                        const modal = document.getElementById(modalId);
-                        if (modal && modal.style.display === 'block') {
-                            modal.style.display = 'none';
-                        }
-                    });
-                }
-            });
-        });
 
-        // 标记完成功能
-        function markCompleted() {
-            document.getElementById('markCompletedModal').style.display = 'block';
+
+    // 页面加载完成后初始化
+    document.addEventListener('DOMContentLoaded', function () {
+        // 获取商户ID
+        const merchantId = getUrlParameter('id');
+        if (merchantId) {
+            document.querySelector('.page-title').textContent = `商户详情 - ${merchantId}`;
+            // 这里可以根据商户ID加载具体数据
         }
 
-        function closeMarkCompletedModal() {
-            document.getElementById('markCompletedModal').style.display = 'none';
-            document.getElementById('completedRemark').value = '';
-        }
+        // 默认激活第一个tab（风险评估）
+        switchTab('risk');
 
-        function confirmMarkCompleted() {
-            const remark = document.getElementById('completedRemark').value;
-
-            // 更新审查状态
-            const statusElement = document.querySelector('.info-item .info-value .status-tag');
-            if (statusElement) {
-                statusElement.className = 'status-tag status-completed';
-                statusElement.textContent = '已完成';
-            }
-
-            // 添加操作历史记录
-            addOperationHistory('标记完成', '审查完成', remark || '无');
-
-            closeMarkCompletedModal();
-            alert('审查状态已更新为"已完成"');
-        }
-
-        // 下发整改任务功能 - 重写原有函数
-        function createRectificationTask() {
-            document.getElementById('rectificationModal').style.display = 'block';
-        }
-
-        function closeRectificationModal() {
-            document.getElementById('rectificationModal').style.display = 'none';
-            // 清空任务类型选择
-            clearTaskTypeSelection();
-            document.getElementById('rectificationRemark').value = '';
-        }
-
-        // 多选组件相关函数
-        function toggleTaskTypeDropdown() {
-            const dropdown = document.getElementById('taskTypesDropdown');
-            const arrow = document.querySelector('.dropdown-arrow');
-
-            if (dropdown.classList.contains('open')) {
-                dropdown.classList.remove('open');
-                arrow.classList.remove('open');
-            } else {
-                dropdown.classList.add('open');
-                arrow.classList.add('open');
-            }
-        }
-
-        function clearTaskTypeSelection() {
-            // 清空所有复选框
-            document.querySelectorAll('#taskTypesDropdown input[type="checkbox"]').forEach(checkbox => {
-                checkbox.checked = false;
-            });
-            // 更新显示
-            updateSelectedTaskTypes();
-            // 关闭下拉框
-            document.getElementById('taskTypesDropdown').classList.remove('open');
-            document.querySelector('.dropdown-arrow').classList.remove('open');
-        }
-
-        function updateSelectedTaskTypes() {
-            const selectedContainer = document.getElementById('selectedTaskTypes');
-            const checkedBoxes = document.querySelectorAll('#taskTypesDropdown input[type="checkbox"]:checked');
-
-            selectedContainer.innerHTML = '';
-
-            if (checkedBoxes.length === 0) {
-                selectedContainer.innerHTML = '<span class="placeholder">请选择任务类型</span>';
-            } else {
-                checkedBoxes.forEach(checkbox => {
-                    const option = checkbox.closest('.dropdown-option');
-                    const value = option.getAttribute('data-value');
-
-                    const selectedItem = document.createElement('span');
-                    selectedItem.className = 'selected-item';
-                    selectedItem.innerHTML = `
-                        ${value}
-                        <span class="remove" onclick="removeTaskType('${value}')">&times;</span>
-                    `;
-                    selectedContainer.appendChild(selectedItem);
+        // 弹框背景点击关闭
+        const modals = ['markCompletedModal', 'rectificationModal', 'visitTaskModal'];
+        modals.forEach(modalId => {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.addEventListener('click', function (e) {
+                    if (e.target === modal) {
+                        modal.style.display = 'none';
+                    }
                 });
             }
-        }
-
-        function removeTaskType(value) {
-            const option = document.querySelector(`#taskTypesDropdown .dropdown-option[data-value="${value}"]`);
-            if (option) {
-                const checkbox = option.querySelector('input[type="checkbox"]');
-                checkbox.checked = false;
-                updateSelectedTaskTypes();
-            }
-        }
-
-        // 初始化多选组件事件
-        document.addEventListener('DOMContentLoaded', function() {
-            // 为复选框添加事件监听
-            document.querySelectorAll('#taskTypesDropdown input[type="checkbox"]').forEach(checkbox => {
-                checkbox.addEventListener('change', updateSelectedTaskTypes);
-            });
-
-            // 点击外部关闭下拉框
-            document.addEventListener('click', function(e) {
-                const container = document.querySelector('.multi-select-container');
-                if (container && !container.contains(e.target)) {
-                    document.getElementById('taskTypesDropdown').classList.remove('open');
-                    document.querySelector('.dropdown-arrow').classList.remove('open');
-                }
-            });
         });
 
-        function confirmRectificationTask() {
-            const checkedBoxes = document.querySelectorAll('#taskTypesDropdown input[type="checkbox"]:checked');
-            const taskTypes = Array.from(checkedBoxes).map(checkbox => {
-                return checkbox.closest('.dropdown-option').getAttribute('data-value');
-            });
-            const remark = document.getElementById('rectificationRemark').value;
-
-            if (taskTypes.length === 0) {
-                alert('请选择至少一个任务类型');
-                return;
+        // ESC键关闭弹框
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') {
+                modals.forEach(modalId => {
+                    const modal = document.getElementById(modalId);
+                    if (modal && modal.style.display === 'block') {
+                        modal.style.display = 'none';
+                    }
+                });
             }
+        });
+    });
 
-            // 生成任务编号
-            const taskId = 'RT' + new Date().getFullYear() +
-                          String(new Date().getMonth() + 1).padStart(2, '0') +
-                          String(new Date().getDate()).padStart(2, '0') +
-                          String(Math.floor(Math.random() * 1000)).padStart(3, '0');
+    // 标记完成功能
+    function markCompleted() {
+        document.getElementById('markCompletedModal').style.display = 'block';
+    }
 
-            // 添加操作历史记录
-            addOperationHistory('下发整改任务', '整改任务',
-                `任务类型：${taskTypes.join('、')}${remark ? '；备注：' + remark : ''}`);
+    function closeMarkCompletedModal() {
+        document.getElementById('markCompletedModal').style.display = 'none';
+        document.getElementById('completedRemark').value = '';
+    }
 
-            closeRectificationModal();
-            // alert(`整改任务已下发，任务编号：${taskId}`);
+    function confirmMarkCompleted() {
+        const remark = document.getElementById('completedRemark').value;
+
+        // 更新审查状态
+        const statusElement = document.querySelector('.info-item .info-value .status-tag');
+        if (statusElement) {
+            statusElement.className = 'status-tag status-completed';
+            statusElement.textContent = '已完成';
         }
 
         // 添加操作历史记录
-        function addOperationHistory(operationType, taskType, remark) {
-            const historyTable = document.querySelector('#history-tab .table tbody');
-            if (historyTable) {
-                const now = new Date();
-                const timeString = now.getFullYear() + '-' +
-                    String(now.getMonth() + 1).padStart(2, '0') + '-' +
-                    String(now.getDate()).padStart(2, '0') + ' ' +
-                    String(now.getHours()).padStart(2, '0') + ':' +
-                    String(now.getMinutes()).padStart(2, '0') + ':' +
-                    String(now.getSeconds()).padStart(2, '0');
+        addOperationHistory('标记完成', '审查完成', remark || '无');
 
-                const newRow = document.createElement('tr');
-                newRow.innerHTML = `
+        closeMarkCompletedModal();
+        alert('审查状态已更新为"已完成"');
+    }
+
+    // 下发整改任务功能 - 重写原有函数
+    function createRectificationTask() {
+        // 获取选中的任务类型
+        const selectedTaskTypes = getSelectedTaskTypes();
+
+        // 检查是否有勾选的卡片
+        if (selectedTaskTypes.length === 0) {
+            showToast('请先勾选要整改的任务', 'error');
+            return;
+        }
+
+        // 显示弹窗
+        document.getElementById('rectificationModal').style.display = 'block';
+
+        // 在弹窗中显示选中的任务类型
+        setTimeout(() => {
+            displaySelectedTaskTypes(selectedTaskTypes);
+        }, 100);
+    }
+
+    // 显示选中的任务类型标签
+    function displaySelectedTaskTypes(taskTypes) {
+        // 查找弹窗中的表单区域
+        const modalBody = document.querySelector('#rectificationModal .modal-body');
+        if (!modalBody) return;
+
+        // 检查是否已经有任务类型容器
+        let taskTypeContainer = document.getElementById('selectedTaskTypesContainer');
+        if (!taskTypeContainer) {
+            // 创建任务类型显示容器
+            taskTypeContainer = document.createElement('div');
+            taskTypeContainer.id = 'selectedTaskTypesContainer';
+            taskTypeContainer.className = 'form-group';
+            taskTypeContainer.innerHTML = `
+                                <label style="display: block; margin-bottom: 8px; font-weight: 600; color: var(--text-primary);">选中的任务类型</label>
+                                <div class="task-type-tags" id="taskTypeTags" style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px;"></div>
+                            `;
+
+            // 插入到表单顶部（在注释后面）
+            const firstElement = modalBody.children[0];
+            modalBody.insertBefore(taskTypeContainer, firstElement);
+        }
+
+        // 更新任务类型标签
+        const tagsContainer = document.getElementById('taskTypeTags');
+        if (tagsContainer) {
+            tagsContainer.innerHTML = '';
+
+            taskTypes.forEach(taskType => {
+                const tag = document.createElement('span');
+                tag.className = 'task-type-tag';
+                tag.textContent = taskType;
+                tag.style.cssText = `
+                                    background: var(--primary-blue-light);
+                                    color: var(--primary-blue);
+                                    padding: 6px 12px;
+                                    border-radius: 20px;
+                                    font-size: 12px;
+                                    font-weight: 500;
+                                    display: inline-block;
+                                `;
+                tagsContainer.appendChild(tag);
+            });
+        }
+    }
+
+    function closeRectificationModal() {
+        document.getElementById('rectificationModal').style.display = 'none';
+        // 清空任务类型容器
+        const taskTypeContainer = document.getElementById('selectedTaskTypesContainer');
+        if (taskTypeContainer) {
+            taskTypeContainer.remove();
+        }
+        // 清空备注
+        document.getElementById('rectificationRemark').value = '';
+    }
+
+
+
+
+
+    function confirmRectificationTask() {
+        // 获取选中的任务类型
+        const taskTypes = getSelectedTaskTypes();
+        const remark = document.getElementById('rectificationRemark').value;
+
+        if (taskTypes.length === 0) {
+            alert('请选择至少一个任务类型');
+            return;
+        }
+
+        // 生成任务编号
+        const taskId = 'RT' + new Date().getFullYear() +
+            String(new Date().getMonth() + 1).padStart(2, '0') +
+            String(new Date().getDate()).padStart(2, '0') +
+            String(Math.floor(Math.random() * 1000)).padStart(3, '0');
+
+        // 添加操作历史记录
+        addOperationHistory('下发整改任务', '整改任务',
+            `任务类型：${taskTypes.join('、')}${remark ? '；备注：' + remark : ''}`);
+
+        closeRectificationModal();
+        // alert(`整改任务已下发，任务编号：${taskId}`);
+    }
+
+    // 添加操作历史记录
+    function addOperationHistory(operationType, taskType, remark) {
+        const historyTable = document.querySelector('#history-tab .table tbody');
+        if (historyTable) {
+            const now = new Date();
+            const timeString = now.getFullYear() + '-' +
+                String(now.getMonth() + 1).padStart(2, '0') + '-' +
+                String(now.getDate()).padStart(2, '0') + ' ' +
+                String(now.getHours()).padStart(2, '0') + ':' +
+                String(now.getMinutes()).padStart(2, '0') + ':' +
+                String(now.getSeconds()).padStart(2, '0');
+
+            const newRow = document.createElement('tr');
+            newRow.innerHTML = `
                     <td>${timeString}</td>
                     <td>审查员001</td>
                     <td>${operationType}</td>
@@ -2114,13 +2474,12 @@
                     <td>${remark}</td>
                     
                 `;
-                historyTable.insertBefore(newRow, historyTable.firstChild);
-            }
+            historyTable.insertBefore(newRow, historyTable.firstChild);
         }
+    }
 
 
-    </script>
-  
-</div>
-</body>
+</script>
+
+
 </html>
