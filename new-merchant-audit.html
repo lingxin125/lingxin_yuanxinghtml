@@ -531,6 +531,10 @@
             <div class="card-header1">
                 <h3 class="card-title">商户列表</h3>
                 <div class="flex gap-2">
+                    <button class="btn1 btn-primary" onclick="openIndicatorConfig()" style="background: var(--primary-blue); color: white; border-color: var(--primary-blue);">
+                        <i class="fas fa-cogs"></i>
+                        指标配置
+                    </button>
                     <button class="btn1 btn-default">
                         <i class="fas fa-location-arrow"></i>
                         批量下发走访
@@ -539,7 +543,7 @@
                         <i class="fas fa-download"></i>
                         导出
                     </button>
-                    
+
                 </div>
             </div>
             <div class="table-wrapper">
@@ -682,7 +686,13 @@
             </div>
             <div class="modal-body">
                 <iframe id="detailFrame" src="" frameborder="0" width="100%" height="100%"></iframe>
-                
+                <!-- 弹窗返回按钮 -->
+                <!-- <div class="modal-footer">
+                    <button class="btn2 btn-primary" onclick="closeDetailModal()">
+                        <i class="fas fa-arrow-left"></i>
+                        返回列表
+                    </button>
+                </div> -->
             </div>
         </div>
     </div>
@@ -840,7 +850,58 @@
                     closeDetailModal();
                 }
             });
+
+            // 初始化指标配置弹窗
+            initIndicatorConfigModal();
         });
+
+        // 打开指标配置弹窗
+        function openIndicatorConfig() {
+            const modal = document.getElementById('indicatorConfigModal');
+            modal.style.display = 'block';
+            loadIndicatorConfig();
+        }
+
+        // 关闭指标配置弹窗
+        function closeIndicatorConfigModal() {
+            const modal = document.getElementById('indicatorConfigModal');
+            modal.style.display = 'none';
+        }
+
+        // 初始化指标配置弹窗
+        function initIndicatorConfigModal() {
+            // 创建指标配置弹窗HTML
+            const modalHtml = `
+                <div id="indicatorConfigModal" class="modal" style="display: none;">
+                    <div class="modal-content" style="width: 80%; max-width: 900px; height: 70%;">
+                        <div class="modal-header">
+                            <h3>资料风险指标配置</h3>
+                            <button class="modal-close" onclick="closeIndicatorConfigModal()">&times;</button>
+                        </div>
+                        <div class="modal-body" style="padding: 0;">
+                            <iframe id="indicatorConfigFrame" src="profile-risk-config.html" frameborder="0" width="100%" height="100%"></iframe>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            document.body.insertAdjacentHTML('beforeend', modalHtml);
+
+            // 绑定弹窗关闭事件
+            const modal = document.getElementById('indicatorConfigModal');
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    closeIndicatorConfigModal();
+                }
+            });
+        }
+
+        // 加载指标配置
+        function loadIndicatorConfig() {
+            const iframe = document.getElementById('indicatorConfigFrame');
+            // 重新加载iframe以刷新数据
+            iframe.src = iframe.src;
+        }
     </script>
 </body>
 </html>

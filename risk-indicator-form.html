@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>风险指标配置 - 微邮付商户健康度监测系统</title>
+    <link href="https://cdn.tailwindcss.com/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #1677ff;
+            --primary-blue-hover: #4096ff;
+            --primary-blue-active: #0958d9;
+            --primary-blue-light: #e6f4ff;
+            --success-green: #52c41a;
+            --warning-orange: #fa8c16;
+            --error-red: #ff4d4f;
+            --bg-layout: #f5f5f5;
+            --bg-container: #ffffff;
+            --border-color: #d9d9d9;
+            --border-color-light: #f0f0f0;
+            --text-primary: #000000d9;
+            --text-secondary: #00000073;
+            --text-disabled: #00000040;
+            --shadow-card: 0 1px 2px 0 rgba(0, 0, 0, 0.03), 0 1px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px 0 rgba(0, 0, 0, 0.02);
+        }
+
+        * {
+            font-family: 'PingFang SC', 'Microsoft YaHei', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background: var(--bg-layout);
+            color: var(--text-primary);
+            font-size: 14px;
+            line-height: 1.5715;
+            margin: 0;
+            padding: 24px;
+        }
+
+        .form-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--bg-container);
+            border-radius: 8px;
+            box-shadow: var(--shadow-card);
+            border: 1px solid var(--border-color-light);
+        }
+
+        .form-header {
+            padding: 24px;
+            border-bottom: 1px solid var(--border-color-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .form-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 0;
+        }
+
+        .form-content {
+            padding: 24px;
+        }
+
+        .form-section {
+            margin-bottom: 32px;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 0 0 16px 0;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border-color-light);
+        }
+
+        .form-row {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .form-group {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group.full-width {
+            flex: none;
+            width: 100%;
+        }
+
+        .form-label {
+            font-size: 14px;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .form-label.required::after {
+            content: ' *';
+            color: var(--error-red);
+        }
+
+        .form-input, .form-select, .form-textarea {
+            padding: 8px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 14px;
+            background: var(--bg-container);
+            color: var(--text-primary);
+            transition: all 0.2s ease;
+        }
+
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 2px rgba(22, 119, 255, 0.1);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 16px;
+        }
+
+        .radio-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .radio-item input[type="radio"] {
+            width: 16px;
+            height: 16px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+        }
+
+        .threshold-config {
+            background: var(--bg-layout);
+            border-radius: 6px;
+            padding: 16px;
+            border: 1px solid var(--border-color-light);
+        }
+
+        .threshold-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .threshold-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .threshold-label {
+            min-width: 60px;
+            font-weight: 500;
+        }
+
+        .threshold-label.high-risk {
+            color: var(--error-red);
+        }
+
+        .threshold-label.medium-risk {
+            color: var(--warning-orange);
+        }
+
+        .threshold-label.low-risk {
+            color: var(--success-green);
+        }
+
+        .threshold-input {
+            width: 100px;
+        }
+
+        .form-footer {
+            padding: 16px 24px;
+            border-top: 1px solid var(--border-color-light);
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            background: var(--bg-layout);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            border: 1px solid transparent;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: var(--primary-blue);
+            color: white;
+            border-color: var(--primary-blue);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-blue-hover);
+            border-color: var(--primary-blue-hover);
+        }
+
+        .btn-default {
+            background: var(--bg-container);
+            color: var(--text-primary);
+            border-color: var(--border-color);
+        }
+
+        .btn-default:hover {
+            color: var(--primary-blue);
+            border-color: var(--primary-blue);
+        }
+
+        .help-text {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+
+        .error-text {
+            font-size: 12px;
+            color: var(--error-red);
+            margin-top: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <!-- 表单头部 -->
+        <!-- <div class="form-header">
+            <h1 class="form-title" id="formTitle">新增风险指标</h1>
+            
+        </div> -->
+
+        <!-- 表单内容 -->
+        <div class="form-content">
+            <form id="indicatorForm">
+                <!-- 基本信息 -->
+                <div class="form-section">
+                    <h2 class="section-title">基本信息</h2>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label required">指标名称</label>
+                            <input type="text" class="form-input" id="indicatorName" placeholder="请输入指标名称" required>
+                            
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label required">指标分类</label>
+                            <select class="form-select" id="category" required>
+                                <option value="">请选择分类</option>
+                                <option value="PROFILE">资料风险</option>
+                                <option value="TRANSACTION">交易风险</option>
+                                <option value="SUBSIDY">补贴风险</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- <div class="form-row">
+                        <div class="form-group full-width">
+                            <label class="form-label required">适用商户</label>
+                            <div class="checkbox-group" id="applicableMerchants">
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="merchant2" value="小微企业">
+                                    <label for="merchant2">小微商户</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="merchant1" value="个体工商户">
+                                    <label for="merchant1">个体工商户</label>
+                                </div>
+                               
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="merchant3" value="企业商户">
+                                    <label for="merchant3">企业商户</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="merchant4" value="连锁商户">
+                                    <label for="merchant4">其他商户</label>
+                                </div>
+                            </div>
+                           
+                        </div>
+                    </div> -->
+
+                    <div class="form-row">
+                        <div class="form-group full-width">
+                            <label class="form-label required">指标描述</label>
+                            <textarea class="form-textarea" id="description" placeholder="请输入指标描述" required></textarea>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 判定规则 -->
+                <div class="form-section">
+                    <h2 class="section-title">判定规则</h2>
+
+                    <div class="form-row">
+                        <div class="form-group full-width">
+                            <label class="form-label required">判定标准</label>
+                            <textarea class="form-textarea" id="judgmentStandard" placeholder="请输入判定标准，如：统计商户历史进件申请次数，按时间周期进行风险等级判定" required></textarea>
+                           
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 风险等级阈值 -->
+                <div class="form-section">
+                    <h2 class="section-title">风险等级阈值</h2>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label required">高风险阈值</label>
+                            <input type="text" class="form-input" id="highRiskThreshold" placeholder="如：>=5次" required>
+                            <div class="help-text">触发高风险的条件</div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label required">中风险阈值</label>
+                            <input type="text" class="form-input" id="mediumRiskThreshold" placeholder="如：3-4次" required>
+                            <div class="help-text">触发中风险的条件</div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label required">低风险阈值</label>
+                            <input type="text" class="form-input" id="lowRiskThreshold" placeholder="如：<3次" required>
+                            <div class="help-text">触发低风险的条件</div>
+                        </div>
+                        <div class="form-group">
+                            <!-- 占位，保持布局平衡 -->
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- 表单底部 -->
+        <div class="form-footer">
+            <button type="button" class="btn btn-default" onclick="window.close()">取消</button>
+            <button type="submit" class="btn btn-primary" onclick="saveIndicator()">
+                <i class="fas fa-save"></i>
+                保存
+            </button>
+        </div>
+    </div>
+    <script>
+        // 页面初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            // 检查是否为编辑模式
+            const urlParams = new URLSearchParams(window.location.search);
+            const indicatorId = urlParams.get('id');
+
+            if (indicatorId) {
+                // document.getElementById('formTitle').textContent = '编辑风险指标';
+                loadIndicatorData(indicatorId);
+            }
+
+            // 绑定表单验证
+            setupFormValidation();
+        });
+
+        // 加载指标数据（编辑模式）
+        function loadIndicatorData(id) {
+            // 模拟从服务器加载数据
+            const mockData = {
+                1: {
+                    indicatorName: '进件次数',
+                    category: 'PROFILE',
+                    applicableMerchants: ['个体工商户', '小微企业'],
+                    description: '统计商户历史进件申请次数，用于识别频繁进件的风险商户',
+                    judgmentStandard: '统计商户历史进件申请次数，按时间周期进行风险等级判定',
+                    highRiskThreshold: '>=5次',
+                    mediumRiskThreshold: '3-4次',
+                    lowRiskThreshold: '<3次'
+                }
+            };
+
+            const data = mockData[id];
+            if (data) {
+                document.getElementById('indicatorName').value = data.indicatorName;
+                document.getElementById('category').value = data.category;
+                document.getElementById('description').value = data.description;
+                document.getElementById('judgmentStandard').value = data.judgmentStandard;
+                document.getElementById('highRiskThreshold').value = data.highRiskThreshold;
+                document.getElementById('mediumRiskThreshold').value = data.mediumRiskThreshold;
+                document.getElementById('lowRiskThreshold').value = data.lowRiskThreshold;
+
+                // 设置适用商户复选框
+                data.applicableMerchants.forEach(merchant => {
+                    const checkbox = document.querySelector(`input[value="${merchant}"]`);
+                    if (checkbox) checkbox.checked = true;
+                });
+            }
+        }
+
+        // 设置表单验证
+        function setupFormValidation() {
+            // 适用商户验证
+            const merchantCheckboxes = document.querySelectorAll('#applicableMerchants input[type="checkbox"]');
+            merchantCheckboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', validateApplicableMerchants);
+            });
+        }
+
+        // 验证适用商户
+        function validateApplicableMerchants() {
+            const checkedBoxes = document.querySelectorAll('#applicableMerchants input[type="checkbox"]:checked');
+            const container = document.getElementById('applicableMerchants');
+
+            if (checkedBoxes.length === 0) {
+                showFieldError(container, '请至少选择一种适用商户类型');
+                return false;
+            } else {
+                clearFieldError(container);
+                return true;
+            }
+        }
+
+        // 显示字段错误
+        function showFieldError(field, message) {
+            clearFieldError(field);
+
+            field.style.borderColor = 'var(--error-red)';
+
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'error-text';
+            errorDiv.textContent = message;
+            errorDiv.setAttribute('data-error-for', field.id);
+
+            field.parentNode.appendChild(errorDiv);
+        }
+
+        // 清除字段错误
+        function clearFieldError(field) {
+            field.style.borderColor = '';
+
+            const existingError = field.parentNode.querySelector(`[data-error-for="${field.id}"]`);
+            if (existingError) {
+                existingError.remove();
+            }
+        }
+
+        // 保存指标
+        function saveIndicator() {
+            // 验证必填字段
+            const requiredFields = [
+                'indicatorName', 'category', 'description', 'judgmentStandard',
+                'highRiskThreshold', 'mediumRiskThreshold', 'lowRiskThreshold'
+            ];
+
+            let hasError = false;
+
+            requiredFields.forEach(fieldId => {
+                const field = document.getElementById(fieldId);
+                if (!field.value.trim()) {
+                    showFieldError(field, '此字段为必填项');
+                    hasError = true;
+                } else {
+                    clearFieldError(field);
+                }
+            });
+
+            // 验证适用商户
+            if (!validateApplicableMerchants()) {
+                hasError = true;
+            }
+
+            if (hasError) {
+                alert('请检查并修正表单中的错误');
+                return;
+            }
+
+            // 收集适用商户数据
+            const applicableMerchants = Array.from(
+                document.querySelectorAll('#applicableMerchants input[type="checkbox"]:checked')
+            ).map(checkbox => checkbox.value);
+
+            // 收集表单数据
+            const formData = {
+                indicatorName: document.getElementById('indicatorName').value,
+                category: document.getElementById('category').value,
+                applicableMerchants: applicableMerchants,
+                description: document.getElementById('description').value,
+                judgmentStandard: document.getElementById('judgmentStandard').value,
+                highRiskThreshold: document.getElementById('highRiskThreshold').value,
+                mediumRiskThreshold: document.getElementById('mediumRiskThreshold').value,
+                lowRiskThreshold: document.getElementById('lowRiskThreshold').value
+            };
+
+            // 模拟保存操作
+            console.log('保存指标数据:', formData);
+
+            
+
+            // 关闭弹窗并刷新父页面
+            if (window.parent && window.parent.loadIndicators) {
+                window.parent.loadIndicators();
+            }
+            if (window.parent && window.parent.closeIndicatorModal) {
+                window.parent.closeIndicatorModal();
+            }
+        }
+
+        // 阻止表单默认提交
+        document.getElementById('indicatorForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            saveIndicator();
+        });
+    </script>
+</body>
+</html>

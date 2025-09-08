@@ -610,7 +610,7 @@
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
             border: 1px solid var(--border-color-light);
             transition: all 0.3s ease;
-            overflow: hidden;
+            overflow: visible;
             position: static !important;
             width: auto !important;
         }
@@ -685,6 +685,96 @@
         .unified-risk-card.low-risk .risk-tag {
             background: #f6ffed;
             color: var(--success-green);
+        }
+
+        /* 信息提示图标样式 */
+        .info-icon {
+            margin-left: 4px;
+            margin-right: 0px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .info-icon:hover {
+            transform: scale(1.1);
+        }
+
+        /* 高风险卡片的信息图标 */
+        .unified-risk-card.high-risk .info-icon {
+            color: var(--error-red);
+        }
+
+        /* 中风险卡片的信息图标 */
+        .unified-risk-card.medium-risk .info-icon {
+            color: var(--warning-orange);
+        }
+
+        /* 低风险卡片的信息图标 */
+        .unified-risk-card.low-risk .info-icon {
+            color: var(--success-green);
+        }
+
+        /* 浮动提示框样式 */
+        .tooltip {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 12px 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            z-index: 999999;
+            min-width: 280px;
+            max-width: 320px;
+            font-size: 12px;
+            line-height: 1.5;
+            color: var(--text-primary);
+            display: none;
+            margin-top: 8px;
+        }
+
+        .tooltip::before {
+            content: '';
+            position: absolute;
+            top: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-bottom: 6px solid white;
+        }
+
+        .tooltip::after {
+            content: '';
+            position: absolute;
+            top: -7px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 7px solid transparent;
+            border-right: 7px solid transparent;
+            border-bottom: 7px solid var(--border-color);
+        }
+
+        .tooltip.show {
+            display: block;
+        }
+
+        .tooltip-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .tooltip-content {
+            color: var(--text-secondary);
         }
     </style>
 </head>
@@ -792,9 +882,23 @@
                     </div>
                     <div class="risk-cards-grid">
                         <div class="unified-risk-card medium-risk">
-                            <div class="unified-risk-card-header">
-                                <i class="fas fa-money-bill-wave"></i>
-                                <span class="risk-title">大额交易</span>
+                            <div class="unified-risk-card-header" style="display: flex; align-items: center; justify-content: space-between; position: relative;">
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <i class="fas fa-money-bill-wave"></i>
+                                    <span class="risk-title">大额交易</span>
+                                    <i class="fas fa-info-circle info-icon" onclick="toggleTooltip(this)"></i>
+                                    <div class="tooltip">
+                                        <div class="tooltip-title">判定标准</div>
+                                        <div class="tooltip-content">
+                                            统计该商户近30天内每日笔均大额交易金额<br>
+                                            <div class="tooltip-title">风险阈值</div>
+                                            • 高风险：每日笔均大额交易金额 ≥ 5000元<br>
+                                            • 中风险：每日笔均大额交易金额 2000-4999元<br>
+                                            • 低风险：每日笔均大额交易金额 < 2000元<br>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
                                 <span class="risk-tag">中风险</span>
                             </div>
                             <div class="unified-risk-card-content">
@@ -805,22 +909,50 @@
                             </div>
                         </div>
                         <div class="unified-risk-card medium-risk">
-                            <div class="unified-risk-card-header">
-                                <i class="fas fa-network-wired"></i>
-                                <span class="risk-title">IP异常交易</span>
+                            <div class="unified-risk-card-header" style="display: flex; align-items: center; justify-content: space-between; position: relative;">
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <i class="fas fa-network-wired"></i>
+                                    <span class="risk-title">IP异常交易</span>
+                                    <i class="fas fa-info-circle info-icon" onclick="toggleTooltip(this)"></i>
+                                    <div class="tooltip">
+                                        <div class="tooltip-title">判定标准</div>
+                                        <div class="tooltip-content">
+                                            统计该商户近30天内日均交易地址与商户常用地址2公里外交易笔数
+                                            <div class="tooltip-title">风险阈值</div>
+                                            • 高风险：异地交易笔数 ≥ 10笔<br>
+                                            • 中风险：异地交易笔数 2-9笔<br>
+                                            • 低风险：异地交易笔数 < 2笔<br>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
                                 <span class="risk-tag">中风险</span>
                             </div>
                             <div class="unified-risk-card-content">
                                 <div class="unified-risk-item">
                                     <span class="unified-risk-label">判定原因：</span>
-                                    <span>商户交易地址距常用地址2公里外交易笔数：7笔</span>
+                                    <span>交易地址距商户常用地址2公里外交易笔数：7笔</span>
                                 </div>
                             </div>
                         </div>
                         <div class="unified-risk-card medium-risk">
-                            <div class="unified-risk-card-header">
-                                <i class="fas fa-credit-card"></i>
-                                <span class="risk-title">信用卡交易</span>
+                            <div class="unified-risk-card-header" style="display: flex; align-items: center; justify-content: space-between; position: relative;">
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <i class="fas fa-credit-card"></i>
+                                    <span class="risk-title">信用卡交易</span>
+                                    <i class="fas fa-info-circle info-icon" onclick="toggleTooltip(this)"></i>
+                                    <div class="tooltip">
+                                        <div class="tooltip-title">判定标准</div>
+                                        <div class="tooltip-content">
+                                            统计该商户近30天内日均信用卡交易占比
+                                            <div class="tooltip-title">风险阈值</div>
+                                            • 高风险：信用卡交易占比 ≥ 80%<br>
+                                            • 中风险：信用卡交易占比 50-79%<br>
+                                            • 低风险：信用卡交易占比 < 50%<br>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
                                 <span class="risk-tag">中风险</span>
                             </div>
                             <div class="unified-risk-card-content">
@@ -841,9 +973,23 @@
                     </div>
                     <div class="risk-cards-grid">
                         <div class="unified-risk-card low-risk">
-                            <div class="unified-risk-card-header">
-                                <i class="fas fa-clock"></i>
-                                <span class="risk-title">交易时间</span>
+                            <div class="unified-risk-card-header" style="display: flex; align-items: center; justify-content: space-between; position: relative;">
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <i class="fas fa-clock"></i>
+                                    <span class="risk-title">交易时间</span>
+                                    <i class="fas fa-info-circle info-icon" onclick="toggleTooltip(this)"></i>
+                                    <div class="tooltip">
+                                        <div class="tooltip-title">判定标准</div>
+                                        <div class="tooltip-content">
+                                            统计该商户近30天内日均交易时间分布
+                                            <div class="tooltip-title">风险阈值</div>
+                                            • 高风险：全部交易笔数集中在1h内<br>
+                                            • 中风险：全部交易笔数集中在3h内<br>
+                                            • 低风险：全部交易笔数在24h内有分布<br>
+                                           
+                                        </div>
+                                    </div>
+                                </div>
                                 <span class="risk-tag">低风险</span>
                             </div>
                             <div class="unified-risk-card-content">
@@ -854,9 +1000,23 @@
                             </div>
                         </div>
                         <div class="unified-risk-card low-risk">
-                            <div class="unified-risk-card-header">
-                                <i class="fas fa-users"></i>
-                                <span class="risk-title">重复交易人群</span>
+                            <div class="unified-risk-card-header" style="display: flex; align-items: center; justify-content: space-between; position: relative;">
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <i class="fas fa-users"></i>
+                                    <span class="risk-title">重复交易人群</span>
+                                    <i class="fas fa-info-circle info-icon" onclick="toggleTooltip(this)"></i>
+                                    <div class="tooltip">
+                                        <div class="tooltip-title">判定标准</div>
+                                        <div class="tooltip-content">
+                                            统计该商户近30天内存在重复交易订单笔数占比
+                                            <div class="tooltip-title">风险阈值</div>
+                                            • 高风险：重复交易订单比例 ≥ 60%<br>
+                                            • 中风险：重复交易者订单比例 20-59%<br>
+                                            • 低风险：重复交易者订单比例 < 20%<br>
+                                           
+                                        </div>
+                                    </div>
+                                </div>
                                 <span class="risk-tag">低风险</span>
                             </div>
                             <div class="unified-risk-card-content">
@@ -864,13 +1024,27 @@
                                     <span class="unified-risk-label">判定原因：</span>
                                     <span>每日重复交易者订单比例：15%</span>
                                 </div>
-                            </div>  
+                            </div>
                         </div>
                         
                         <div class="unified-risk-card low-risk">
-                            <div class="unified-risk-card-header">
-                                <i class="fas fa-mobile-alt"></i>
-                                <span class="risk-title">优惠券使用</span>
+                            <div class="unified-risk-card-header" style="display: flex; align-items: center; justify-content: space-between; position: relative;">
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <i class="fas fa-mobile-alt"></i>
+                                    <span class="risk-title">优惠券使用</span>
+                                    <i class="fas fa-info-circle info-icon" onclick="toggleTooltip(this)"></i>
+                                    <div class="tooltip">
+                                        <div class="tooltip-title">判定标准</div>
+                                        <div class="tooltip-content">
+                                            统计该商户近30天内日均优惠券使用占比
+                                            <div class="tooltip-title">风险阈值</div>
+                                            • 高风险：优惠券使用占比 ≥ 60%<br>
+                                            • 中风险：优惠券使用占比 40-59%<br>
+                                            • 低风险：优惠券使用占比 < 40%<br>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
                                 <span class="risk-tag">低风险</span>
                             </div>
                             <div class="unified-risk-card-content">
@@ -898,6 +1072,29 @@
             return urlParams.get(name);
         }
 
+        // 切换提示框显示状态
+        function toggleTooltip(iconElement) {
+            const tooltip = iconElement.nextElementSibling;
+            const isVisible = tooltip.classList.contains('show');
+
+            // 隐藏所有其他提示框
+            document.querySelectorAll('.tooltip.show').forEach(tip => {
+                tip.classList.remove('show');
+            });
+
+            // 切换当前提示框
+            if (!isVisible) {
+                tooltip.classList.add('show');
+            }
+        }
+
+        // 点击其他区域隐藏提示框
+        function hideAllTooltips() {
+            document.querySelectorAll('.tooltip.show').forEach(tip => {
+                tip.classList.remove('show');
+            });
+        }
+
         // 页面加载时获取商户ID
         document.addEventListener('DOMContentLoaded', function () {
             const merchantId = getUrlParameter('id');
@@ -906,6 +1103,22 @@
                 // 这里可以根据商户ID加载具体数据
                 loadMerchantData(merchantId);
             }
+
+            // 点击页面其他区域时隐藏所有提示框
+            document.addEventListener('click', function(event) {
+                // 如果点击的不是信息图标或提示框内容，则隐藏所有提示框
+                if (!event.target.classList.contains('info-icon') &&
+                    !event.target.closest('.tooltip')) {
+                    hideAllTooltips();
+                }
+            });
+
+            // 阻止提示框内部点击事件冒泡
+            document.querySelectorAll('.tooltip').forEach(tooltip => {
+                tooltip.addEventListener('click', function(event) {
+                    event.stopPropagation();
+                });
+            });
         });
 
         // 加载商户数据

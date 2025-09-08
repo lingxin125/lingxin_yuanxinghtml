@@ -267,6 +267,13 @@
         </div>
         <nav class="sidebar-nav">
             <div class="nav-section">
+                <div class="nav-section-title">风险管理</div>
+                <a href="#" class="nav-item" onclick="loadPage('risk-indicator-management')">
+                    <i class="fas fa-cogs nav-icon"></i>
+                    <span>风险指标库</span>
+                </a>
+            </div>
+            <div class="nav-section">
                 <div class="nav-section-title">商户风险评估</div>
                 <a href="#" class="nav-item active" onclick="loadPage('new-merchant-audit')">
                     <i class="fas fa-user-plus nav-icon"></i>
@@ -319,6 +326,7 @@
             
             // 更新面包屑
             const pageNames = {
+                'risk-indicator-management': '风险指标库',
                 'new-merchant-audit': '商户资料风险评估',
                 'existing-merchant-risk': '商户交易风险评估',
                 'merchant-subsidy-risk': '商户补贴风险评估'

@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>风险指标库 - 微邮付商户健康度监测系统</title>
+    <link href="https://cdn.tailwindcss.com/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #1677ff;
+            --primary-blue-hover: #4096ff;
+            --primary-blue-active: #0958d9;
+            --primary-blue-light: #e6f4ff;
+            --success-green: #52c41a;
+            --warning-orange: #fa8c16;
+            --error-red: #ff4d4f;
+            --bg-layout: #f5f5f5;
+            --bg-container: #ffffff;
+            --border-color: #d9d9d9;
+            --border-color-light: #f0f0f0;
+            --text-primary: #000000d9;
+            --text-secondary: #00000073;
+            --text-disabled: #00000040;
+            --shadow-card: 0 1px 2px 0 rgba(0, 0, 0, 0.03), 0 1px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px 0 rgba(0, 0, 0, 0.02);
+        }
+
+        * {
+            font-family: 'PingFang SC', 'Microsoft YaHei', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background: var(--bg-layout);
+            color: var(--text-primary);
+            font-size: 14px;
+            line-height: 1.5715;
+            margin: 0;
+            padding: 24px;
+        }
+
+        .page-header {
+            background: var(--bg-container);
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow-card);
+            border: 1px solid var(--border-color-light);
+        }
+
+        .page-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 0 0 8px 0;
+        }
+
+        .page-description {
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        .content-card {
+            background: var(--bg-container);
+            border-radius: 8px;
+            box-shadow: var(--shadow-card);
+            border: 1px solid var(--border-color-light);
+            overflow: hidden;
+        }
+
+        .card-header {
+            padding: 16px 24px;
+            border-bottom: 1px solid var(--border-color-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 0;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4px 16px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            border: 1px solid transparent;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            gap: 8px;
+        }
+        .btn1 {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4px 16px;
+             border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            border: 1px solid transparent;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: var(--primary-blue);
+            color: white;
+            border-color: var(--primary-blue);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-blue-hover);
+            border-color: var(--primary-blue-hover);
+        }
+
+        .btn-default {
+            background: var(--bg-container);
+            color: var(--text-primary);
+            border-color: var(--border-color);
+        }
+
+        .btn-default:hover {
+            color: var(--primary-blue);
+            border-color: var(--primary-blue);
+        }
+
+        .search-filters {
+            padding: 24px;
+            border-bottom: 1px solid var(--border-color-light);
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .form-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .form-input, .form-select {
+            padding: 8px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 14px;
+            background: var(--bg-container);
+            color: var(--text-primary);
+            min-width: 120px;
+        }
+
+        .form-input:focus, .form-select:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 2px rgba(22, 119, 255, 0.1);
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color-light);
+        }
+
+        .data-table th {
+            background: var(--bg-layout);
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 14px;
+        }
+
+        .data-table td {
+            color: var(--text-primary);
+            font-size: 14px;
+        }
+
+        .data-table tbody tr:hover {
+            background: var(--bg-layout);
+        }
+
+        .status-tag {
+            display: inline-flex;
+            align-items: center;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .status-enabled {
+            background: #f6ffed;
+            color: var(--success-green);
+            border: 1px solid #b7eb8f;
+        }
+
+        .status-disabled {
+            background: #fff2f0;
+            color: var(--error-red);
+            border: 1px solid #ffccc7;
+        }
+
+        .category-tag {
+            display: inline-flex;
+            align-items: center;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+            background: var(--primary-blue-light);
+            color: var(--primary-blue);
+            border: 1px solid #91caff;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-sm {
+            padding: 4px 8px;
+            font-size: 12px;
+        }
+
+        .btn-text {
+            background: none;
+            border: none;
+            color: var(--primary-blue);
+            padding: 4px 8px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+
+        .btn-text:hover {
+            background: var(--primary-blue-light);
+        }
+
+        .btn-text.danger {
+            color: var(--error-red);
+        }
+
+        .btn-text.danger:hover {
+            background: #fff2f0;
+        }
+
+        .pagination {
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid var(--border-color-light);
+        }
+
+        .pagination-info {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .pagination-controls {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .page-btn {
+            padding: 6px 12px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-container);
+            color: var(--text-primary);
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .page-btn:hover {
+            color: var(--primary-blue);
+            border-color: var(--primary-blue);
+        }
+
+        .page-btn.active {
+            background: var(--primary-blue);
+            color: white;
+            border-color: var(--primary-blue);
+        }
+
+        .page-btn:disabled {
+            color: var(--text-disabled);
+            cursor: not-allowed;
+            border-color: var(--border-color-light);
+        }
+
+        .batch-actions {
+            padding: 16px 24px;
+            border-bottom: 1px solid var(--border-color-light);
+            display: none;
+            background: var(--primary-blue-light);
+            align-items: center;
+            gap: 16px;
+        }
+
+        .batch-actions.show {
+            display: flex;
+        }
+
+        .batch-info {
+            color: var(--primary-blue);
+            font-weight: 500;
+        }
+
+        .checkbox {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+
+        .merchant-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+
+        .merchant-tag {
+            display: inline-flex;
+            align-items: center;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 11px;
+            font-weight: 500;
+            background: var(--primary-blue-light);
+            color: var(--primary-blue);
+            border: 1px solid #91caff;
+        }
+
+        .status-switch {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 22px;
+        }
+
+        .status-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .switch-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 22px;
+        }
+
+        .switch-slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 2px;
+            bottom: 2px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .switch-slider {
+            background-color: var(--success-green);
+        }
+
+        input:checked + .switch-slider:before {
+            transform: translateX(22px);
+        }
+
+        .switch-slider:focus {
+            box-shadow: 0 0 1px var(--success-green);
+        }
+
+        /* 确认对话框样式 */
+        .confirm-dialog {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .confirm-content {
+            background-color: var(--bg-container);
+            margin: 15% auto;
+            padding: 24px;
+            border-radius: 8px;
+            width: 400px;
+            box-shadow: var(--shadow-card);
+            text-align: center;
+        }
+
+        .confirm-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+        }
+
+        .confirm-message {
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
+
+        .confirm-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .card {
+            background: var(--bg-container);
+            border-radius: 8px;
+            box-shadow: var(--shadow-card);
+            border: 1px solid var(--border-color-light);
+            margin-bottom: 16px;
+        }
+
+        .card-header {
+            padding: 16px 24px;
+            border-bottom: 1px solid var(--border-color-light);
+            display: flex;
+            align-items: center;
+            justify-content: start;
+        }
+
+        .card-body {
+            padding: 24px;
+        }
+
+        .card-title {
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin: 0;
+        }
+
+    </style>
+</head>
+<body>
+    <!-- 筛选区域 -->
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">筛选条件</h3>
+            
+        </div>
+        <div class="card-body">
+            <div class="form-grid">
+                
+                
+                <div class="form-group">
+                    <label class="form-label">指标名称</label>
+                    <input type="text" class="form-input" placeholder="请输入指标名称" id="searchName">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">分类</label>
+                    <select class="form-select" id="filterCategory">
+                        <option value="">全部分类</option>
+                        <option value="PROFILE">资料风险</option>
+                        <option value="TRANSACTION">交易风险</option>
+                        <option value="SUBSIDY">补贴风险</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">状态</label>
+                    <select class="form-select" id="filterStatus">
+                        <option value="">全部状态</option>
+                        <option value="1">启用</option>
+                        <option value="0">禁用</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">创建时间</label>
+                    <input type="date" class="form-input" id="applicationDate">
+                </div>
+               
+                <div class="flex gap-2 ">
+                    <button class="btn1 btn-primary  " onclick="searchIndicators()">
+                        <i class="fas fa-search"></i>
+                        查询
+                    </button>
+                    <button class="btn1 btn-default" onclick="resetSearch()">
+                        <i class="fas fa-undo"></i>
+                        重置
+                    </button>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    <!-- 主要内容 -->
+    <div class="content-card">
+        <!-- 卡片头部 -->
+        <div class="card-header">
+            <!-- <h2 class="card-title">指标管理</h2> -->
+            <div style="display: flex; gap: 12px;">
+                <!-- <button class="btn btn-default" onclick="exportConfig()">
+                    <i class="fas fa-download"></i>
+                    导出配置
+                </button>
+                <button class="btn btn-default" onclick="importConfig()">
+                    <i class="fas fa-upload"></i>
+                    批量导入
+                </button> -->
+                <button class="btn btn-primary" onclick="createIndicator()">
+                    <i class="fas fa-plus"></i>
+                    新增指标
+                </button>
+            </div>
+        </div>
+
+        <!-- 搜索筛选区 -->
+        <!-- <div class="search-filters">
+            <div class="form-group">
+                <label class="form-label">指标名称</label>
+                <input type="text" class="form-input" placeholder="请输入指标名称" id="searchName">
+            </div>
+            <div class="form-group">
+                <label class="form-label">分类</label>
+                <select class="form-select" id="filterCategory">
+                    <option value="">全部分类</option>
+                    <option value="PROFILE">资料风险</option>
+                    <option value="TRANSACTION">交易风险</option>
+                    <option value="SUBSIDY">补贴风险</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">状态</label>
+                <select class="form-select" id="filterStatus">
+                    <option value="">全部状态</option>
+                    <option value="1">启用</option>
+                    <option value="0">禁用</option>
+                </select>
+            </div>
+            <button class="btn btn-primary" onclick="searchIndicators()" style="margin-top: 20px;">
+                <i class="fas fa-search"></i>
+                搜索
+            </button>
+            <button class="btn btn-default" onclick="resetSearch()" style="margin-top: 20px;">
+                重置
+            </button>
+        </div> -->
+
+        <!-- 批量操作区 -->
+        <div class="batch-actions" id="batchActions">
+            <span class="batch-info">已选择 <span id="selectedCount">0</span> 项</span>
+            <button class="btn btn-default btn-sm" onclick="batchEnable()">
+                <i class="fas fa-check"></i>
+                批量启用
+            </button>
+            <button class="btn btn-default btn-sm" onclick="batchDisable()">
+                <i class="fas fa-times"></i>
+                批量禁用
+            </button>
+            
+        </div>
+
+        <!-- 表格区域 -->
+        <div class="table-container">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th style="width: 40px;">
+                            <input type="checkbox" class="checkbox" id="selectAll" onchange="toggleSelectAll()">
+                        </th>
+                        <th>指标编码</th>
+                        <th>指标名称</th>
+                        
+                        <th>指标分类</th>
+                        
+                        <th>状态</th>
+                        <th>创建时间</th>
+                        <th>更新时间</th>
+                        <th style="width: 120px;">操作</th>
+                    </tr>
+                </thead>
+                <tbody id="indicatorTableBody">
+                    <!-- 数据将通过JavaScript动态加载 -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 分页区域 -->
+        <div class="pagination">
+            <div class="pagination-info">
+                共 <span id="totalCount">0</span> 条记录，每页显示 20 条
+            </div>
+            <div class="pagination-controls">
+                <button class="page-btn" onclick="goToPage(1)" id="firstPage">首页</button>
+                <button class="page-btn" onclick="goToPage(currentPage - 1)" id="prevPage">上一页</button>
+                <span id="pageNumbers"></span>
+                <button class="page-btn" onclick="goToPage(currentPage + 1)" id="nextPage">下一页</button>
+                <button class="page-btn" onclick="goToPage(totalPages)" id="lastPage">末页</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        // 全局变量
+        let currentPage = 1;
+        let totalPages = 1;
+        let totalCount = 0;
+        let selectedItems = new Set();
+
+        // 模拟数据
+        const mockData = [
+            {
+                id: 1,
+                indicatorCode: 'FXZB_001',
+                indicatorName: '进件次数',
+                category: 'PROFILE',
+                categoryName: '资料风险',
+                applicableMerchants: ['个体工商户', '小微商户'],
+                status: 1,
+                createdTime: '2024-01-15 10:30:00',
+                updatedTime: '2024-01-20 14:20:00'
+            },
+            {
+                id: 2,
+                indicatorCode: 'FXZB_002',
+                indicatorName: '大额交易',
+                category: 'TRANSACTION',
+                categoryName: '交易风险',
+                applicableMerchants: ['企业商户', '个体工商户'],
+                status: 1,
+                createdTime: '2024-01-16 09:15:00',
+                updatedTime: '2024-01-18 16:45:00'
+            },
+            {
+                id: 3,
+                indicatorCode: 'FXZB_003',
+                indicatorName: '补贴激增',
+                category: 'SUBSIDY',
+                categoryName: '补贴风险',
+                applicableMerchants: ['个体工商户'],
+                status: 0,
+                createdTime: '2024-01-17 11:20:00',
+                updatedTime: '2024-01-19 13:30:00'
+            },
+            {
+                id: 4,
+                indicatorCode: 'FXZB_004',
+                indicatorName: '门头照重复',
+                category: 'PROFILE',
+                categoryName: '资料风险',
+                applicableMerchants: ['个体工商户', '小微商户', '企业商户'],
+                status: 1,
+                createdTime: '2024-01-18 14:10:00',
+                updatedTime: '2024-01-21 09:25:00'
+            },
+            {
+                id: 5,
+                indicatorCode: 'FXZB_005',
+                indicatorName: 'IP异常交易',
+                category: 'TRANSACTION',
+                categoryName: '交易风险',
+                applicableMerchants: ['企业商户', '个体工商户商户', '小微商户'],
+                status: 1,
+                createdTime: '2024-01-19 16:40:00',
+                updatedTime: '2024-01-22 11:15:00'
+            }
+        ];
+
+        // 页面初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            loadIndicators();
+        });
+
+        // 加载指标数据
+        function loadIndicators() {
+            const searchName = document.getElementById('searchName').value;
+            const filterCategory = document.getElementById('filterCategory').value;
+            const filterStatus = document.getElementById('filterStatus').value;
+
+            // 模拟筛选逻辑
+            let filteredData = mockData.filter(item => {
+                if (searchName && !item.indicatorName.includes(searchName)) return false;
+                if (filterCategory && item.category !== filterCategory) return false;
+                if (filterStatus && item.status.toString() !== filterStatus) return false;
+                return true;
+            });
+
+            totalCount = filteredData.length;
+            totalPages = Math.ceil(totalCount / 20);
+
+            // 分页处理
+            const startIndex = (currentPage - 1) * 20;
+            const endIndex = startIndex + 20;
+            const pageData = filteredData.slice(startIndex, endIndex);
+
+            renderTable(pageData);
+            updatePagination();
+        }
+
+        // 渲染表格
+        function renderTable(data) {
+            const tbody = document.getElementById('indicatorTableBody');
+            tbody.innerHTML = '';
+
+            data.forEach(item => {
+                // 生成适用商户标签
+                const merchantTags = item.applicableMerchants.map(merchant =>
+                    `<span class="merchant-tag">${merchant}</span>`
+                ).join('');
+
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>
+                        <input type="checkbox" class="checkbox" value="${item.id}" onchange="toggleSelect(${item.id})">
+                    </td>
+                    <td >${item.indicatorCode}</td>
+                    <td >${item.indicatorName}</td>
+                    
+                    <td>
+                        <span class="category-tag">${item.categoryName}</span>
+                    </td>
+                    
+                    <td>
+                        <label class="status-switch">
+                            <input type="checkbox" ${item.status ? 'checked' : ''} onchange="toggleIndicatorStatus(${item.id}, this.checked)">
+                            <span class="switch-slider"></span>
+                        </label>
+                    </td>
+                    <td>${item.createdTime}</td>
+                    <td>${item.updatedTime}</td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="btn-text" onclick="editIndicator(${item.id})">编辑</button>
+                             </div>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+
+            // 更新总数显示
+            document.getElementById('totalCount').textContent = totalCount;
+        }
+
+        // 更新分页
+        function updatePagination() {
+            const firstPage = document.getElementById('firstPage');
+            const prevPage = document.getElementById('prevPage');
+            const nextPage = document.getElementById('nextPage');
+            const lastPage = document.getElementById('lastPage');
+            const pageNumbers = document.getElementById('pageNumbers');
+
+            // 更新按钮状态
+            firstPage.disabled = currentPage === 1;
+            prevPage.disabled = currentPage === 1;
+            nextPage.disabled = currentPage === totalPages;
+            lastPage.disabled = currentPage === totalPages;
+
+            // 生成页码
+            let pageNumbersHtml = '';
+            const startPage = Math.max(1, currentPage - 2);
+            const endPage = Math.min(totalPages, currentPage + 2);
+
+            for (let i = startPage; i <= endPage; i++) {
+                pageNumbersHtml += `
+                    <button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">
+                        ${i}
+                    </button>
+                `;
+            }
+            pageNumbers.innerHTML = pageNumbersHtml;
+        }
+
+        // 跳转页面
+        function goToPage(page) {
+            if (page < 1 || page > totalPages) return;
+            currentPage = page;
+            loadIndicators();
+        }
+
+        // 搜索指标
+        function searchIndicators() {
+            currentPage = 1;
+            loadIndicators();
+        }
+
+        // 重置搜索
+        function resetSearch() {
+            document.getElementById('searchName').value = '';
+            document.getElementById('filterCategory').value = '';
+            document.getElementById('filterStatus').value = '';
+            currentPage = 1;
+            loadIndicators();
+        }
+
+        // 全选/取消全选
+        function toggleSelectAll() {
+            const selectAll = document.getElementById('selectAll');
+            const checkboxes = document.querySelectorAll('tbody input[type="checkbox"]');
+
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = selectAll.checked;
+                if (selectAll.checked) {
+                    selectedItems.add(parseInt(checkbox.value));
+                } else {
+                    selectedItems.delete(parseInt(checkbox.value));
+                }
+            });
+
+            updateBatchActions();
+        }
+
+        // 切换单个选择
+        function toggleSelect(id) {
+            if (selectedItems.has(id)) {
+                selectedItems.delete(id);
+            } else {
+                selectedItems.add(id);
+            }
+            updateBatchActions();
+        }
+
+        // 更新批量操作区域
+        function updateBatchActions() {
+            const batchActions = document.getElementById('batchActions');
+            const selectedCount = document.getElementById('selectedCount');
+
+            selectedCount.textContent = selectedItems.size;
+
+            if (selectedItems.size > 0) {
+                batchActions.classList.add('show');
+            } else {
+                batchActions.classList.remove('show');
+            }
+        }
+
+        // 切换指标状态
+        function toggleIndicatorStatus(id, enabled) {
+            if (!enabled) {
+                // 禁用时显示确认对话框
+                showConfirmDialog(
+                    '确认禁用指标',
+                    '禁用后该指标将不再参与风险评估，确定要禁用吗？',
+                    () => {
+                        updateIndicatorStatus(id, false);
+                        loadIndicators();
+                    },
+                    () => {
+                        // 取消时恢复开关状态
+                        const checkbox = document.querySelector(`input[onchange*="${id}"]`);
+                        if (checkbox) checkbox.checked = true;
+                    }
+                );
+            } else {
+                // 启用时直接更新
+                updateIndicatorStatus(id, true);
+                loadIndicators();
+            }
+        }
+
+        // 更新指标状态
+        function updateIndicatorStatus(id, status) {
+            const item = mockData.find(item => item.id === id);
+            if (item) {
+                item.status = status ? 1 : 0;
+                item.updatedTime = new Date().toLocaleString('zh-CN', {
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit'
+                }).replace(/\//g, '-');
+            }
+        }
+
+        // 显示确认对话框
+        function showConfirmDialog(title, message, onConfirm, onCancel) {
+            const dialog = document.getElementById('confirmDialog');
+            document.getElementById('confirmTitle').textContent = title;
+            document.getElementById('confirmMessage').textContent = message;
+
+            const confirmBtn = document.getElementById('confirmBtn');
+            const cancelBtn = document.getElementById('cancelBtn');
+
+            // 移除之前的事件监听器
+            confirmBtn.replaceWith(confirmBtn.cloneNode(true));
+            cancelBtn.replaceWith(cancelBtn.cloneNode(true));
+
+            // 重新获取元素并添加事件监听器
+            const newConfirmBtn = document.getElementById('confirmBtn');
+            const newCancelBtn = document.getElementById('cancelBtn');
+
+            newConfirmBtn.addEventListener('click', () => {
+                dialog.style.display = 'none';
+                if (onConfirm) onConfirm();
+            });
+
+            newCancelBtn.addEventListener('click', () => {
+                dialog.style.display = 'none';
+                if (onCancel) onCancel();
+            });
+
+            dialog.style.display = 'block';
+        }
+
+        // 新增指标
+        function createIndicator() {
+            showIndicatorModal();
+        }
+
+        // 编辑指标
+        function editIndicator(id) {
+            showIndicatorModal(id);
+        }
+
+        // 显示指标弹窗
+        function showIndicatorModal(id = null) {
+            const modal = document.getElementById('indicatorModal');
+            const iframe = document.getElementById('indicatorFrame');
+            const title = document.getElementById('indicatorModalTitle');
+
+            // 确保每次打开弹框时，都隐藏表单页自带的底部栏，避免与父级底部栏重复
+            iframe.onload = function () {
+                try {
+                    const doc = iframe.contentDocument || (iframe.contentWindow && iframe.contentWindow.document);
+                    if (doc) {
+                        const innerFooter = doc.querySelector('.form-footer');
+                        if (innerFooter) innerFooter.style.display = 'none';
+                    }
+                } catch (e) {
+                    console.warn('无法访问内嵌页面以隐藏底部栏：', e);
+                }
+            };
+
+            if (id) {
+                title.textContent = '编辑风险指标';
+                iframe.src = `risk-indicator-form.html?id=${id}`;
+            } else {
+                title.textContent = '新增风险指标';
+                iframe.src = 'risk-indicator-form.html';
+            }
+
+            modal.style.display = 'block';
+        }
+
+        // 关闭指标弹窗
+        function closeIndicatorModal() {
+            const modal = document.getElementById('indicatorModal');
+            modal.style.display = 'none';
+        }
+
+        // 从父页面触发保存：调用内嵌表单页的保存逻辑
+        function saveIndicatorFromModal() {
+            const iframe = document.getElementById('indicatorFrame');
+            if (!iframe) return;
+            try {
+                if (iframe.contentWindow && typeof iframe.contentWindow.saveIndicator === 'function') {
+                    iframe.contentWindow.saveIndicator();
+                } else {
+                    const doc = iframe.contentDocument || (iframe.contentWindow && iframe.contentWindow.document);
+                    const form = doc && doc.getElementById('indicatorForm');
+                    if (form) {
+                        form.dispatchEvent(new Event('submit', { cancelable: true }));
+                    } else {
+                        alert('未找到可保存的表单，请稍后重试');
+                    }
+                }
+            } catch (e) {
+                console.error('保存失败：', e);
+                alert('保存失败，请稍后重试');
+            }
+        }
+
+        
+
+        // 批量启用
+        function batchEnable() {
+            if (selectedItems.size === 0) return;
+            if (confirm(`确定要启用选中的 ${selectedItems.size} 个指标吗？`)) {
+                console.log('批量启用:', Array.from(selectedItems));
+                alert('批量启用成功');
+                selectedItems.clear();
+                loadIndicators();
+                updateBatchActions();
+            }
+        }
+
+        // 批量禁用
+        function batchDisable() {
+            if (selectedItems.size === 0) return;
+            if (confirm(`确定要禁用选中的 ${selectedItems.size} 个指标吗？`)) {
+                console.log('批量禁用:', Array.from(selectedItems));
+                alert('批量禁用成功');
+                selectedItems.clear();
+                loadIndicators();
+                updateBatchActions();
+            }
+        }
+
+        
+
+        // 导出配置
+        function exportConfig() {
+            console.log('导出配置');
+            alert('配置导出功能开发中...');
+        }
+
+        // 批量导入
+        function importConfig() {
+            console.log('批量导入');
+            alert('批量导入功能开发中...');
+        }
+    </script>
+
+    <!-- 确认对话框 -->
+    <div id="confirmDialog" class="confirm-dialog">
+        <div class="confirm-content">
+            <div class="confirm-title" id="confirmTitle">确认操作</div>
+            <div class="confirm-message" id="confirmMessage">确定要执行此操作吗？</div>
+            <div class="confirm-buttons">
+                <button class="btn btn-default" id="cancelBtn">取消</button>
+                <button class="btn btn-primary" id="confirmBtn">确定</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 指标弹窗 -->
+    <div id="indicatorModal" class="modal" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5);">
+        <div class="modal-content" style="background-color: var(--bg-container); margin: 5% auto; border-radius: 8px; width: 90%; max-width: 800px; height: 80%; box-shadow: var(--shadow-card); display: flex; flex-direction: column;">
+            <div class="modal-header" style="padding: 16px 24px; border-bottom: 1px solid var(--border-color-light); display: flex; justify-content: space-between; align-items: center;">
+                <h3 id="indicatorModalTitle" style="margin: 0; font-size: 16px; font-weight: 600; color: var(--text-primary);">新增风险指标</h3>
+                <button class="modal-close" onclick="closeIndicatorModal()" style="background: none; border: none; font-size: 24px; cursor: pointer; color: var(--text-secondary); padding: 0; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center;">&times;</button>
+            </div>
+            <div class="modal-body" style="flex: 1; padding: 0;">
+                <iframe id="indicatorFrame" src="" frameborder="0" width="100%" height="100%"></iframe>
+            </div>
+            <div class="modal-footer" style="padding: 12px 24px; border-top: 1px solid var(--border-color-light); display: flex; justify-content: flex-end; gap: 12px; background-color: var(--bg-container);">
+                <button class="btn btn-default" onclick="closeIndicatorModal()">取消</button>
+                <button class="btn btn-primary" onclick="saveIndicatorFromModal()">保存</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
