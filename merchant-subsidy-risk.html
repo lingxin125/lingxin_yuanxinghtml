@@ -421,6 +421,10 @@
             <div class="card-body">
                 <div class="form-grid">
                     <div class="form-group">
+                        <label class="form-label">客户号</label>
+                        <input type="text" class="form-input" placeholder="请输入客户号" id="customerId">
+                    </div>
+                    <div class="form-group">
                         <label class="form-label">商户号</label>
                         <input type="text" class="form-input" placeholder="请输入商户号" id="merchantId">
                     </div>
@@ -540,7 +544,9 @@
                             <th>
                                 <input type="checkbox" id="selectAll" onchange="toggleSelectAll()">
                             </th>
+                            <th>客户号</th>
                             <th>商户号</th>
+                            
                             <th>商户名称</th>
                             <th>市级分公司</th>
                             <th>区县分公司</th>
@@ -557,6 +563,7 @@
                         <tr>
                             <td><input type="checkbox" class="row-checkbox" value="M202401001" onchange="updateSelection()"></td>
                             <td>M202401001</td>
+                            <td>6020986436</td>
                             <td>张三便利店</td>
                             <td>北京分公司</td>
                             <td>朝阳区分公司</td>
@@ -575,6 +582,7 @@
                         <tr>
                             <td><input type="checkbox" class="row-checkbox" value="M202401002" onchange="updateSelection()"></td>
                             <td>M202401002</td>
+                             <td>6029985636</td>
                             <td>李四超市</td>
                             <td>北京分公司</td>
                             <td>海淀区分公司</td>
@@ -592,6 +600,7 @@
                         <tr>
                             <td><input type="checkbox" class="row-checkbox" value="M202401003" onchange="updateSelection()"></td>
                             <td>M202401003</td>
+                             <td>6026386436</td>
                             <td>王五餐厅</td>
                             <td>上海分公司</td>
                             <td>浦东新区分公司</td>
@@ -608,6 +617,7 @@
                         <tr>
                             <td><input type="checkbox" class="row-checkbox" value="M202401004" onchange="updateSelection()"></td>
                             <td>M202401004</td>
+                             <td>6021997436</td>
                             <td>赵六药店</td>
                             <td>广州分公司</td>
                             <td>天河区分公司</td>
@@ -624,6 +634,7 @@
                         <tr>
                             <td><input type="checkbox" class="row-checkbox" value="M202401005" onchange="updateSelection()"></td>
                             <td>M202401005</td>
+                             <td>6024984536</td>
                             <td>孙七服装店</td>
                             <td>深圳分公司</td>
                             <td>南山区分公司</td>
@@ -747,7 +758,7 @@
         .modal-body iframe {
             border: none;
             width: 100%;
-            height: calc(100% - 60px); /* 为底部按钮留出空间 */
+            height: calc(100% - 0px); /* 为底部按钮留出空间 */
         }
 
         .btn2 {
@@ -780,6 +791,8 @@
             justify-content: flex-end;
             z-index: 10;
         }
+
+
     </style>
 
     <script>

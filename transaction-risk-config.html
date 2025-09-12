@@ -1,534 +1,225 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>交易风险指标配置</title>
-    <link href="https://cdn.tailwindcss.com/2.2.19/tailwind.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <style>
-        :root {
-            --primary-blue: #1677ff;
-            --primary-blue-hover: #4096ff;
-            --primary-blue-active: #0958d9;
-            --primary-blue-light: #e6f4ff;
-            --success-green: #52c41a;
-            --warning-orange: #fa8c16;
-            --error-red: #ff4d4f;
-            --bg-layout: #f5f5f5;
-            --bg-container: #ffffff;
-            --border-color: #d9d9d9;
-            --border-color-light: #f0f0f0;
-            --text-primary: #000000d9;
-            --text-secondary: #00000073;
-            --text-disabled: #00000040;
-            --shadow-card: 0 1px 2px 0 rgba(0, 0, 0, 0.03), 0 1px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px 0 rgba(0, 0, 0, 0.02);
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>交易风险指标配置</title>
+  <style>
+    :root {
+      --primary-blue: #1677ff;
+      --primary-blue-hover: #4096ff;
+      --primary-blue-active: #0958d9;
+      --primary-blue-light: #e6f4ff;
+      --success-green: #52c41a;
+      --warning-orange: #fa8c16;
+      --error-red: #ff4d4f;
+      --bg-layout: #f5f5f5;
+      --bg-container: #ffffff;
+      --border-color: #d9d9d9;
+      --border-color-light: #f0f0f0;
+      --text-primary: #000000d9;
+      --text-secondary: #00000073;
+      --text-disabled: #00000040;
+      --shadow-card: 0 1px 2px 0 rgba(0, 0, 0, 0.03), 0 1px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px 0 rgba(0, 0, 0, 0.02);
+    }
+    * { font-family: 'PingFang SC', 'Microsoft YaHei', system-ui, -apple-system, sans-serif; }
+    body { background: var(--bg-container); color: var(--text-primary); font-size: 14px; line-height: 1.5715; margin: 0; padding: 24px; padding-bottom: 80px; }
+    .config-header { margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--border-color-light); }
+    .config-description { color: var(--text-secondary); margin: 0; }
 
-        * {
-            font-family: 'PingFang SC', 'Microsoft YaHei', system-ui, -apple-system, sans-serif;
-        }
-
-        body {
-            background: var(--bg-container);
-            color: var(--text-primary);
-            font-size: 14px;
-            line-height: 1.5715;
-            margin: 0;
-            padding: 24px;
-        }
-
-        .config-header {
-            margin-bottom: 24px;
-            padding-bottom: 16px;
-            border-bottom: 1px solid var(--border-color-light);
-        }
-
-        .config-title {
-            font-size: 18px;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin: 0 0 8px 0;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .config-description {
-            color: var(--text-secondary);
-            margin: 0;
-        }
-
-        .config-table {
-            width: 100%;
-            border-collapse: collapse;
-            background: var(--bg-container);
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: var(--shadow-card);
-            border: 1px solid var(--border-color-light);
-        }
-
-        .config-table th,
-        .config-table td {
-            padding: 12px 16px;
-            text-align: left;
-            border-bottom: 1px solid var(--border-color-light);
-        }
-
-        .config-table th {
-            background: var(--bg-layout);
-            font-weight: 600;
-            color: var(--text-primary);
-            font-size: 14px;
-        }
-
-        .config-table td {
-            color: var(--text-primary);
-            font-size: 14px;
-        }
-
-        .config-table tbody tr:hover {
-            background: var(--bg-layout);
-        }
-
-        .merchant-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 4px;
-        }
-
-        .merchant-tag {
-            display: inline-flex;
-            align-items: center;
-            padding: 2px 6px;
-            border-radius: 3px;
-            font-size: 11px;
-            font-weight: 500;
-            background: var(--primary-blue-light);
-            color: var(--primary-blue);
-            border: 1px solid #91caff;
-        }
-
-        .status-switch {
-            position: relative;
-            display: inline-block;
-            width: 44px;
-            height: 22px;
-        }
-
-        .status-switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-
-        .switch-slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #ccc;
-            transition: .4s;
-            border-radius: 22px;
-        }
-
-        .switch-slider:before {
-            position: absolute;
-            content: "";
-            height: 18px;
-            width: 18px;
-            left: 2px;
-            bottom: 2px;
-            background-color: white;
-            transition: .4s;
-            border-radius: 50%;
-        }
-
-        input:checked + .switch-slider {
-            background-color: var(--success-green);
-        }
-
-        input:checked + .switch-slider:before {
-            transform: translateX(22px);
-        }
-
-        .btn-text {
-            background: none;
-            border: none;
-            color: var(--primary-blue);
-            padding: 4px 8px;
-            cursor: pointer;
-            border-radius: 4px;
-            font-size: 12px;
-        }
-
-        .btn-text:hover {
-            background: var(--primary-blue-light);
-        }
-
-        .btn-text:disabled {
-            color: var(--text-disabled);
-            cursor: not-allowed;
-        }
-
-        .action-buttons {
-            display: flex;
-            gap: 8px;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-        }
-
-        .modal-content {
-            background-color: var(--bg-container);
-            margin: 5% auto;
-            border-radius: 8px;
-            width: 80%;
-            max-width: 500px;
-            max-height: 80vh;
-            box-shadow: var(--shadow-card);
-            display: flex;
-            flex-direction: column;
-        }
-
-        .modal-header {
-            padding: 16px 24px;
-            border-bottom: 1px solid var(--border-color-light);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .modal-title {
+    .tag-list { display: flex; flex-wrap: wrap; gap: 8px; }
+    .tag-item { 
+      display: inline-flex; 
+      align-items: center; 
+      gap: 6px; 
+      padding: 6px 10px; 
+      border-radius: 16px; 
+      border: 1px solid #91caff; 
+      background: var(--primary-blue-light); 
+      color: var(--primary-blue); 
+      font-size: 12px; 
+      cursor: pointer; 
+      user-select: none;
+      transition: all 0.2s ease;
+      position: relative;
+    }
+    .tag-item:hover {
+      background: #bae0ff;
+      border-color: var(--primary-blue-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 2px 4px rgba(22, 119, 255, 0.2);
+    }
+    .tag-item.selected { 
+      background: var(--primary-blue); 
+      color: #fff; 
+      border-color: var(--primary-blue);
+      box-shadow: 0 2px 8px rgba(22, 119, 255, 0.3);
+    }
+    .tag-item.selected:hover {
+      background: var(--primary-blue-hover);
+      border-color: var(--primary-blue-hover);
+    }
+    .tag-item .check-icon {
+      width: 14px;
+      height: 14px;
+      margin-left: 4px;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+    .tag-item.selected .check-icon {
+      opacity: 1;
+    }
+     .module-title {
             font-size: 16px;
             font-weight: 600;
             color: var(--text-primary);
-            margin: 0;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--primary-blue);
+            display: inline-block;
         }
-
-        .modal-close {
-            background: none;
-            border: none;
-            font-size: 24px;
-            cursor: pointer;
-            color: var(--text-secondary);
-            padding: 0;
-            width: 24px;
-            height: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal-close:hover {
-            color: var(--text-primary);
-        }
-
-        .modal-body {
-            padding: 24px;
-            flex: 1;
-            overflow-y: auto;
-            max-height: calc(80vh - 120px); /* 减去头部和底部的高度 */
-        }
-
-        .modal-footer {
-            padding: 16px 24px;
-            border-top: 1px solid var(--border-color-light);
-            display: flex;
-            justify-content: flex-end;
-            gap: 12px;
-            background: var(--bg-layout);
-            flex-shrink: 0;
-        }
-
-        /* 页面底部固定操作栏 */
-        .page-footer {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: var(--bg-container);
-            border-top: 1px solid var(--border-color-light);
-            padding: 16px 24px;
-            display: flex;
-            justify-content: flex-end;
-            gap: 12px;
-            box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
-            z-index: 100;
-        }
-
-        /* 为页面内容添加底部边距，避免被固定操作栏遮挡 */
-        body {
-            padding-bottom: 80px;
-        }
-
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 8px 16px;
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: 500;
-            text-decoration: none;
-            border: 1px solid transparent;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            gap: 8px;
-        }
-
-        .btn-primary {
-            background: var(--primary-blue);
-            color: white;
-            border-color: var(--primary-blue);
-        }
-
-        .btn-primary:hover {
-            background: var(--primary-blue-hover);
-            border-color: var(--primary-blue-hover);
-        }
-
-        .btn-default {
-            background: var(--bg-container);
-            color: var(--text-primary);
-            border-color: var(--border-color);
-        }
-
-        .btn-default:hover {
-            color: var(--primary-blue);
-            border-color: var(--primary-blue);
-        }
-    </style>
+    .page-footer { 
+      position: absolute; 
+      bottom: 0; 
+      left: 0; 
+      right: 0; 
+      background: var(--bg-container); 
+      border-top: 1px solid var(--border-color-light); 
+      padding: 12px 16px; 
+      display: flex; 
+      align-items: center; 
+      gap: 12px; 
+      box-shadow: 0 -2px 8px rgba(0,0,0,0.1); 
+      z-index: 100; 
+    }
+    .btn { display: inline-flex; align-items: center; justify-content: center; padding: 8px 16px; border-radius: 6px; font-size: 14px; font-weight: 500; text-decoration: none; border: 1px solid transparent; cursor: pointer; transition: all 0.2s ease; gap: 8px; }
+    .btn-primary { background: var(--primary-blue); color: #fff; border-color: var(--primary-blue); }
+    .btn-primary:hover { background: var(--primary-blue-hover); border-color: var(--primary-blue-hover); }
+    .btn-default { background: var(--bg-container); color: var(--text-primary); border-color: var(--border-color); }
+    .btn-default:hover { color: var(--primary-blue); border-color: var(--primary-blue); }
+    .footer-count { flex: 1; color: var(--primary-blue); text-align: right; }
+  </style>
 </head>
 <body>
-    <!-- 配置头部 -->
-    <div class="config-header">
+  <div class="config-header">
+    <p class="config-description">机构可以根据实际情况，灵活启用、停用交易风险指标</p>
+  </div>
+  <h3 class="module-title">默认指标</h3>
+  <!-- 指标标签列表（仅不可配置） -->
+  <div id="tagContainer" class="tag-list" aria-live="polite"></div>
+  
+  <!-- 固定底部操作栏 -->
+  <div class="page-footer">
+    <div class="footer-count"><span id="enabledCount">启用指标数量 0/0</span></div>
+    <button class="btn btn-default" onclick="goBack()">返回</button>
+    <button class="btn btn-primary" onclick="saveAllConfig()">保存</button>
+  </div>
+
+  <script>
+    /**
+     * 指标对象
+     * @typedef {Object} Indicator
+     * @property {number} id 指标ID
+     * @property {string} name 指标名称
+     * @property {boolean} enabled 是否启用（选择）
+     */
+
+    /** 模拟数据（交易风险，全部不可配置） */
+    const indicators = [
+      { id: 4, name: '大额交易', enabled: true },
+      { id: 5, name: 'IP异常交易', enabled: true },
+      { id: 7, name: '同卡多商户', enabled: false },
+      { id: 8, name: '异常失败率', enabled: false }
+    ];
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderTagList();
+      updateCount();
+    });
+
+    /**
+     * 渲染标签列表（不可配置场景）
+     * @returns {void}
+     */
+    function renderTagList() {
+      const container = document.getElementById('tagContainer');
+      container.innerHTML = '';
+      indicators.forEach(ind => {
+        const tag = document.createElement('div');
+        tag.className = 'tag-item' + (ind.enabled ? ' selected' : '');
+        tag.setAttribute('role', 'button');
+        tag.setAttribute('aria-pressed', String(!!ind.enabled));
         
-        <p class="config-description">可自主配置风险指标，支持对已启用的指标自定义风险等级</p>
-    </div>
+        // 创建标签内容
+        const nameSpan = document.createElement('span');
+        nameSpan.textContent = ind.name;
+        tag.appendChild(nameSpan);
+        
+        // 添加对勾图标
+        const checkIcon = document.createElement('div');
+        checkIcon.className = 'check-icon';
+        checkIcon.innerHTML = `
+          <svg viewBox="0 0 16 16" fill="currentColor" style="width: 100%; height: 100%;">
+            <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
+          </svg>
+        `;
+        tag.appendChild(checkIcon);
+        
+        tag.addEventListener('click', () => onToggleSelect(ind.id));
+        container.appendChild(tag);
+      });
+    }
 
-    <!-- 配置表格 -->
-    <table class="config-table">
-        <thead>
-            <tr>
-                <th>指标名称</th>
-                
-                <th>是否启用</th>
-                <th>高风险阈值</th>
-                <th>中风险阈值</th>
-                <th>低风险阈值</th>
-                
-                <th style="width: 120px;">操作</th>
-            </tr>
-        </thead>
-        <tbody id="configTableBody">
-            <!-- 数据将通过JavaScript动态加载 -->
-        </tbody>
-    </table>
+    /**
+     * 切换选中（启用/禁用）
+     * @param {number} id 指标ID
+     * @returns {void}
+     */
+    function onToggleSelect(id) {
+      const ind = indicators.find(x => x.id === id);
+      if (!ind) return;
+      ind.enabled = !ind.enabled;
+      renderTagList();
+      updateCount();
+    }
 
-    <!-- 配置规则弹窗 -->
-    <div id="configModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title" id="configModalTitle">配置风险指标</h3>
-                <button class="modal-close" onclick="closeConfigModal()">&times;</button>
-            </div>
-            <div class="modal-body" id="configModalBody">
-                <!-- 配置表单内容将动态加载 -->
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-default" onclick="closeConfigModal()">取消</button>
-                <button class="btn btn-primary" onclick="saveConfig()">确定</button>
-            </div>
-        </div>
-    </div>
+    /**
+     * 更新底部"已启用数量"
+     * @returns {void}
+     */
+    function updateCount() {
+      const enabledCount = indicators.filter(x => x.enabled).length;
+      const totalCount = indicators.length;
+      document.getElementById('enabledCount').textContent = `启用指标数量 ${enabledCount}/${totalCount}`;
+    }
 
-    <!-- 固定底部操作栏 -->
-    <div class="page-footer">
-        <button class="btn btn-default" onclick="goBack()">返回</button>
-        <button class="btn btn-primary" onclick="saveAllConfig()">保存</button>
-    </div>
+    /**
+     * 返回上一页/关闭弹窗（由父页面接管或直接关闭窗口）
+     * @returns {void}
+     */
+    function goBack() { closePage(); }
 
-    <script>
-        // 模拟数据
-        const mockData = [
-            {
-                id: 4,
-                indicatorName: '大额交易',
-                applicableMerchants: ['企业商户', '连锁商户'],
-                enabled: true,
-                highRiskThreshold: '>=8万',
-                mediumRiskThreshold: '5-8万',
-                lowRiskThreshold: '<5万'
-            },
-            {
-                id: 5,
-                indicatorName: 'IP异常交易',
-                applicableMerchants: ['企业商户', '连锁商户'],
-                enabled: true,
-                highRiskThreshold: '>=5次',
-                mediumRiskThreshold: '3-4次',
-                lowRiskThreshold: '<3次'
-            }
-        ];
+    /**
+     * 关闭当前页面（供父页面弹窗集成调用）
+     * @returns {void}
+     */
+    function closePage() {
+      if (window.parent && window.parent.closeIndicatorConfigModal) {
+        window.parent.closeIndicatorConfigModal();
+      } else {
+        window.close();
+      }
+    }
 
-        // 页面初始化
-        document.addEventListener('DOMContentLoaded', function() {
-            loadConfigData();
-        });
-
-        // 加载配置数据
-        function loadConfigData() {
-            const tbody = document.getElementById('configTableBody');
-            tbody.innerHTML = '';
-
-            mockData.forEach(item => {
-                // 生成适用商户标签
-                const merchantTags = item.applicableMerchants.map(merchant => 
-                    `<span class="merchant-tag">${merchant}</span>`
-                ).join('');
-
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>
-                        <div style="font-weight: 500;">${item.indicatorName}</div>
-                    </td>
-                    
-                    <td>
-                        <label class="status-switch">
-                            <input type="checkbox" ${item.enabled ? 'checked' : ''} onchange="toggleIndicator(${item.id}, this.checked)">
-                            <span class="switch-slider"></span>
-                        </label>
-                    </td>
-                     <td>
-                        <div style="font-weight: 500;">${item.highRiskThreshold}</div>
-                    </td>
-                     <td>
-                        <div style="font-weight: 500;">${item.mediumRiskThreshold}</div>
-                    </td>
-                     <td>
-                        <div style="font-weight: 500;">${item.lowRiskThreshold}</div>
-                    </td>
-                    <td>
-                        <div class="action-buttons">
-                            <button class="btn-text" ${item.enabled ? '' : 'disabled'} onclick="configIndicator(${item.id})">配置</button>
-                            </div>
-                    </td>
-                `;
-                tbody.appendChild(row);
-            });
-        }
-
-        // 切换指标启用状态
-        function toggleIndicator(id, enabled) {
-            const item = mockData.find(item => item.id === id);
-            if (item) {
-                item.enabled = enabled;
-                loadConfigData(); // 重新加载数据以更新按钮状态
-            }
-            console.log(`指标 ${id} ${enabled ? '启用' : '禁用'}`);
-        }
-
-        // 配置指标规则
-        function configIndicator(id) {
-            const indicator = mockData.find(item => item.id === id);
-            if (!indicator) return;
-
-            // 设置弹窗标题
-            document.getElementById('configModalTitle').textContent = `配置风险指标 - ${indicator.indicatorName}`;
-            
-            // 生成配置表单
-            const modalBody = document.getElementById('configModalBody');
-            modalBody.innerHTML = `
-                <div style="margin-bottom: 24px;">
-                    <h4 style="margin: 0 0 16px 0; font-size: 16px; font-weight: 600;">风险等级阈值设定</h4>
-                    
-                    <div style="margin-bottom: 16px;">
-                        <label style="display: block; margin-bottom: 8px; font-weight: 500; color: var(--error-red);">高风险阈值:</label>
-                        <input type="text" value="${indicator.highRiskThreshold}" style="width: 100%; padding: 8px 12px; border: 1px solid var(--border-color); border-radius: 4px; font-size: 14px;" placeholder="如：>=10万">
-                    </div>
-                    
-                    <div style="margin-bottom: 16px;">
-                        <label style="display: block; margin-bottom: 8px; font-weight: 500; color: var(--warning-orange);">中风险阈值:</label>
-                        <input type="text" value="${indicator.mediumRiskThreshold}" style="width: 100%; padding: 8px 12px; border: 1px solid var(--border-color); border-radius: 4px; font-size: 14px;" placeholder="如：5-10万">
-                    </div>
-                    
-                    <div style="margin-bottom: 16px;">
-                        <label style="display: block; margin-bottom: 8px; font-weight: 500; color: var(--success-green);">低风险阈值:</label>
-                        <input type="text" value="${indicator.lowRiskThreshold}" style="width: 100%; padding: 8px 12px; border: 1px solid var(--border-color); border-radius: 4px; font-size: 14px;" placeholder="如：<5万">
-                    </div>
-                     <div class="config-tip" style="background: var(--primary-blue-light); color: var(--primary-blue); border-radius: 6px; padding: 12px 16px; margin-bottom: 16px; font-size: 13px; display: flex; align-items: flex-start; gap: 8px;">
-                <i class="fa fa-info-circle" style="margin-top: 2px;"></i>
-                <div>
-                    指标配置后：<b>若未配置风险等级阈值，则数据实时生效</b>；<br>
-                    <b>如已自定义风险等级阈值，请耐心等待数据重跑1-2小时后生效</b><br>
-                    请耐心等待数据同步，避免重复操作。
-                </div>
-            </div>
-                </div>
-            `;
-            
-            // 显示弹窗
-            document.getElementById('configModal').style.display = 'block';
-        }
-
-        // 关闭配置弹窗
-        function closeConfigModal() {
-            document.getElementById('configModal').style.display = 'none';
-        }
-
-        // 保存配置
-        function saveConfig() {
-            console.log('保存配置');
-            alert('配置保存成功！');
-            closeConfigModal();
-            loadConfigData(); // 重新加载数据
-        }
-
-        // 查看操作历史
-        function viewHistory(id) {
-            console.log('查看指标操作历史:', id);
-            alert('操作历史功能开发中...');
-        }
-
-        // 点击弹窗背景关闭弹窗
-        document.addEventListener('click', function(e) {
-            const modal = document.getElementById('configModal');
-            if (e.target === modal) {
-                closeConfigModal();
-            }
-        });
-
-        // 页面底部操作栏功能
-        function closePage() {
-            if (window.parent && window.parent.closeIndicatorConfigModal) {
-                window.parent.closeIndicatorConfigModal();
-            } else {
-                window.close();
-            }
-        }
-
-        function goBack() {
-            // 返回到上一级页面或关闭弹窗
-            closePage();
-        }
-
-        function saveAllConfig() {
-            console.log('保存所有配置');
-            alert('所有配置保存成功！');
-            // 可以在这里添加保存所有配置的逻辑
-        }
-    </script>
+    /**
+     * 保存全部配置（示例内仅提示+关闭）
+     * @returns {void}
+     */
+    function saveAllConfig() {
+      console.log('保存配置：', indicators);
+      alert('配置保存成功！');
+      closePage();
+    }
+  </script>
 </body>
 </html>

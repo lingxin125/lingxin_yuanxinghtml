@@ -5,8 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>资料风险指标配置</title>
-    <link href="https://cdn.tailwindcss.com/2.2.19/tailwind.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         :root {
             --primary-blue: #1677ff;
@@ -37,22 +35,13 @@
             line-height: 1.5715;
             margin: 0;
             padding: 24px;
+            padding-bottom: 80px; /* 避免被固定操作栏遮挡 */
         }
 
         .config-header {
-            margin-bottom: 24px;
-            padding-bottom: 16px;
-            border-bottom: 1px solid var(--border-color-gray);
-        }
-
-        .config-title {
-            font-size: 18px;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin: 0 0 8px 0;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border-color-light);
         }
 
         .config-description {
@@ -60,219 +49,244 @@
             margin: 0;
         }
 
-        .config-table {
-            width: 100%;
-            border-collapse: collapse;
-            background: var(--bg-container);
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: var(--shadow-card);
-            border: 1px solid var(--border-color-light);
+        .module-section {
+            margin-bottom: 24px;
         }
 
-        .config-table th,
-        .config-table td {
-            padding: 12px 16px;
-            text-align: left;
-            border-bottom: 1px solid var(--border-color-light);
-        }
-
-        .config-table th {
-            background: var(--bg-layout);
-            font-weight: 600;
-            color: var(--text-primary);
-            font-size: 14px;
-        }
-
-        .config-table td {
-            color: var(--text-primary);
-            font-size: 14px;
-        }
-
-        .config-table tbody tr:hover {
-            background: var(--bg-layout);
-        }
-
-        .merchant-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 4px;
-        }
-
-        .merchant-tag {
-            display: inline-flex;
-            align-items: center;
-            padding: 2px 6px;
-            border-radius: 3px;
-            font-size: 11px;
-            font-weight: 500;
-            background: var(--primary-blue-light);
-            color: var(--primary-blue);
-            border: 1px solid #91caff;
-        }
-
-        .status-switch {
-            position: relative;
-            display: inline-block;
-            width: 44px;
-            height: 22px;
-        }
-
-        .status-switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-
-        .switch-slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #ccc;
-            transition: .4s;
-            border-radius: 22px;
-        }
-
-        .switch-slider:before {
-            position: absolute;
-            content: "";
-            height: 18px;
-            width: 18px;
-            left: 2px;
-            bottom: 2px;
-            background-color: white;
-            transition: .4s;
-            border-radius: 50%;
-        }
-
-        input:checked+.switch-slider {
-            background-color: var(--success-green);
-        }
-
-        input:checked+.switch-slider:before {
-            transform: translateX(22px);
-        }
-
-        .btn-text {
-            background: none;
-            border: none;
-            color: var(--primary-blue);
-            padding: 4px 8px;
-            cursor: pointer;
-            border-radius: 4px;
-            font-size: 12px;
-        }
-
-        .btn-text:hover {
-            background: var(--primary-blue-light);
-        }
-
-        .btn-text:disabled {
-            color: var(--text-disabled);
-            cursor: not-allowed;
-        }
-
-        .action-buttons {
-            display: flex;
-            gap: 8px;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-        }
-
-        .modal-content {
-            background-color: var(--bg-container);
-            margin: 5% auto;
-            border-radius: 8px;
-            width: 80%;
-            max-width: 500px;
-            max-height: 80vh;
-            box-shadow: var(--shadow-card);
-            display: flex;
-            flex-direction: column;
-        }
-
-        .modal-header {
-            padding: 16px 24px;
-            border-bottom: 1px solid var(--border-color-light);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .modal-title {
+        .module-title {
             font-size: 16px;
             font-weight: 600;
             color: var(--text-primary);
-            margin: 0;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--primary-blue);
+            display: inline-block;
         }
 
-        .modal-close {
-            background: none;
-            border: none;
-            font-size: 24px;
-            cursor: pointer;
-            color: var(--text-secondary);
-            padding: 0;
-            width: 24px;
-            height: 24px;
+        .configurable-item {
             display: flex;
             align-items: center;
-            justify-content: center;
+            padding: 12px 16px;
+            border: 1px solid var(--border-color-light);
+            border-radius: 8px;
+            margin-bottom: 8px;
+            background: var(--bg-container);
+            transition: all 0.2s ease;
         }
 
-        .modal-close:hover {
-            color: var(--text-primary);
+        .configurable-item:hover {
+            border-color: var(--primary-blue);
+            box-shadow: 0 2px 8px rgba(22, 119, 255, 0.1);
         }
 
-        .modal-body {
-            padding: 24px;
+        .configurable-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 16px;
+            border: 1px solid #91caff;
+            background: var(--primary-blue-light);
+            color: var(--primary-blue);
+            font-size: 12px;
+            cursor: pointer;
+            user-select: none;
+            position: relative;
+            transition: all 0.2s ease;
+            min-width: 120px;
+            min-height: 28px;
+        }
+
+        .configurable-tag:hover {
+            background: #bae0ff;
+            border-color: var(--primary-blue-hover);
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(22, 119, 255, 0.2);
+        }
+
+        .configurable-tag.selected {
+            background: var(--primary-blue);
+            color: #fff;
+            border-color: var(--primary-blue);
+            box-shadow: 0 2px 8px rgba(22, 119, 255, 0.3);
+            padding-right: 32px;
+        }
+
+        .configurable-tag.selected:hover {
+            background: var(--primary-blue-hover);
+            border-color: var(--primary-blue-hover);
+        }
+
+        .configurable-tag .check-icon {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 14px;
+            height: 14px;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            color: var(--primary-blue);
+        }
+
+        .configurable-tag.selected .check-icon {
+            opacity: 1;
+            color: #fff;
+        }
+
+        .config-panel {
             flex: 1;
-            overflow-y: auto;
-            max-height: calc(80vh - 120px);
-            /* 减去头部和底部的高度 */
+            margin-left: 16px;
+            padding-left: 16px;
+            border-left: 1px solid var(--border-color-light);
         }
 
-        .modal-footer {
-            padding: 16px 24px;
-            border-top: 1px solid var(--border-color-light);
+        .config-panel.hidden {
+            display: none;
+        }
+
+        .tag-list {
             display: flex;
-            justify-content: flex-end;
-            gap: 12px;
-            background: var(--bg-layout);
-            flex-shrink: 0;
+            flex-wrap: wrap;
+            gap: 8px;
         }
 
-        /* 页面底部固定操作栏 */
+        .tag-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 16px;
+            border: 1px solid #91caff;
+            background: var(--primary-blue-light);
+            color: var(--primary-blue);
+            font-size: 12px;
+            cursor: pointer;
+            user-select: none;
+            position: relative;
+            transition: all 0.2s ease;
+            min-height: 28px;
+        }
+
+        .tag-item:hover {
+            background: #bae0ff;
+            border-color: var(--primary-blue-hover);
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(22, 119, 255, 0.2);
+        }
+
+        .tag-item.selected {
+            background: var(--primary-blue);
+            color: #fff;
+            border-color: var(--primary-blue);
+            box-shadow: 0 2px 8px rgba(22, 119, 255, 0.3);
+            padding-right: 32px;
+        }
+
+        .tag-item.selected:hover {
+            background: var(--primary-blue-hover);
+            border-color: var(--primary-blue-hover);
+        }
+
+        .tag-item .check-icon {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 14px;
+            height: 14px;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            color: var(--primary-blue);
+        }
+
+        .tag-item.selected .check-icon {
+            opacity: 1;
+            color: #fff;
+        }
+
+        .tag-item.disabled {
+            background: #f0f0f0;
+            color: var(--text-disabled);
+            border-color: var(--border-color-light);
+            cursor: not-allowed;
+        }
+
+        .details-card {
+            margin-top: 16px;
+            border: 1px solid var(--border-color-light);
+            border-radius: 8px;
+            padding: 16px;
+            background: var(--bg-container);
+            box-shadow: var(--shadow-card);
+        }
+
+        .details-title {
+            font-weight: 600;
+            margin: 0 0 12px 0;
+        }
+
+        .calc-readonly {
+            background: var(--bg-layout);
+            border: 1px solid var(--border-color-light);
+            border-radius: 6px;
+            padding: 10px 12px;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+        }
+
+        .threshold-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .threshold-row label { width: 64px; font-weight: 500; }
+
+        .op-select, .num-input {
+            padding: 6px 8px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 13px;
+        }
+
+        .op-select { width: 84px; }
+        .num-input { width: 120px; }
+
+        /* 区间值容器样式 */
+        .value-container {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .interval-inputs {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .interval-separator {
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .interval-input {
+            width: 80px;
+        }
+
         .page-footer {
             position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
+            bottom: 0; left: 0; right: 0;
             background: var(--bg-container);
             border-top: 1px solid var(--border-color-light);
-            padding: 16px 24px;
+            padding: 12px 16px;
             display: flex;
-            justify-content: flex-end;
+            align-items: center;
             gap: 12px;
-            box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
             z-index: 100;
-        }
-
-        /* 为页面内容添加底部边距，避免被固定操作栏遮挡 */
-        body {
-            padding-bottom: 80px;
         }
 
         .btn {
@@ -289,250 +303,412 @@
             transition: all 0.2s ease;
             gap: 8px;
         }
+        .btn-primary { background: var(--primary-blue); color: #fff; border-color: var(--primary-blue); }
+        .btn-primary:hover { background: var(--primary-blue-hover); border-color: var(--primary-blue-hover); }
+        .btn-default { background: var(--bg-container); color: var(--text-primary); border-color: var(--border-color); }
+        .btn-default:hover { color: var(--primary-blue); border-color: var(--primary-blue); }
 
-        .btn-primary {
-            background: var(--primary-blue);
-            color: white;
-            border-color: var(--primary-blue);
-        }
-
-        .btn-primary:hover {
-            background: var(--primary-blue-hover);
-            border-color: var(--primary-blue-hover);
-        }
-
-        .btn-default {
-            background: var(--bg-container);
-            color: var(--text-primary);
-            border-color: var(--border-color);
-        }
-
-        .btn-default:hover {
-            color: var(--primary-blue);
-            border-color: var(--primary-blue);
-        }
+        .footer-count { flex: 1; color: var(--primary-blue); text-align: right; }
+        .info-icon { width: 16px; height: 16px; fill: var(--primary-blue); flex-shrink: 0; }
     </style>
 </head>
 
 <body>
-    <!-- 配置头部 -->
-    <!-- 头部信息 -->
-    <div class="config-header"
-        style="border-bottom: 1px solid var(--border-color-light); margin-bottom: 24px; padding-bottom: 16px;">
-
-        <p class="config-description" style="color: var(--text-secondary); margin: 0;">
-            可自主配置风险指标，支持对已启用的指标自定义风险等级
-        </p>
-    </div>
-    <!-- 配置表格 -->
-    <div class="config-table-wrapper" style="overflow-x: auto;">
-        <table class="config-table"
-            style="width: 100%; background: var(--bg-container); border-radius: 8px; overflow: hidden; box-shadow: none; border: 1px solid var(--border-color-light); margin-bottom: 0;">
-            <thead>
-                <tr>
-                    <th>指标名称</th>
-
-                    <th>是否启用</th>
-                    <th>高风险阈值</th>
-                    <th>中风险阈值</th>
-                    <th>低风险阈值</th>
-                    <th style="width: 120px;">操作</th>
-                </tr>
-            </thead>
-            <tbody id="configTableBody">
-                <!-- 数据将通过JavaScript动态加载 -->
-            </tbody>
-        </table>
+    <div class="config-header">
+        <p class="config-description">机构可根据实际情况，灵活启用、停用或配置资料风险指标</p>
     </div>
 
+    <!-- 可配置指标模块 -->
+    <div class="module-section">
+        <h3 class="module-title">可配置风险等级指标</h3>
+        <div id="configurableContainer"></div>
+        <div class="config-tip" style="background: #fff7e6; color: #fa8c16; border-radius: 6px; padding: 12px 16px; margin-top: 8px; font-size: 13px; display: flex; align-items: flex-start; gap: 8px;">
+                    <svg class="info-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <circle cx="12" cy="12" r="10" fill="#fff7e6" stroke="#fa8c16" stroke-width="1.5" />
+                        <line x1="12" y1="8" x2="12" y2="8" stroke="#fa8c16" stroke-width="2" stroke-linecap="round" />
+                        <line x1="12" y1="11" x2="12" y2="16" stroke="#fa8c16" stroke-width="2" stroke-linecap="round" />
+                    </svg>
+                    <div>
+                        <b>指标配置后：</b><br>
+                        <b>请耐心等待数据重跑1-2小时后生效，避免重复操作。</b>
+                    </div>
+                </div>
+    </div>
 
-    <!-- 配置规则弹窗 -->
-    <div id="configModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title" id="configModalTitle">风险等级阈值配置</h3>
-                <button class="modal-close" onclick="closeConfigModal()">&times;</button>
-            </div>
-            <div class="modal-body" id="configModalBody">
-                <!-- 配置表单内容将动态加载 -->
-            </div>
-
-            <div class="modal-footer">
-                <button class="btn btn-default" onclick="closeConfigModal()">取消</button>
-                <button class="btn btn-primary" onclick="saveConfig()">确定</button>
-            </div>
-        </div>
+    <!-- 不可配置指标模块 -->
+    <div class="module-section">
+        <h3 class="module-title">默认指标</h3>
+        <div id="fixedContainer" class="tag-list"></div>
     </div>
 
     <!-- 固定底部操作栏 -->
     <div class="page-footer">
-
+        <div class="footer-count"><span id="enabledCount">启用指标数量 0/0</span></div>
         <button class="btn btn-default" onclick="goBack()">返回</button>
         <button class="btn btn-primary" onclick="saveAllConfig()">保存</button>
     </div>
 
     <script>
-        // 模拟数据
-        const mockData = [
-            {
-                id: 1,
-                indicatorName: '进件次数',
-                applicableMerchants: ['个体工商户', '小微商户'],
-                enabled: true,
-                yuzhitype: '默认',
-                highRiskThreshold: '>=3次',
-                mediumRiskThreshold: '2次',
-                lowRiskThreshold: '<2次'
-            },
-            {
-                id: 2,
-                indicatorName: '门头照重复',
-                applicableMerchants: ['个体工商户', '小微商户', '企业商户'],
-                enabled: true,
-                yuzhitype: '自定义',
-                highRiskThreshold: '>=3次',
-                mediumRiskThreshold: '2次',
-                lowRiskThreshold: '<2次'
-            },
-            {
-                id: 3,
-                indicatorName: '三照导入方式',
-                applicableMerchants: ['个体工商户'],
-                enabled: false,
-                yuzhitype: '默认',
-                highRiskThreshold: '3张均为相册上传',
-                mediumRiskThreshold: '1-2张为相册上传',
-                lowRiskThreshold: '3张均为拍摄上传'
-            }
+        /** @typedef {('>'|'>='|'<'|'<='|'=')} Operator */
+
+        /**
+         * 指标对象
+         * @typedef {Object} Indicator
+         * @property {number} id 指标ID
+         * @property {string} name 指标名称
+         * @property {boolean} configurable 是否可配置
+         * @property {boolean} enabled 是否启用（选择）
+         * @property {string} calc 只读计算方式描述
+         * @property {{op:Operator,value:number}|null} high 高风险阈值
+         * @property {{op:Operator,value:number}|null} medium 中风险阈值
+         * @property {{op:Operator,value:number}|null} low 低风险阈值
+         */
+
+        /** 模拟数据（资料风险） */
+        const indicators = [
+            { id: 1, name: '小微进件次数', configurable: true, enabled: true,  calc: '统计小微商户结算人证件历史进件次数', high: {op: '>=', value: 5}, medium: {op: '>=', value: 3}, low: {op: '>=', value: 1} },
+            { id: 2, name: '门头照重复', configurable: true, enabled: false, calc: '统计该商户门头照在平台信息库中（含本次）被重复使用次数', high: {op: '>=', value: 3}, medium: {op: '>=', value: 2}, low: {op: '>=', value: 1} },
+            { id: 3, name: '三照导入方式', configurable: false, enabled: true, calc: '三照是否来源于相册上传', high: {op: '>=', value: 3}, medium: {op: '>=', value: 2}, low: {op: '>=', value: 1} },
+            { id: 4, name: '证件相似度', configurable: false, enabled: false, calc: 'OCR相似度阈值判断', high: {op: '>=', value: 90}, medium: {op: '>=', value: 80}, low: {op: '>=', value: 70} }
         ];
 
-        // 页面初始化
-        document.addEventListener('DOMContentLoaded', function () {
-            loadConfigData();
+        document.addEventListener('DOMContentLoaded', () => {
+            render();
         });
 
-        // 加载配置数据
-        function loadConfigData() {
-            const tbody = document.getElementById('configTableBody');
-            tbody.innerHTML = '';
+        /**
+         * 渲染整体视图
+         * @returns {void}
+         */
+        function render() {
+            renderConfigurableItems();
+            renderFixedItems();
+            updateCount();
+        }
 
-            mockData.forEach(item => {
-                // 生成适用商户标签
-                const merchantTags = item.applicableMerchants.map(merchant =>
-                    `<span class="merchant-tag">${merchant}</span>`
-                ).join('');
-
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>
-                        <div style="font-weight: 500;">${item.indicatorName}</div>
-                    </td>
-                    
-                    <td>
-                        <label class="status-switch">
-                            <input type="checkbox" ${item.enabled ? 'checked' : ''} onchange="toggleIndicator(${item.id}, this.checked)">
-                            <span class="switch-slider"></span>
-                        </label>
-                    </td>
-                    <td>
-                        <div style="font-weight: 500;">${item.highRiskThreshold}</div>
-                    </td>
-                    <td>
-                        <div style="font-weight: 500;">${item.mediumRiskThreshold}</div>
+        /**
+         * 渲染可配置指标模块
+         * @returns {void}
+         */
+        function renderConfigurableItems() {
+            const container = document.getElementById('configurableContainer');
+            const configurableItems = indicators.filter(ind => ind.configurable);
+            
+            container.innerHTML = configurableItems.map(ind => {
+                const selectedClass = ind.enabled ? 'selected' : '';
+                const configPanelClass = ind.enabled ? '' : 'hidden';
                 
-                    </td>
-                    <td>
-                        <div style="font-weight: 500;">${item.lowRiskThreshold}</div>
-                    </td>
-                    <td>
-                        <div class="action-buttons">
-                            <button class="btn-text" ${item.enabled ? '' : 'disabled'} onclick="configIndicator(${item.id})">配置</button>
-                            
+                return `
+                    <div class="configurable-item">
+                        <div class="configurable-tag ${selectedClass}" 
+                             data-id="${ind.id}" 
+                             onclick="onToggleConfigurable('${ind.id}')">
+                            <svg class="check-icon" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z" fill="currentColor"/>
+                            </svg>
+                            <span>${ind.name}</span>
                         </div>
-                    </td>
-                    
+                        <div class="config-panel ${configPanelClass}" id="config-${ind.id}">
+                            ${ind.enabled ? renderDetails(ind) : ''}
+                        </div>
+                    </div>
                 `;
-                tbody.appendChild(row);
-            });
+            }).join('');
         }
 
-        // 切换指标启用状态
-        function toggleIndicator(id, enabled) {
-            const item = mockData.find(item => item.id === id);
-            if (item) {
-                item.enabled = enabled;
-                loadConfigData(); // 重新加载数据以更新按钮状态
+        /**
+         * 渲染不可配置指标模块
+         * @returns {void}
+         */
+        function renderFixedItems() {
+            const container = document.getElementById('fixedContainer');
+            const fixedItems = indicators.filter(ind => !ind.configurable);
+            
+            container.innerHTML = fixedItems.map(ind => {
+                const selectedClass = ind.enabled ? 'selected' : '';
+                return `
+                    <div class="tag-item ${selectedClass}" 
+                         data-id="${ind.id}" 
+                         onclick="onToggleSelect('${ind.id}')">
+                        <svg class="check-icon" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z" fill="currentColor"/>
+                        </svg>
+                        <span>${ind.name}</span>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        /**
+         * 切换指标选中状态
+         * @param {number} id 指标ID
+         * @returns {void}
+         */
+        function onToggleSelect(id) {
+            /** 将传入的字符串ID转换为数字，避免严格相等比较失败 */
+            const numericId = Number(id);
+            const ind = indicators.find(i => i.id === numericId);
+            if (!ind) return;
+            
+            ind.enabled = !ind.enabled;
+            
+            // 重新渲染
+            render();
+        }
+
+        /**
+         * 切换可配置指标状态并展开配置面板
+         * @param {number} id 指标ID
+         * @returns {void}
+         */
+        function onToggleConfigurable(id) {
+            /** 将传入的字符串ID转换为数字，避免严格相等比较失败 */
+            const numericId = Number(id);
+            const ind = indicators.find(i => i.id === numericId);
+            if (!ind) return;
+            
+            ind.enabled = !ind.enabled;
+            
+            // 重新渲染可配置指标
+            renderConfigurableItems();
+            
+            // 如果选中，渲染详情配置（仅选中时显示）
+            if (ind.enabled) {
+                const configPanel = document.getElementById(`config-${numericId}`);
+                if (configPanel) {
+                    configPanel.innerHTML = renderDetails(ind);
+                    configPanel.classList.remove('hidden');
+                }
             }
-            console.log(`指标 ${id} ${enabled ? '启用' : '禁用'}`);
+            
+            updateCount();
         }
 
-        // 配置指标规则
-        function configIndicator(id) {
-            const indicator = mockData.find(item => item.id === id);
-            if (!indicator) return;
-
-            // 设置弹窗标题
-            // document.getElementById('configModalTitle').textContent = `配置风险指标 - ${indicator.indicatorName}`;
-
-            // 生成配置表单
-            const modalBody = document.getElementById('configModalBody');
-            modalBody.innerHTML = `
-                <div style="margin-bottom: 24px;">
-                    
-
-                    <div style="margin-bottom: 16px;">
-                        <label style="display: block; margin-bottom: 8px; font-weight: 500; color: var(--error-red);">高风险阈值:</label>
-                        <input type="text" value="${indicator.highRiskThreshold}" style="width: 100%; padding: 8px 12px; border: 1px solid var(--border-color); border-radius: 4px; font-size: 14px;" placeholder="如：>=5次">
+        /**
+         * 渲染指标详情配置面板
+         * @param {Object} ind 指标对象
+         * @returns {string} 渲染的HTML字符串
+         */
+        function renderDetails(ind) {
+            if (!ind || !ind.enabled) {
+                return '';
+            }
+            return `
+                
+                <div class="calc-readonly">指标计算方式：${ind.calc}</div>
+                <div class="threshold-row">
+                    <label>高风险：</label>
+                    <span>指标值</span>
+                    <select class="op-select" onchange="onOpChange(${ind.id}, 'high', this.value)">
+                        ${renderOpOptions(ind.high?.op)}
+                    </select>
+                    <div id="${ind.id}_high_value_container" class="value-container">
+                        ${renderValueInputs(ind.id, 'high', ind.high)}
                     </div>
-
-                    <div style="margin-bottom: 16px;">
-                        <label style="display: block; margin-bottom: 8px; font-weight: 500; color: var(--warning-orange);">中风险阈值:</label>
-                        <input type="text" value="${indicator.mediumRiskThreshold}" style="width: 100%; padding: 8px 12px; border: 1px solid var(--border-color); border-radius: 4px; font-size: 14px;" placeholder="如：3-4次">
-                    </div>
-
-                    <div style="margin-bottom: 16px;">
-                        <label style="display: block; margin-bottom: 8px; font-weight: 500; color: var(--success-green);">低风险阈值:</label>
-                        <input type="text" value="${indicator.lowRiskThreshold}" style="width: 100%; padding: 8px 12px; border: 1px solid var(--border-color); border-radius: 4px; font-size: 14px;" placeholder="如：<3次">
-                    </div>
-                    <div class="config-tip" style="background: var(--primary-blue-light); color: var(--primary-blue); border-radius: 6px; padding: 12px 16px; margin-bottom: 16px; font-size: 13px; display: flex; align-items: flex-start; gap: 8px;">
-                <i class="fa fa-info-circle" style="margin-top: 2px;"></i>
-                <div>
-                    指标配置后：<b>若未配置风险等级阈值，则数据实时生效</b>；<br>
-                    <b>如已自定义风险等级阈值，请耐心等待数据重跑1-2小时后生效</b><br>
-                    请耐心等待数据同步，避免重复操作。
+                    <span style="color: var(--text-secondary)"></span>
                 </div>
-            </div>
+                <div class="threshold-row">
+                    <label>中风险：</label>
+                    <span>指标值</span>
+                    <select class="op-select" onchange="onOpChange(${ind.id}, 'medium', this.value)">
+                        ${renderOpOptions(ind.medium?.op)}
+                    </select>
+                    <div id="${ind.id}_medium_value_container" class="value-container">
+                        ${renderValueInputs(ind.id, 'medium', ind.medium)}
+                    </div>
+                    <span >且小于高风险的指标值</span>
                 </div>
+                <div class="threshold-row">
+                    <label>低风险：</label>
+                    <span>指标值</span>
+                   
+                    <span >小于中风险的指标值</span>
+                </div>
+                
             `;
-
-            // 显示弹窗
-            document.getElementById('configModal').style.display = 'block';
         }
 
-        // 关闭配置弹窗
-        function closeConfigModal() {
-            document.getElementById('configModal').style.display = 'none';
+        /**
+         * 渲染连接符选项
+         * @param {Operator|undefined} selected 选中值
+         * @returns {string}
+         */
+        function renderOpOptions(selected) {
+            const ops = [
+                { value: '>', label: '>' },
+                { value: '>=', label: '>=' },
+                { value: '=', label: '=' },
+                { value: '<=', label: '<=' },
+                { value: '<', label: '<' },
+                { value: '(,)', label: '开区间' },
+                { value: '[,]', label: '闭区间' },
+                { value: '(,]', label: '左开右闭' },
+                { value: '[,)', label: '左闭右开' }
+            ];
+            return ops.map(op => `<option value="${op.value}" ${selected === op.value ? 'selected' : ''}>${op.label}</option>`).join('');
         }
 
-        // 保存配置
-        function saveConfig() {
-            console.log('保存配置');
-            alert('配置保存成功！');
-            closeConfigModal();
-            loadConfigData(); // 重新加载数据
-        }
-
-
-
-        // 点击弹窗背景关闭弹窗
-        document.addEventListener('click', function (e) {
-            const modal = document.getElementById('configModal');
-            if (e.target === modal) {
-                closeConfigModal();
+        /**
+         * 渲染数值输入控件（单值或区间）
+         * @param {number} id 指标ID
+         * @param {'high'|'medium'|'low'} level 风险级别
+         * @param {object} threshold 阈值对象
+         * @returns {string} HTML字符串
+         */
+        function renderValueInputs(id, level, threshold) {
+            const operator = threshold?.op || '>=';
+            const isInterval = ['(,)', '[,]', '(,]', '[,)'].includes(operator);
+            
+            if (isInterval) {
+                // 解析区间值
+                const value = threshold?.value || '';
+                let minVal = '', maxVal = '';
+                if (typeof value === 'string' && value.includes(',')) {
+                    const parts = value.split(',');
+                    minVal = parts[0] || '';
+                    maxVal = parts[1] || '';
+                }
+                
+                return `
+                    <div class="interval-inputs">
+                        <input type="number" id="${id}_${level}_min" class="form-input num-input interval-input" 
+                               placeholder="下限" step="0.01" min="0" value="${minVal}" 
+                               onchange="onIntervalChange(${id}, '${level}', 'min', this.value)">
+                        <span class="interval-separator">—</span>
+                        <input type="number" id="${id}_${level}_max" class="form-input num-input interval-input" 
+                               placeholder="上限" step="0.01" min="0" value="${maxVal}" 
+                               onchange="onIntervalChange(${id}, '${level}', 'max', this.value)">
+                    </div>
+                `;
+            } else {
+                return `
+                    <input class="num-input" type="number" value="${threshold?.value ?? ''}" min="0" 
+                           onchange="onValChange(${id}, '${level}', this.value)">
+                `;
             }
-        });
+        }
 
-        // 页面底部操作栏功能
+        /**
+         * 区间值变更处理
+         * @param {number} id 指标ID
+         * @param {'high'|'medium'|'low'} level 风险级别
+         * @param {'min'|'max'} type 最小值或最大值
+         * @param {string|number} value 输入值
+         * @returns {void}
+         */
+        function onIntervalChange(id, level, type, value) {
+            const ind = indicators.find(x => x.id === id);
+            if (!ind) return;
+            
+            const obj = ind[level] || { op: '>=', value: '' };
+            const currentValue = obj.value || '';
+            let minVal = '', maxVal = '';
+            
+            // 解析当前区间值
+            if (typeof currentValue === 'string' && currentValue.includes(',')) {
+                const parts = currentValue.split(',');
+                minVal = parts[0] || '';
+                maxVal = parts[1] || '';
+            }
+            
+            // 更新对应的值
+            if (type === 'min') {
+                minVal = value;
+            } else {
+                maxVal = value;
+            }
+            
+            // 验证区间值
+            if (minVal && maxVal) {
+                const min = parseFloat(minVal);
+                const max = parseFloat(maxVal);
+                if (min > max) {
+                    // 显示错误提示
+                    const maxInput = document.getElementById(`${id}_${level}_max`);
+                    if (maxInput) {
+                        maxInput.style.borderColor = '#ff4d4f';
+                        maxInput.title = '上限值应大于等于下限值';
+                    }
+                    return;
+                } else {
+                    // 清除错误样式
+                    const minInput = document.getElementById(`${id}_${level}_min`);
+                    const maxInput = document.getElementById(`${id}_${level}_max`);
+                    if (minInput) {
+                        minInput.style.borderColor = '';
+                        minInput.title = '';
+                    }
+                    if (maxInput) {
+                        maxInput.style.borderColor = '';
+                        maxInput.title = '';
+                    }
+                }
+            }
+            
+            // 更新值
+            obj.value = `${minVal},${maxVal}`;
+            ind[level] = obj;
+        }
+
+        /**
+         * 连接符变更
+         * @param {number} id 指标ID
+         * @param {'high'|'medium'|'low'} level 风险级别
+         * @param {string} value 选择的连接符
+         * @returns {void}
+         */
+        function onOpChange(id, level, value) {
+            const ind = indicators.find(x => x.id === id);
+            if (!ind) return;
+            const obj = ind[level] || { op: '>=', value: 0 };
+            obj.op = /** @type {Operator} */(value);
+            ind[level] = obj;
+            
+            // 重新渲染数值输入控件
+            const container = document.getElementById(`${id}_${level}_value_container`);
+            if (container) {
+                container.innerHTML = renderValueInputs(id, level, obj);
+            }
+        }
+
+        /**
+         * 数值变更
+         * @param {number} id 指标ID
+         * @param {'high'|'medium'|'low'} level 风险级别
+         * @param {string|number} value 输入值
+         * @returns {void}
+         */
+        function onValChange(id, level, value) {
+            const ind = indicators.find(x => x.id === id);
+            if (!ind) return;
+            const num = Number(value);
+            const obj = ind[level] || { op: '>=', value: 0 };
+            obj.value = Number.isFinite(num) ? num : 0;
+            ind[level] = obj;
+        }
+
+        /**
+         * 更新底部“已启用数量”
+         * @returns {void}
+         */
+        function updateCount() {
+            const enabledCount = indicators.filter(x => x.enabled).length;
+            const totalCount = indicators.length;
+            document.getElementById('enabledCount').textContent = `启用指标数量 ${enabledCount}/${totalCount}`;
+        }
+
+        /**
+         * 返回上一页/关闭弹窗
+         * @returns {void}
+         */
+        function goBack() {
+            closePage();
+        }
+
+        /**
+         * 关闭当前页面（由父页面接管或直接关闭窗口）
+         * @returns {void}
+         */
         function closePage() {
             if (window.parent && window.parent.closeIndicatorConfigModal) {
                 window.parent.closeIndicatorConfigModal();
@@ -541,15 +717,14 @@
             }
         }
 
-        function goBack() {
-            // 返回到上一级页面或关闭弹窗
-            closePage();
-        }
-
+        /**
+         * 保存全部配置（示例内仅提示+关闭）
+         * @returns {void}
+         */
         function saveAllConfig() {
-            console.log('保存所有配置');
-            alert('所有配置保存成功！');
-            // 可以在这里添加保存所有配置的逻辑
+            // 在真实场景中，这里可通过 postMessage 或 Ajax 将 indicators 传递给父页面
+            console.log('保存配置：', indicators);
+            alert('配置保存成功！');
             closePage();
         }
     </script>

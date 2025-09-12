@@ -198,7 +198,29 @@
         }
 
         .threshold-input {
-            width: 100px;
+            width: 120px;
+        }
+
+        /* 区间值容器样式 */
+        .value-container {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .interval-inputs {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .interval-separator {
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .interval-input {
+            width: 80px;
         }
 
         .form-footer {
@@ -292,6 +314,24 @@
                         </div>
                     </div>
 
+                    <!-- 资料风险专属布尔配置（仅当分类为资料风险时显示） -->
+                    <div class="form-row" id="profileRiskOptions" style="display: none;">
+                        <div class="form-group full-width">
+                            <label class="form-label">指标配置</label>
+                            <div class="checkbox-group">
+                                <label class="checkbox-item" for="allowOrgConfig">
+                                    <input type="checkbox" id="allowOrgConfig">
+                                    <span>允许机构配置指标风险等级</span>
+                                </label>
+                                <label class="checkbox-item" for="allowProceedAfterHighRisk">
+                                    <input type="checkbox" id="allowProceedAfterHighRisk">
+                                    <span>触发高风险商户不允许进件</span>
+                                </label>
+                            </div>
+                            <!-- <div class="help-text">仅当指标分类为“资料风险”时可见</div> -->
+                        </div>
+                    </div>
+
                     <!-- <div class="form-row">
                         <div class="form-group full-width">
                             <label class="form-label required">适用商户</label>
@@ -333,38 +373,74 @@
 
                     <div class="form-row">
                         <div class="form-group full-width">
-                            <label class="form-label required">判定标准</label>
-                            <textarea class="form-textarea" id="judgmentStandard" placeholder="请输入判定标准，如：统计商户历史进件申请次数，按时间周期进行风险等级判定" required></textarea>
+                            <label class="form-label required">计算方式</label>
+                            <textarea class="form-textarea" id="judgmentStandard" placeholder="请输入指标计算方式，如：根据商户类型统计结算人证件或营业执照号进件次数" required></textarea>
                            
                         </div>
                     </div>
                 </div>
 
-                <!-- 风险等级阈值 -->
+                <!-- 风险等级阈值（重构：指标值 + 连接符 + 数值输入框） -->
                 <div class="form-section">
-                    <h2 class="section-title">风险等级阈值</h2>
+                    <h2 class="section-title">风险等级标准</h2>
 
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label class="form-label required">高风险阈值</label>
-                            <input type="text" class="form-input" id="highRiskThreshold" placeholder="如：>=5次" required>
-                            <div class="help-text">触发高风险的条件</div>
+                    <div class="threshold-config">
+                        <div class="threshold-item">
+                            <span class="threshold-label high-risk">高风险：</span>
+                             <span>指标值</span>
+                            <select id="highOperator" class="form-select" style="width: 120px;" onchange="onOperatorChange('high', this.value)">
+                                <!-- <option value=">">&gt;</option> -->
+                                <option value=">=">&gt;=</option>
+                                <!-- <option value="=">=</option>
+                                <option value="<=">&lt;=</option>
+                                <option value="<">&lt;</option>
+                                <option value="(,)">开区间 (a,b)</option>
+                                <option value="[,]">闭区间 [a,b]</option>
+                                <option value="(,]">左开右闭 (a,b]</option>
+                                <option value="[,)">左闭右开 [a,b)</option> -->
+                            </select>
+                            <div id="highValueContainer" class="value-container">
+                                <input type="number" id="highValue" class="form-input threshold-input" placeholder="请输入数值" step="0.01" min="0">
+                            </div>
+                            <!-- <span class="help-text">触发高风险的条件</span> -->
                         </div>
-                        <div class="form-group">
-                            <label class="form-label required">中风险阈值</label>
-                            <input type="text" class="form-input" id="mediumRiskThreshold" placeholder="如：3-4次" required>
-                            <div class="help-text">触发中风险的条件</div>
+                        <div class="threshold-item">
+                            <span class="threshold-label medium-risk">中风险：</span>
+                            <span>指标值</span>
+                            <select id="mediumOperator" class="form-select" style="width: 120px;" onchange="onOperatorChange('medium', this.value)">
+                                <!-- <option value=">">&gt;</option> -->
+                                <option value=">=">&gt;=</option>
+                                <!-- <option value="=">=</option>
+                                <option value="<=">&lt;=</option>
+                                <option value="<">&lt;</option>
+                                <option value="(,)">开区间 (a,b)</option>
+                                <option value="[,]">闭区间 [a,b]</option>
+                                <option value="(,]">左开右闭 (a,b]</option>
+                                <option value="[,)">左闭右开 [a,b)</option> -->
+                            </select>
+                            <div id="mediumValueContainer" class="value-container">
+                                <input type="number" id="mediumValue" class="form-input threshold-input" placeholder="请输入数值" step="0.01" min="0">
+                            </div>
+                            <span >且小于高风险的指标值</span>
                         </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label class="form-label required">低风险阈值</label>
-                            <input type="text" class="form-input" id="lowRiskThreshold" placeholder="如：<3次" required>
-                            <div class="help-text">触发低风险的条件</div>
-                        </div>
-                        <div class="form-group">
-                            <!-- 占位，保持布局平衡 -->
+                        <div class="threshold-item">
+                            <span class="threshold-label low-risk">低风险：</span>
+                            <span>指标值</span>
+                            <!-- <select id="lowOperator" class="form-select" style="width: 120px;" onchange="onOperatorChange('low', this.value)">
+                                <option value=">">&gt;</option>
+                                <option value=">=">&gt;=</option>
+                                <option value="=">=</option>
+                                <option value="<=">&lt;=</option>
+                                <option value="<">&lt;</option>
+                                <option value="(,)">开区间 (a,b)</option>
+                                <option value="[,]">闭区间 [a,b]</option>
+                                <option value="(,]">左开右闭 (a,b]</option>
+                                <option value="[,)">左闭右开 [a,b)</option>
+                            </select>
+                            <div id="lowValueContainer" class="value-container">
+                                <input type="number" id="lowValue" class="form-input threshold-input" placeholder="请输入数值" step="0.01" min="0">
+                            </div> -->
+                            <span>小于中风险的指标值</span>
                         </div>
                     </div>
                 </div>
@@ -394,21 +470,42 @@
 
             // 绑定表单验证
             setupFormValidation();
+
+            // 分类切换时控制资料风险字段显隐
+            const categorySelect = document.getElementById('category');
+            categorySelect.addEventListener('change', updateProfileOptionsVisibility);
+            updateProfileOptionsVisibility();
         });
 
-        // 加载指标数据（编辑模式）
+        /**
+         * 根据分类显示/隐藏资料风险专属布尔字段
+         * @returns {void}
+         */
+        function updateProfileOptionsVisibility() {
+            const category = document.getElementById('category').value;
+            const options = document.getElementById('profileRiskOptions');
+            options.style.display = category === 'PROFILE' ? 'flex' : 'none';
+        }
+
+        /**
+         * 加载指标数据（编辑模式）
+         * @param {string|number} id 指标ID
+         * @returns {void}
+         */
         function loadIndicatorData(id) {
             // 模拟从服务器加载数据
             const mockData = {
                 1: {
-                    indicatorName: '进件次数',
+                    indicatorName: '小微进件次数',
                     category: 'PROFILE',
                     applicableMerchants: ['个体工商户', '小微企业'],
                     description: '统计商户历史进件申请次数，用于识别频繁进件的风险商户',
-                    judgmentStandard: '统计商户历史进件申请次数，按时间周期进行风险等级判定',
+                    judgmentStandard: '统计小微商户结算人证件历史进件次数',
                     highRiskThreshold: '>=5次',
                     mediumRiskThreshold: '3-4次',
-                    lowRiskThreshold: '<3次'
+                    lowRiskThreshold: '<3次',
+                    allowOrgConfig: true,
+                    allowProceedAfterHighRisk: false
                 }
             };
 
@@ -418,9 +515,29 @@
                 document.getElementById('category').value = data.category;
                 document.getElementById('description').value = data.description;
                 document.getElementById('judgmentStandard').value = data.judgmentStandard;
-                document.getElementById('highRiskThreshold').value = data.highRiskThreshold;
-                document.getElementById('mediumRiskThreshold').value = data.mediumRiskThreshold;
-                document.getElementById('lowRiskThreshold').value = data.lowRiskThreshold;
+
+                // 解析并填充阈值
+                const highParsed = parseThresholdString(data.highRiskThreshold);
+                const medParsed = parseThresholdString(data.mediumRiskThreshold);
+                const lowParsed = parseThresholdString(data.lowRiskThreshold);
+                if (highParsed) {
+                    document.getElementById('highOperator').value = highParsed.op;
+                    document.getElementById('highValue').value = highParsed.value;
+                }
+                if (medParsed) {
+                    document.getElementById('mediumOperator').value = medParsed.op;
+                    document.getElementById('mediumValue').value = medParsed.value;
+                }
+                if (lowParsed) {
+                    document.getElementById('lowOperator').value = lowParsed.op;
+                    document.getElementById('lowValue').value = lowParsed.value;
+                }
+
+                // 资料风险布尔字段
+                document.getElementById('allowOrgConfig').checked = !!data.allowOrgConfig;
+                document.getElementById('allowProceedAfterHighRisk').checked = !!data.allowProceedAfterHighRisk;
+
+                updateProfileOptionsVisibility();
 
                 // 设置适用商户复选框
                 data.applicableMerchants.forEach(merchant => {
@@ -431,6 +548,10 @@
         }
 
         // 设置表单验证
+        /**
+         * 初始化表单校验与事件绑定
+         * @returns {void}
+         */
         function setupFormValidation() {
             // 适用商户验证
             const merchantCheckboxes = document.querySelectorAll('#applicableMerchants input[type="checkbox"]');
@@ -440,9 +561,15 @@
         }
 
         // 验证适用商户
+        /**
+         * 校验“适用商户”选择
+         * @returns {boolean} 是否通过校验
+         */
         function validateApplicableMerchants() {
             const checkedBoxes = document.querySelectorAll('#applicableMerchants input[type="checkbox"]:checked');
             const container = document.getElementById('applicableMerchants');
+
+            if (!container) return true; // 当前版本适用商户区域可能被隐藏
 
             if (checkedBoxes.length === 0) {
                 showFieldError(container, '请至少选择一种适用商户类型');
@@ -457,32 +584,176 @@
         function showFieldError(field, message) {
             clearFieldError(field);
 
-            field.style.borderColor = 'var(--error-red)';
+            if (field.style) {
+                field.style.borderColor = 'var(--error-red)';
+            }
 
             const errorDiv = document.createElement('div');
             errorDiv.className = 'error-text';
             errorDiv.textContent = message;
-            errorDiv.setAttribute('data-error-for', field.id);
+            errorDiv.setAttribute('data-error-for', field.id || '');
 
-            field.parentNode.appendChild(errorDiv);
+            if (field.parentNode) {
+                field.parentNode.appendChild(errorDiv);
+            }
         }
 
         // 清除字段错误
         function clearFieldError(field) {
-            field.style.borderColor = '';
-
-            const existingError = field.parentNode.querySelector(`[data-error-for="${field.id}"]`);
-            if (existingError) {
-                existingError.remove();
+            if (field && field.style) {
+                field.style.borderColor = '';
             }
+
+            if (field && field.parentNode) {
+                const existingError = field.parentNode.querySelector(`[data-error-for="${field.id || ''}"]`);
+                if (existingError) {
+                    existingError.remove();
+                }
+            }
+        }
+
+        /**
+         * 解析阈值字符串为操作符与数值
+         * 支持格式：">=5", "<3", "=10"，如遇范围如"3-4"，将取第一个数并默认">="
+         * @param {string} str 原始阈值字符串
+         * @returns {{op: string, value: number}|null}
+         */
+        function parseThresholdString(str) {
+            if (!str || typeof str !== 'string') return null;
+            // 去除中文与单位
+            const cleaned = str.replace(/[^0-9<>=\-.]/g, '');
+            const ops = ['>=', '<=', '>', '<', '='];
+            for (const op of ops) {
+                if (cleaned.startsWith(op)) {
+                    const num = cleaned.slice(op.length).match(/[-+]?[0-9]*\.?[0-9]+/);
+                    if (num) return { op, value: Number(num[0]) };
+                }
+            }
+            // 尝试范围或纯数字
+            const rangeMatch = cleaned.match(/([0-9]*\.?[0-9]+)/);
+            if (rangeMatch) {
+                return { op: '>=', value: Number(rangeMatch[1]) };
+            }
+            return null;
+        }
+
+        /**
+         * 将操作符与数值拼接为字符串
+         * @param {string} op 操作符，取值">", ">=", "=", "<=", "<"
+         * @param {number|string} value 数值
+         * @returns {string}
+         */
+        function buildThresholdString(op, value) {
+            const v = (value !== undefined && value !== null) ? String(value).trim() : '';
+            return `${op}${v}`;
+        }
+
+        /**
+         * 处理操作符变化，切换单值/区间输入模式
+         * @param {string} level 风险等级 ('high', 'medium', 'low')
+         * @param {string} operator 选择的操作符
+         * @returns {void}
+         */
+        function onOperatorChange(level, operator) {
+            const container = document.getElementById(`${level}ValueContainer`);
+            const isInterval = ['(,)', '[,]', '(,]', '[,)'].includes(operator);
+            
+            if (isInterval) {
+                // 显示区间输入框
+                container.innerHTML = `
+                    <div class="interval-inputs">
+                        <input type="number" id="${level}ValueMin" class="form-input threshold-input interval-input" 
+                               placeholder="下限" step="0.01" min="0" onchange="validateInterval('${level}')">
+                        <span class="interval-separator">—</span>
+                        <input type="number" id="${level}ValueMax" class="form-input threshold-input interval-input" 
+                               placeholder="上限" step="0.01" min="0" onchange="validateInterval('${level}')">
+                    </div>
+                `;
+            } else {
+                // 显示单值输入框
+                container.innerHTML = `
+                    <input type="number" id="${level}Value" class="form-input threshold-input" 
+                           placeholder="请输入数值" step="0.01" min="0">
+                `;
+            }
+        }
+
+        /**
+         * 验证区间值：下限应小于等于上限
+         * @param {string} level 风险等级
+         * @returns {void}
+         */
+        function validateInterval(level) {
+            const minInput = document.getElementById(`${level}ValueMin`);
+            const maxInput = document.getElementById(`${level}ValueMax`);
+            
+            if (minInput && maxInput && minInput.value && maxInput.value) {
+                const min = parseFloat(minInput.value);
+                const max = parseFloat(maxInput.value);
+                
+                if (min > max) {
+                    showFieldError(maxInput, '上限值应大于等于下限值');
+                } else {
+                    clearFieldError(minInput);
+                    clearFieldError(maxInput);
+                }
+            }
+        }
+
+        /**
+         * 校验并收集三档风险阈值
+         * @returns {{high: string, medium: string, low: string}|null}
+         */
+        function collectThresholds() {
+            const levels = ['high', 'medium', 'low'];
+            const result = {};
+            let hasError = false;
+
+            levels.forEach(level => {
+                const operator = document.getElementById(`${level}Operator`).value;
+                const isInterval = ['(,)', '[,]', '(,]', '[,)'].includes(operator);
+                
+                if (isInterval) {
+                    // 区间值处理
+                    const minInput = document.getElementById(`${level}ValueMin`);
+                    const maxInput = document.getElementById(`${level}ValueMax`);
+                    
+                    if (!minInput.value || !maxInput.value || isNaN(Number(minInput.value)) || isNaN(Number(maxInput.value))) {
+                        showFieldError(minInput, `${level === 'high' ? '高' : level === 'medium' ? '中' : '低'}风险区间值为必填，且需为数值`);
+                        hasError = true;
+                    } else {
+                        const min = parseFloat(minInput.value);
+                        const max = parseFloat(maxInput.value);
+                        if (min > max) {
+                            showFieldError(maxInput, '上限值应大于等于下限值');
+                            hasError = true;
+                        } else {
+                            clearFieldError(minInput);
+                            clearFieldError(maxInput);
+                            result[level] = `${operator.charAt(0)}${min},${max}${operator.charAt(2)}`;
+                        }
+                    }
+                } else {
+                    // 单值处理
+                    const valueInput = document.getElementById(`${level}Value`);
+                    if (!valueInput.value || isNaN(Number(valueInput.value))) {
+                        showFieldError(valueInput, `${level === 'high' ? '高' : level === 'medium' ? '中' : '低'}风险数值为必填，且需为数值`);
+                        hasError = true;
+                    } else {
+                        clearFieldError(valueInput);
+                        result[level] = buildThresholdString(operator, valueInput.value);
+                    }
+                }
+            });
+
+            return hasError ? null : result;
         }
 
         // 保存指标
         function saveIndicator() {
             // 验证必填字段
             const requiredFields = [
-                'indicatorName', 'category', 'description', 'judgmentStandard',
-                'highRiskThreshold', 'mediumRiskThreshold', 'lowRiskThreshold'
+                'indicatorName', 'category', 'description', 'judgmentStandard'
             ];
 
             let hasError = false;
@@ -497,8 +768,14 @@
                 }
             });
 
-            // 验证适用商户
-            if (!validateApplicableMerchants()) {
+            // 验证阈值
+            const thresholds = collectThresholds();
+            if (!thresholds) {
+                hasError = true;
+            }
+
+            // 验证适用商户（如存在该区域）
+            if (document.getElementById('applicableMerchants') && !validateApplicableMerchants()) {
                 hasError = true;
             }
 
@@ -508,21 +785,31 @@
             }
 
             // 收集适用商户数据
-            const applicableMerchants = Array.from(
-                document.querySelectorAll('#applicableMerchants input[type="checkbox"]:checked')
-            ).map(checkbox => checkbox.value);
+            const applicableMerchants = document.getElementById('applicableMerchants')
+                ? Array.from(
+                    document.querySelectorAll('#applicableMerchants input[type="checkbox"]:checked')
+                  ).map(checkbox => checkbox.value)
+                : [];
+
+            const category = document.getElementById('category').value;
 
             // 收集表单数据
             const formData = {
                 indicatorName: document.getElementById('indicatorName').value,
-                category: document.getElementById('category').value,
+                category: category,
                 applicableMerchants: applicableMerchants,
                 description: document.getElementById('description').value,
                 judgmentStandard: document.getElementById('judgmentStandard').value,
-                highRiskThreshold: document.getElementById('highRiskThreshold').value,
-                mediumRiskThreshold: document.getElementById('mediumRiskThreshold').value,
-                lowRiskThreshold: document.getElementById('lowRiskThreshold').value
+                highRiskThreshold: thresholds.high,
+                mediumRiskThreshold: thresholds.medium,
+                lowRiskThreshold: thresholds.low
             };
+
+            // 仅在资料风险时收集布尔字段
+            if (category === 'PROFILE') {
+                formData.allowOrgConfig = document.getElementById('allowOrgConfig').checked;
+                formData.allowProceedAfterHighRisk = document.getElementById('allowProceedAfterHighRisk').checked;
+            }
 
             // 模拟保存操作
             console.log('保存指标数据:', formData);
