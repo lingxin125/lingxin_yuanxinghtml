@@ -27,47 +27,110 @@
     .config-header { margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--border-color-light); }
     .config-description { color: var(--text-secondary); margin: 0; }
 
-    .tag-list { display: flex; flex-wrap: wrap; gap: 8px; }
-    .tag-item { 
-      display: inline-flex; 
-      align-items: center; 
-      gap: 6px; 
-      padding: 6px 10px; 
-      border-radius: 16px; 
-      border: 1px solid #91caff; 
-      background: var(--primary-blue-light); 
-      color: var(--primary-blue); 
-      font-size: 12px; 
-      cursor: pointer; 
-      user-select: none;
+    .tag-list { display: flex; flex-direction: column; gap: 8px; }
+    
+    .fixed-item {
+      display: flex;
+      align-items: center;
+      padding: 12px 16px;
+      border: 1px solid var(--border-color-light);
+      border-radius: 8px;
+      background: var(--bg-container);
       transition: all 0.2s ease;
-      position: relative;
     }
-    .tag-item:hover {
+
+    .fixed-item:hover {
+      border-color: var(--primary-blue);
+      box-shadow: 0 2px 8px rgba(22, 119, 255, 0.1);
+    }
+
+    .fixed-item-left {
+      min-width: 120px;
+      margin-right: 16px;
+    }
+
+    .fixed-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 16px;
+      border: 1px solid #91caff;
+      background: var(--primary-blue-light);
+      color: var(--primary-blue);
+      font-size: 12px;
+      cursor: pointer;
+      user-select: none;
+      position: relative;
+      transition: all 0.2s ease;
+      min-height: 28px;
+    }
+
+    .fixed-tag:hover {
       background: #bae0ff;
       border-color: var(--primary-blue-hover);
       transform: translateY(-1px);
       box-shadow: 0 2px 4px rgba(22, 119, 255, 0.2);
     }
-    .tag-item.selected { 
-      background: var(--primary-blue); 
-      color: #fff; 
+
+    .fixed-item.selected .fixed-tag {
+      background: var(--primary-blue);
+      color: #fff;
       border-color: var(--primary-blue);
       box-shadow: 0 2px 8px rgba(22, 119, 255, 0.3);
+      padding-right: 32px;
     }
-    .tag-item.selected:hover {
+
+    .fixed-item.selected .fixed-tag:hover {
       background: var(--primary-blue-hover);
       border-color: var(--primary-blue-hover);
     }
-    .tag-item .check-icon {
+
+    .fixed-tag .check-icon {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
       width: 14px;
       height: 14px;
-      margin-left: 4px;
       opacity: 0;
       transition: opacity 0.2s ease;
+      color: var(--primary-blue);
     }
-    .tag-item.selected .check-icon {
+
+    .fixed-item.selected .fixed-tag .check-icon {
       opacity: 1;
+      color: #fff;
+    }
+
+    .fixed-item-right {
+      flex: 1;
+      padding-left: 16px;
+      border-left: 1px solid var(--border-color-light);
+    }
+
+    .calc-info {
+      color: var(--text-secondary);
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+
+    .risk-levels {
+      display: flex;
+      gap: 16px;
+      font-size: 12px;
+    }
+
+    .risk-high {
+      color: var(--error-red);
+    }
+
+    .risk-medium {
+      color: var(--warning-orange);
+    }
+
+    .risk-low {
+      color: var(--success-green);
     }
      .module-title {
             font-size: 16px;
@@ -126,10 +189,10 @@
 
     /** 模拟数据（交易风险，全部不可配置） */
     const indicators = [
-      { id: 4, name: '大额交易', enabled: true },
-      { id: 5, name: 'IP异常交易', enabled: true },
-      { id: 7, name: '同卡多商户', enabled: false },
-      { id: 8, name: '异常失败率', enabled: false }
+      { id: 4, name: '优惠交易占比', enabled: true, calc: '计算优惠交易笔数占总交易笔数的比例', high: {op: '>=', value: 60}, medium: {op: '>=', value: 30}, low: {op: '<', value: 30} },
+      { id: 5, name: '信用卡交易占比', enabled: true, calc: '计算信用卡交易笔数占总交易笔数的比例', high: {op: '>=', value: 60}, medium: {op: '>=', value: 30}, low: {op: '<', value: 30} },
+      { id: 7, name: '单人交易占比', enabled: false, calc: '消费者id重复次数最多的id交易笔数/总交易笔数', high: {op: '>=', value: 60}, medium: {op: '>=', value: 30}, low: {op: '<', value: 30} },
+      { id: 8, name: '笔均交易', enabled: false, calc: '交易总金额/交易总笔数', high: {op: '>=', value: 5000}, medium: {op: '>=', value: 2000}, low: {op: '<', value: 2000} }
     ];
 
     document.addEventListener('DOMContentLoaded', () => {
@@ -138,36 +201,31 @@
     });
 
     /**
-     * 渲染标签列表（不可配置场景）
+     * 渲染固定指标列表
      * @returns {void}
      */
     function renderTagList() {
       const container = document.getElementById('tagContainer');
-      container.innerHTML = '';
-      indicators.forEach(ind => {
-        const tag = document.createElement('div');
-        tag.className = 'tag-item' + (ind.enabled ? ' selected' : '');
-        tag.setAttribute('role', 'button');
-        tag.setAttribute('aria-pressed', String(!!ind.enabled));
-        
-        // 创建标签内容
-        const nameSpan = document.createElement('span');
-        nameSpan.textContent = ind.name;
-        tag.appendChild(nameSpan);
-        
-        // 添加对勾图标
-        const checkIcon = document.createElement('div');
-        checkIcon.className = 'check-icon';
-        checkIcon.innerHTML = `
-          <svg viewBox="0 0 16 16" fill="currentColor" style="width: 100%; height: 100%;">
-            <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
-          </svg>
-        `;
-        tag.appendChild(checkIcon);
-        
-        tag.addEventListener('click', () => onToggleSelect(ind.id));
-        container.appendChild(tag);
-      });
+      container.innerHTML = indicators.map(item => `
+        <div class="fixed-item ${item.enabled ? 'selected' : ''}">
+          <div class="fixed-item-left">
+            <div class="fixed-tag" onclick="onToggleSelect(${item.id})">
+              <span>${item.name}</span>
+              <svg class="check-icon" viewBox="0 0 16 16" fill="currentColor">
+                <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
+              </svg>
+            </div>
+          </div>
+          <div class="fixed-item-right">
+            <div class="calc-info">指标计算方式：${item.calc}</div>
+            <div class="risk-levels">
+              <span class="risk-high">高风险：指标值${item.high.op} ${item.high.value}${item.id === 8 ? '元' : '%'}</span>
+              <span class="risk-medium">中风险：指标值${item.medium.op} ${item.medium.value}${item.id === 8 ? '元' : '%'}</span>
+              <span class="risk-low">低风险：指标值${item.low.op} ${item.low.value}${item.id === 8 ? '元' : '%'}</span>
+            </div>
+          </div>
+        </div>
+      `).join('');
     }
 
     /**

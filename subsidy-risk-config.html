@@ -27,47 +27,110 @@
     .config-header { margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--border-color-light); }
     .config-description { color: var(--text-secondary); margin: 0; }
 
-    .tag-list { display: flex; flex-wrap: wrap; gap: 8px; }
-    .tag-item { 
-      display: inline-flex; 
-      align-items: center; 
-      gap: 6px; 
-      padding: 6px 10px; 
-      border-radius: 16px; 
-      border: 1px solid #91caff; 
-      background: var(--primary-blue-light); 
-      color: var(--primary-blue); 
-      font-size: 12px; 
-      cursor: pointer; 
-      user-select: none;
+    .tag-list { display: flex; flex-direction: column; gap: 8px; }
+    
+    .fixed-item {
+      display: flex;
+      align-items: center;
+      padding: 12px 16px;
+      border: 1px solid var(--border-color-light);
+      border-radius: 8px;
+      background: var(--bg-container);
       transition: all 0.2s ease;
-      position: relative;
     }
-    .tag-item:hover {
+
+    .fixed-item:hover {
+      border-color: var(--primary-blue);
+      box-shadow: 0 2px 8px rgba(22, 119, 255, 0.1);
+    }
+
+    .fixed-item-left {
+      min-width: 120px;
+      margin-right: 16px;
+    }
+
+    .fixed-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 16px;
+      border: 1px solid #91caff;
+      background: var(--primary-blue-light);
+      color: var(--primary-blue);
+      font-size: 12px;
+      cursor: pointer;
+      user-select: none;
+      position: relative;
+      transition: all 0.2s ease;
+      min-height: 28px;
+    }
+
+    .fixed-tag:hover {
       background: #bae0ff;
       border-color: var(--primary-blue-hover);
       transform: translateY(-1px);
       box-shadow: 0 2px 4px rgba(22, 119, 255, 0.2);
     }
-    .tag-item.selected { 
-      background: var(--primary-blue); 
-      color: #fff; 
+
+    .fixed-item.selected .fixed-tag {
+      background: var(--primary-blue);
+      color: #fff;
       border-color: var(--primary-blue);
       box-shadow: 0 2px 8px rgba(22, 119, 255, 0.3);
+      padding-right: 32px;
     }
-    .tag-item.selected:hover {
+
+    .fixed-item.selected .fixed-tag:hover {
       background: var(--primary-blue-hover);
       border-color: var(--primary-blue-hover);
     }
-    .tag-item .check-icon {
+
+    .fixed-tag .check-icon {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
       width: 14px;
       height: 14px;
-      margin-left: 4px;
       opacity: 0;
       transition: opacity 0.2s ease;
+      color: var(--primary-blue);
     }
-    .tag-item.selected .check-icon {
+
+    .fixed-item.selected .fixed-tag .check-icon {
       opacity: 1;
+      color: #fff;
+    }
+
+    .fixed-item-right {
+      flex: 1;
+      padding-left: 16px;
+      border-left: 1px solid var(--border-color-light);
+    }
+
+    .calc-info {
+      color: var(--text-secondary);
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+
+    .risk-levels {
+      display: flex;
+      gap: 16px;
+      font-size: 12px;
+    }
+
+    .risk-high {
+      color: var(--error-red);
+    }
+
+    .risk-medium {
+      color: var(--warning-orange);
+    }
+
+    .risk-low {
+      color: var(--success-green);
     }
     .module-title {
             font-size: 16px;
@@ -114,10 +177,10 @@
 
     /** 模拟数据（补贴风险，全部不可配置） */
     const indicators = [
-      { id: 101, name: '异常补贴金额', enabled: true },
-      { id: 102, name: '频繁补贴申请', enabled: false },
-      { id: 103, name: '跨主体补贴套取', enabled: true },
-      { id: 104, name: '补贴审核异常', enabled: false }
+      { id: 101, name: '本月网点耗能预警', enabled: true, calc: '网点下当月累计消耗成本/预估当月收益，高风险含预估当月0收益商户', high: {op: '>=', value: 150}, medium: {op: '>=', value: 90}, low: {op: '<', value: 90} },
+      { id: 102, name: '上月网点耗能预警', enabled: false, calc: '网点下上月累计消耗成本/上月实际收益，高风险含预估当月0收益商户', high: {op: '>=', value: 150}, medium: {op: '>=', value: 90}, low: {op: '<', value: 90} },
+      { id: 103, name: '补贴激增预警', enabled: true, calc: '与上月同期消耗成本对比', high: {op: '>=', value: 150}, medium: {op: '>=', value: 90}, low: {op: '<', value: 90} },
+      { id: 104, name: '本月全省耗能预警', enabled: false, calc: '全省网点下当月累计消耗成本/预估当月收益，高风险含预估当月0收益商户', high: {op: '>=', value: 150}, medium: {op: '>=', value: 90}, low: {op: '<', value: 90} }
     ];
 
     document.addEventListener('DOMContentLoaded', () => {
@@ -126,24 +189,29 @@
     });
 
     /**
-     * 渲染标签列表（不可配置场景）
+     * 渲染固定指标列表
      * @returns {void}
      */
     function renderTagList() {
       const container = document.getElementById('tagContainer');
       container.innerHTML = '';
       indicators.forEach(ind => {
+        const fixedItem = document.createElement('div');
+        fixedItem.className = 'fixed-item' + (ind.enabled ? ' selected' : '');
+        
+        // 左侧标签区域
+        const leftDiv = document.createElement('div');
+        leftDiv.className = 'fixed-item-left';
+        
         const tag = document.createElement('div');
-        tag.className = 'tag-item' + (ind.enabled ? ' selected' : '');
+        tag.className = 'fixed-tag';
         tag.setAttribute('role', 'button');
         tag.setAttribute('aria-pressed', String(!!ind.enabled));
         
-        // 创建标签内容
         const nameSpan = document.createElement('span');
         nameSpan.textContent = ind.name;
         tag.appendChild(nameSpan);
         
-        // 添加对勾图标
         const checkIcon = document.createElement('div');
         checkIcon.className = 'check-icon';
         checkIcon.innerHTML = `
@@ -154,7 +222,29 @@
         tag.appendChild(checkIcon);
         
         tag.addEventListener('click', () => onToggleSelect(ind.id));
-        container.appendChild(tag);
+        leftDiv.appendChild(tag);
+        
+        // 右侧信息区域
+        const rightDiv = document.createElement('div');
+        rightDiv.className = 'fixed-item-right';
+        
+        const calcInfo = document.createElement('div');
+        calcInfo.className = 'calc-info';
+        calcInfo.textContent = `指标计算方式：${ind.calc}`;
+        rightDiv.appendChild(calcInfo);
+        
+        const riskLevels = document.createElement('div');
+        riskLevels.className = 'risk-levels';
+        riskLevels.innerHTML = `
+          <span class="risk-high">高风险：指标值${ind.high.op} ${ind.high.value}%</span>
+          <span class="risk-medium">中风险：指标值${ind.medium.op} ${ind.medium.value}%</span>
+          <span class="risk-low">低风险：指标值${ind.low.op} ${ind.low.value}%</span>
+        `;
+        rightDiv.appendChild(riskLevels);
+        
+        fixedItem.appendChild(leftDiv);
+        fixedItem.appendChild(rightDiv);
+        container.appendChild(fixedItem);
       });
     }
 

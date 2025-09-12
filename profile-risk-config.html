@@ -147,8 +147,112 @@
 
         .tag-list {
             display: flex;
-            flex-wrap: wrap;
+            flex-direction: column;
             gap: 8px;
+        }
+
+        .fixed-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            border: 1px solid var(--border-color-light);
+            border-radius: 8px;
+            background: var(--bg-container);
+            transition: all 0.2s ease;
+        }
+
+        .fixed-item:hover {
+            border-color: var(--primary-blue);
+            box-shadow: 0 2px 8px rgba(22, 119, 255, 0.1);
+        }
+
+        .fixed-item-left {
+            min-width: 120px;
+            margin-right: 16px;
+        }
+
+        .fixed-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 16px;
+            border: 1px solid #91caff;
+            background: var(--primary-blue-light);
+            color: var(--primary-blue);
+            font-size: 12px;
+            cursor: pointer;
+            user-select: none;
+            position: relative;
+            transition: all 0.2s ease;
+            min-height: 28px;
+        }
+
+        .fixed-tag:hover {
+            background: #bae0ff;
+            border-color: var(--primary-blue-hover);
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(22, 119, 255, 0.2);
+        }
+
+        .fixed-item.selected .fixed-tag {
+            background: var(--primary-blue);
+            color: #fff;
+            border-color: var(--primary-blue);
+            box-shadow: 0 2px 8px rgba(22, 119, 255, 0.3);
+            padding-right: 32px;
+        }
+
+        .fixed-item.selected .fixed-tag:hover {
+            background: var(--primary-blue-hover);
+            border-color: var(--primary-blue-hover);
+        }
+
+        .fixed-tag .check-icon {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 14px;
+            height: 14px;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            color: var(--primary-blue);
+        }
+
+        .fixed-item.selected .fixed-tag .check-icon {
+            opacity: 1;
+            color: #fff;
+        }
+
+        .fixed-item-right {
+            flex: 1;
+            padding-left: 16px;
+            border-left: 1px solid var(--border-color-light);
+        }
+
+        .calc-info {
+            color: var(--text-secondary);
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        .risk-levels {
+            display: flex;
+            gap: 16px;
+            font-size: 12px;
+        }
+
+        .risk-high {
+            color: var(--error-red);
+        }
+
+        .risk-medium {
+            color: var(--warning-orange);
+        }
+
+        .risk-low {
+            color: var(--success-green);
         }
 
         .tag-item {
@@ -224,6 +328,22 @@
         .details-title {
             font-weight: 600;
             margin: 0 0 12px 0;
+        }
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
         }
 
         .calc-readonly {
@@ -367,9 +487,9 @@
         /** 模拟数据（资料风险） */
         const indicators = [
             { id: 1, name: '小微进件次数', configurable: true, enabled: true,  calc: '统计小微商户结算人证件历史进件次数', high: {op: '>=', value: 5}, medium: {op: '>=', value: 3}, low: {op: '>=', value: 1} },
-            { id: 2, name: '门头照重复', configurable: true, enabled: false, calc: '统计该商户门头照在平台信息库中（含本次）被重复使用次数', high: {op: '>=', value: 3}, medium: {op: '>=', value: 2}, low: {op: '>=', value: 1} },
-            { id: 3, name: '三照导入方式', configurable: false, enabled: true, calc: '三照是否来源于相册上传', high: {op: '>=', value: 3}, medium: {op: '>=', value: 2}, low: {op: '>=', value: 1} },
-            { id: 4, name: '证件相似度', configurable: false, enabled: false, calc: 'OCR相似度阈值判断', high: {op: '>=', value: 90}, medium: {op: '>=', value: 80}, low: {op: '>=', value: 70} }
+            { id: 2, name: '营业执照进件次数', configurable: true, enabled: false, calc: '统计非小微商户营业执照历史进件次数', high: {op: '>=', value: 3}, medium: {op: '>=', value: 2}, low: {op: '>=', value: 1} },
+            { id: 3, name: '三照导入方式', configurable: false, enabled: true, calc: '三照是否来源于相册上传', high: {op: '=', value: 3}, medium: {op: '>=', value: 1}, low: {op: '=', value: 0} },
+            { id: 4, name: '通道复审驳回', configurable: false, enabled: false, calc: '统计通道复审是否驳回', high: {op: '=', value: 0}, medium: {op: '=', value: 1}, low: {op: '=', value: 1} }
         ];
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -427,13 +547,23 @@
             container.innerHTML = fixedItems.map(ind => {
                 const selectedClass = ind.enabled ? 'selected' : '';
                 return `
-                    <div class="tag-item ${selectedClass}" 
-                         data-id="${ind.id}" 
-                         onclick="onToggleSelect('${ind.id}')">
-                        <svg class="check-icon" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z" fill="currentColor"/>
-                        </svg>
-                        <span>${ind.name}</span>
+                    <div class="fixed-item ${selectedClass}" data-id="${ind.id}">
+                        <div class="fixed-item-left">
+                            <div class="fixed-tag" onclick="onToggleFixed('${ind.id}')">
+                                <svg class="check-icon" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z" fill="currentColor"/>
+                                </svg>
+                                <span>${ind.name}</span>
+                            </div>
+                        </div>
+                        <div class="fixed-item-right">
+                            <div class="calc-info">指标计算方式：${ind.calc}</div>
+                            <div class="risk-levels">
+                                <span class="risk-high">高风险：指标值${ind.high?.op || '>='} ${ind.high?.value || 0}</span>
+                                <span class="risk-medium">中风险：指标值${ind.medium?.op || '>='} ${ind.medium?.value || 0}</span>
+                                <span class="risk-low">低风险：指标值${ind.low?.op || '<'} ${ind.low?.value || 0}</span>
+                            </div>
+                        </div>
                     </div>
                 `;
             }).join('');
@@ -444,7 +574,7 @@
          * @param {number} id 指标ID
          * @returns {void}
          */
-        function onToggleSelect(id) {
+        function onToggleFixed(id) {
             /** 将传入的字符串ID转换为数字，避免严格相等比较失败 */
             const numericId = Number(id);
             const ind = indicators.find(i => i.id === numericId);
@@ -524,6 +654,14 @@
                    
                     <span >小于中风险的指标值</span>
                 </div>
+                <br>
+                <div class="checkbox-group">
+                    <label class="checkbox-item" for="allowProceedAfterHighRisk">
+                    <input type="checkbox" id="allowProceedAfterHighRisk">
+                     <span>触发高风险商户不允许进件</span>
+                     </label>             
+                                
+                 </div>
                 
             `;
         }
