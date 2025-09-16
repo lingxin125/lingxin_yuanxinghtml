@@ -1,0 +1,1442 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>指标分配管理</title>
+    <link href="css/tailwind-minimal.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #1677ff;
+            --primary-blue-hover: #4096ff;
+            --primary-blue-active: #0958d9;
+            --primary-blue-light: #e6f4ff;
+            --success-green: #52c41a;
+            --warning-orange: #fa8c16;
+            --error-red: #ff4d4f;
+            --bg-layout: #f5f5f5;
+            --bg-container: #ffffff;
+            --border-color: #d9d9d9;
+            --border-color-light: #f0f0f0;
+            --text-primary: #000000d9;
+            --text-secondary: #00000073;
+            --text-disabled: #00000040;
+            --shadow-card: 0 1px 2px 0 rgba(0, 0, 0, 0.03), 0 1px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px 0 rgba(0, 0, 0, 0.02);
+        }
+
+        * {
+            font-family: 'PingFang SC', 'Microsoft YaHei', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background: var(--bg-layout);
+            color: var(--text-primary);
+            font-size: 14px;
+            line-height: 1.5715;
+            margin: 0;
+            padding: 24px;
+        }
+
+        .page-header {
+            background: var(--bg-container);
+            padding: 24px;
+            border-radius: 8px;
+            box-shadow: var(--shadow-card);
+            margin-bottom: 24px;
+        }
+
+        .page-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 0;
+        }
+
+        .breadcrumb {
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-top: 8px;
+        }
+
+        .filter-section {
+            background: var(--bg-container);
+            padding: 24px;
+            border-radius: 8px;
+            box-shadow: var(--shadow-card);
+            margin-bottom: 24px;
+        }
+
+        .filter-row {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .filter-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .filter-label {
+            font-size: 14px;
+            color: var(--text-primary);
+            white-space: nowrap;
+        }
+
+        .form-input, .form-select {
+            padding: 8px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 14px;
+            background: var(--bg-container);
+            transition: all 0.2s;
+            min-width: 200px;
+        }
+
+        .form-input:focus, .form-select:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 2px rgba(22, 119, 255, 0.1);
+        }
+
+        .btn {
+            padding: 4px 16px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid transparent;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: var(--primary-blue);
+            color: white;
+            border-color: var(--primary-blue);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-blue-hover);
+            border-color: var(--primary-blue-hover);
+        }
+
+        .btn-secondary {
+            background: var(--bg-container);
+            color: var(--text-primary);
+            border-color: var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--primary-blue);
+            color: var(--primary-blue);
+        }
+
+        .content-section {
+            background: var(--bg-container);
+            border-radius: 8px;
+            box-shadow: var(--shadow-card);
+            overflow: hidden;
+        }
+
+        .section-header {
+            padding: 16px 24px;
+            border-bottom: 1px solid var(--border-color-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .table th {
+            background: var(--bg-layout);
+            padding: 16px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--text-primary);
+            border-bottom: 1px solid var(--border-color-light);
+            font-size: 14px;
+        }
+
+        .table td {
+            padding: 16px;
+            border-bottom: 1px solid var(--border-color-light);
+            font-size: 14px;
+            color: var(--text-primary);
+        }
+
+        .table tbody tr:hover {
+            background: var(--bg-layout);
+        }
+
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .status-active {
+            background: #f6ffed;
+            color: var(--success-green);
+            border: 1px solid #b7eb8f;
+        }
+
+        .status-inactive {
+            background: #fff2e8;
+            color: var(--warning-orange);
+            border: 1px solid #ffbb96;
+        }
+
+        .action-btn {
+            padding: 4px 8px;
+            font-size: 12px;
+            border-radius: 4px;
+            margin-right: 8px;
+        }
+
+        .pagination {
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid var(--border-color-light);
+        }
+
+        .pagination-info {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .pagination-controls {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .pagination-btn {
+            padding: 8px 12px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-container);
+            color: var(--text-primary);
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .pagination-btn:hover {
+            border-color: var(--primary-blue);
+            color: var(--primary-blue);
+        }
+
+        .pagination-btn.active {
+            background: var(--primary-blue);
+            color: white;
+            border-color: var(--primary-blue);
+        }
+
+        .pagination-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* 弹窗样式 */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.45);
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal {
+            background: var(--bg-container);
+            border-radius: 8px;
+            box-shadow: 0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 9px 28px 8px rgba(0, 0, 0, 0.05);
+            width: 90vw;
+            max-width: 1200px;
+            max-height: 90vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-header {
+            padding: 16px 24px;
+            border-bottom: 1px solid var(--border-color-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 16px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 4px;
+        }
+
+        .modal-body {
+            padding: 24px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .modal-footer {
+            padding: 16px 24px;
+            border-top: 1px solid var(--border-color-light);
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+
+        .form-section {
+            margin-bottom: 24px;
+        }
+
+        .form-section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border-color-light);
+        }
+
+        .form-row {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 16px;
+            align-items: center;
+        }
+
+        .form-group {
+            flex: 1;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .form-textarea {
+            width: 100%;
+            min-height: 80px;
+            padding: 8px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 14px;
+            background: var(--bg-container);
+            resize: vertical;
+            font-family: inherit;
+        }
+
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 2px rgba(22, 119, 255, 0.1);
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 22px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .switch-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 22px;
+        }
+
+        .switch-slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 2px;
+            bottom: 2px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        .switch input:checked + .switch-slider {
+            background-color: var(--primary-blue);
+        }
+
+        .switch input:checked + .switch-slider:before {
+            transform: translateX(22px);
+        }
+
+        /* 穿梭框样式 */
+        .transfer-container {
+            display: flex;
+            gap: 16px;
+            align-items: stretch;
+            min-height: 400px;
+        }
+
+        .transfer-panel {
+            flex: 1;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .transfer-header {
+            padding: 12px 16px;
+            background: var(--bg-layout);
+            border-bottom: 1px solid var(--border-color-light);
+            font-weight: 500;
+            color: var(--text-primary);
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .transfer-header span {
+            background: var(--primary-blue-light);
+            color: var(--primary-blue);
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            min-width: auto;
+        }
+
+        .transfer-search {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border-color-light);
+        }
+
+        .transfer-search input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .transfer-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 8px;
+        }
+
+        .transfer-group {
+            margin-bottom: 16px;
+        }
+
+        .transfer-group-title {
+            padding: 8px 12px;
+            background: var(--bg-layout);
+            border-radius: 4px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            justify-content: space-between;
+        }
+
+        .group-title-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .group-select-all {
+            font-size: 12px;
+            color: var(--primary-blue);
+            cursor: pointer;
+            padding: 2px 6px;
+            border-radius: 3px;
+            transition: background 0.2s;
+        }
+
+        .group-select-all:hover {
+            background: var(--primary-blue-light);
+        }
+
+        .transfer-group-title i {
+            transition: transform 0.2s;
+        }
+
+        .transfer-group.collapsed .transfer-group-title i {
+            transform: rotate(-90deg);
+        }
+
+        .transfer-group-items {
+            display: block;
+        }
+
+        .transfer-group.collapsed .transfer-group-items {
+            display: none;
+        }
+
+        .transfer-item {
+            padding: 8px 12px;
+            margin: 2px 0;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background 0.2s;
+        }
+
+        .transfer-item:hover {
+            background: var(--bg-layout);
+        }
+
+        .transfer-item input[type="checkbox"] {
+            margin: 0;
+        }
+
+        .transfer-controls {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 12px;
+            padding: 0 8px;
+        }
+
+        .transfer-btn {
+            padding: 8px 16px;
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.2s;
+        }
+
+        .transfer-btn:hover {
+            background: var(--primary-blue-hover);
+        }
+
+        .transfer-btn:disabled {
+            background: var(--text-disabled);
+            cursor: not-allowed;
+        }
+
+        .assigned-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 12px;
+            margin: 2px 0;
+            border-radius: 4px;
+            background: var(--bg-layout);
+        }
+
+        .assigned-item-name {
+            flex: 1;
+        }
+
+        .assigned-item-controls {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .permission-switch {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 12px;
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .permission-switch-row {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            margin: 2px 0;
+        }
+
+        .permission-label {
+            font-size: 11px;
+            color: var(--text-secondary);
+            white-space: nowrap;
+            min-width: 60px;
+        }
+        
+
+        .btn-link {
+            background: transparent;
+            border: none;
+            color: var(--primary-blue);
+            padding: 0;
+            height: auto;
+        }
+
+        .btn-link:hover {
+            color: var(--primary-blue-hover);
+        }
+        .card {
+            background: var(--bg-container);
+            border-radius: 8px;
+            box-shadow: var(--shadow-card);
+            border: 1px solid var(--border-color-light);
+            margin-bottom: 16px;
+        }
+        .card-header {
+            padding: 16px 24px;
+            border-bottom: 1px solid var(--border-color-light);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+       .card-body {
+            padding: 24px;
+        }
+
+        .card-title {
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin: 0;
+        }
+
+    </style>
+</head>
+<body>
+    
+<div class="card"> 
+
+    <!-- 筛选区域 -->
+     <div class="card-header">
+                <h3 class="card-title">筛选条件</h3>
+                
+    </div>
+     <div class="card-body">
+    
+        <div class="filter-row">
+            <div class="filter-item">
+                <label class="filter-label">省级分公司:</label>
+                <select class="form-select" id="companyFilter">
+                    <option value="">全部</option>
+                    <option value="guangdong">广东分公司</option>
+                    <option value="beijing">北京分公司</option>
+                    <option value="shanghai">上海分公司</option>
+                    <option value="jiangsu">江苏分公司</option>
+                    <option value="zhejiang">浙江分公司</option>
+                </select>
+            </div>
+            <!-- <div class="filter-item">
+                <label class="filter-label">分配时间:</label>
+                <input type="date" class="form-input" id="startDate">
+                <span style="margin: 0 8px;">至</span>
+                <input type="date" class="form-input" id="endDate">
+            </div> -->
+            <div class="filter-item">
+                <button class="btn btn-primary" onclick="searchAssignments()">
+                    <i class="fas fa-search"></i>
+                    查询
+                </button>
+                <button class="btn btn-secondary" onclick="resetFilters()">
+                    <i class="fas fa-redo"></i>
+                    重置
+                </button>
+            </div>
+        </div>
+    
+    </div>
+</div>
+    <!-- 数据表格 -->
+    <div class="content-section">
+        <div class="section-header">
+            <!-- <div class="section-title">分配列表</div> -->
+            <button class="btn btn-primary" onclick="openAssignmentModal()">
+                <i class="fas fa-plus"></i>
+                新增分配
+            </button>
+        </div>
+        <div class="table-container">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>省级分公司</th>
+                        <th>分配指标数</th>
+                        <th>创建时间</th>
+                        <th>更新时间</th>
+                       
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody id="assignmentTableBody">
+                    <tr>
+                        <td>广东分公司</td>
+                        <td>15</td>
+                        <td>2024-01-15 10:30:00</td>
+                        <td>2024-01-20 14:25:00</td>
+                         <td>
+                            <button class="btn-link  " onclick="editAssignment('guangdong')">
+                                
+                                编辑
+                            </button>
+                            
+                        </td>
+                        
+                    </tr>
+                    <tr>
+                        <td>北京分公司</td>
+                        <td>12</td>
+                        <td>2024-01-10 09:15:00</td>
+                        <td>2024-01-18 16:40:00</td>
+                        <td>
+                            <button class="btn-link" onclick="editAssignment('beijing')">
+                               
+                                编辑
+                            </button>
+                           
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>上海分公司</td>
+                        <td>8</td>
+                        <td>2024-01-12 11:20:00</td>
+                        <td>2024-01-19 13:15:00</td>
+                        <td>
+                            <button class="btn-link" onclick="editAssignment('shanghai')">
+                                
+                                编辑
+                            </button>
+                            
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="pagination">
+            <div class="pagination-info">共 3 条记录，第 1 页，共 1 页</div>
+            <div class="pagination-controls">
+                <button class="pagination-btn" disabled>
+                    <i class="fas fa-chevron-left"></i>
+                    上一页
+                </button>
+                <button class="pagination-btn active">1</button>
+                <button class="pagination-btn" disabled>
+                    下一页
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 指标分配弹窗 -->
+    <div class="modal-overlay" id="assignmentModal">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-title" id="modalTitle">新增指标分配</div>
+                <button class="modal-close" onclick="closeAssignmentModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- 基础信息 -->
+                <div class="form-section">
+                    <div class="form-section-title">基础信息</div>
+                    <div class="form-row">
+                        <div class="form-group" style="width: 33.33%;">
+                            <label class="form-label">省级分公司</label>
+                            <select class="form-select" id="modalCompany">
+                                <option value="">请选择分公司</option>
+                                <option value="guangdong">广东分公司</option>
+                                <option value="beijing">北京分公司</option>
+                                <option value="shanghai">上海分公司</option>
+                                <option value="jiangsu">江苏分公司</option>
+                                <option value="zhejiang">浙江分公司</option>
+                            </select>
+                        </div>
+                        <!-- <div class="form-group">
+                            <label class="form-label">分配状态</label>
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <label class="switch">
+                                    <input type="checkbox" id="modalStatus" checked>
+                                    <span class="switch-slider"></span>
+                                </label>
+                                <span id="statusText">启用</span>
+                            </div>
+                        </div> -->
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">备注</label>
+                            <textarea class="form-textarea" id="modalRemark" placeholder="请输入备注说明（可选）"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 指标配置 -->
+                <div class="form-section">
+                    <div class="form-section-title">指标配置</div>
+                    <div class="transfer-container">
+                        <!-- 指标库 -->
+                        <div class="transfer-panel">
+                            <div class="transfer-header">
+                                指标库 (<span id="availableCount">102</span>)
+                            </div>
+                            <div class="transfer-search">
+                                <input type="text" placeholder="搜索指标..." id="searchAvailable" oninput="filterAvailableIndicators()">
+                            </div>
+                            <div class="transfer-body" id="availableIndicators">
+                                 <!-- 商户画像指标组 -->
+                                <div class="transfer-group">
+                                    <div class="transfer-group-title" onclick="toggleGroup(this)">
+                                        <div class="group-title-left">
+                                            <i class="fas fa-chevron-down"></i>
+                                            <span>资料风险指标 (30)</span>
+                                        </div>
+                                        <span class="group-select-all" onclick="selectAllInGroup(event, 'profile', 'available')">全选</span>
+                                    </div>
+                                    <div class="transfer-group-items">
+                                        <div class="transfer-item">
+                                            <input type="checkbox" id="indicator_6" value="商户信息完整性">
+                                            <label for="indicator_6">小微进件次数</label>
+                                        </div>
+                                        <div class="transfer-item">
+                                            <input type="checkbox" id="indicator_7" value="经营状态异常">
+                                            <label for="indicator_7">非小微进件次数</label>
+                                        </div>
+                                        <div class="transfer-item">
+                                            <input type="checkbox" id="indicator_8" value="注册信息变更">
+                                            <label for="indicator_8">门头照历史重复次数</label>
+                                        </div>
+                                        <div class="transfer-item">
+                                            <input type="checkbox" id="indicator_9" value="法人代表风险">
+                                            <label for="indicator_9">场景照历史重复次数</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- 交易风险指标组 -->
+                                <div class="transfer-group">
+                                    <div class="transfer-group-title" onclick="toggleGroup(this)">
+                                        <div class="group-title-left">
+                                            <i class="fas fa-chevron-down"></i>
+                                            <span>交易风险指标 (40)</span>
+                                        </div>
+                                        <span class="group-select-all" onclick="selectAllInGroup(event, 'transaction', 'available')">全选</span>
+                                    </div>
+                                    <div class="transfer-group-items">
+                                        <div class="transfer-item">
+                                            <input type="checkbox" id="indicator_1" value="交易金额异常">
+                                            <label for="indicator_1">优惠交易占比</label>
+                                        </div>
+                                        <div class="transfer-item">
+                                            <input type="checkbox" id="indicator_2" value="高频交易检测">
+                                            <label for="indicator_2">信用卡交易占比</label>
+                                        </div>
+                                        <div class="transfer-item">
+                                            <input type="checkbox" id="indicator_3" value="异常时段交易">
+                                            <label for="indicator_3">笔均交易</label>
+                                        </div>
+                                        <div class="transfer-item">
+                                            <input type="checkbox" id="indicator_4" value="频繁小额交易">
+                                            <label for="indicator_4">交易时间范围</label>
+                                        </div>
+                                        <div class="transfer-item">
+                                            <input type="checkbox" id="indicator_5" value="跨地区交易">
+                                            <label for="indicator_5">单人交易占比</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                               
+                                <!-- 补贴风险指标组 -->
+                                <div class="transfer-group">
+                                    <div class="transfer-group-title" onclick="toggleGroup(this)">
+                                        <div class="group-title-left">
+                                            <i class="fas fa-chevron-down"></i>
+                                            <span>补贴风险指标 (32)</span>
+                                        </div>
+                                        <span class="group-select-all" onclick="selectAllInGroup(event, 'subsidy', 'available')">全选</span>
+                                    </div>
+                                    <div class="transfer-group-items">
+                                        <div class="transfer-item">
+                                            <input type="checkbox" id="indicator_10" value="补贴申请异常">
+                                            <label for="indicator_10">当月预估耗能</label>
+                                        </div>
+                                        <div class="transfer-item">
+                                            <input type="checkbox" id="indicator_11" value="虚假补贴申报">
+                                            <label for="indicator_11">上月实际耗能</label>
+                                        </div>
+                                        <div class="transfer-item">
+                                            <input type="checkbox" id="indicator_12" value="重复申请补贴">
+                                            <label for="indicator_12">成本同比增长</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 操作按钮 -->
+                        <div class="transfer-controls">
+                            <button class="transfer-btn" onclick="addSelectedIndicators()" id="addBtn">
+                                <i class="fas fa-chevron-right"></i><i class="fas fa-chevron-right"></i>
+                                <div>添加</div>
+                            </button>
+                            <button class="transfer-btn" onclick="removeSelectedIndicators()" id="removeBtn">
+                                <i class="fas fa-chevron-left"></i><i class="fas fa-chevron-left"></i>
+                                <div>移除</div>
+                            </button>
+                        </div>
+
+                        <!-- 已分配指标 -->
+                        <div class="transfer-panel">
+                            <div class="transfer-header">
+                                已分配 (<span id="assignedCount">0</span>)
+                            </div>
+                            <div class="transfer-search">
+                                <input type="text" placeholder="搜索已分配指标..." id="searchAssigned" oninput="filterAssignedIndicators()">
+                            </div>
+                            <div class="transfer-body" id="assignedIndicators">
+                                <!-- 已分配的指标将在这里显示 -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeAssignmentModal()">取消</button>
+                <button class="btn btn-primary" onclick="saveAssignment()">保存</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 全局变量
+        let currentMode = 'add'; // 'add' 或 'edit'
+        let currentCompanyId = null;
+        let assignedIndicatorsList = [];
+
+        /**
+         * 打开指标分配弹窗
+         * @param {string} mode - 模式：'add' 或 'edit'
+         * @param {string} companyId - 分公司ID（编辑模式时使用）
+         */
+        function openAssignmentModal(mode = 'add', companyId = null) {
+            currentMode = mode;
+            currentCompanyId = companyId;
+            
+            const modal = document.getElementById('assignmentModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalCompany = document.getElementById('modalCompany');
+            
+            if (mode === 'edit') {
+                modalTitle.textContent = `编辑指标分配`;
+                modalCompany.value = companyId;
+                modalCompany.disabled = true;
+                loadAssignmentData(companyId);
+            } else {
+                modalTitle.textContent = '新增指标分配';
+                modalCompany.disabled = false;
+                resetModalForm();
+            }
+            
+            modal.style.display = 'flex';
+        }
+
+        /**
+         * 关闭指标分配弹窗
+         */
+        function closeAssignmentModal() {
+            const modal = document.getElementById('assignmentModal');
+            modal.style.display = 'none';
+            resetModalForm();
+        }
+
+        /**
+         * 重置弹窗表单
+         */
+        function resetModalForm() {
+            document.getElementById('modalCompany').value = '';
+            // document.getElementById('modalStatus').checked = true;
+            document.getElementById('modalRemark').value = '';
+            // document.getElementById('statusText').textContent = '启用';
+            
+            // 清空已分配指标
+            assignedIndicatorsList = [];
+            updateAssignedIndicators();
+            
+            // 重置所有复选框
+            document.querySelectorAll('#availableIndicators input[type="checkbox"]').forEach(checkbox => {
+                checkbox.checked = false;
+            });
+        }
+
+        /**
+         * 编辑分配
+         * @param {string} companyId - 分公司ID
+         */
+        function editAssignment(companyId) {
+            openAssignmentModal('edit', companyId);
+        }
+
+        /**
+         * 查看分配详情
+         * @param {string} companyId - 分公司ID
+         */
+        function viewAssignment(companyId) {
+            // 这里可以实现查看详情的逻辑
+            alert(`查看 ${getCompanyName(companyId)} 的分配详情`);
+        }
+
+        /**
+         * 获取分公司名称
+         * @param {string} companyId - 分公司ID
+         * @returns {string} 分公司名称
+         */
+        function getCompanyName(companyId) {
+            const companyNames = {
+                'guangdong': '广东分公司',
+                'beijing': '北京分公司',
+                'shanghai': '上海分公司',
+                'jiangsu': '江苏分公司',
+                'zhejiang': '浙江分公司'
+            };
+            return companyNames[companyId] || companyId;
+        }
+
+        /**
+         * 加载分配数据（编辑模式）
+         * @param {string} companyId - 分公司ID
+         */
+        function loadAssignmentData(companyId) {
+            // 模拟加载已分配的指标数据
+            const mockData = {
+                'guangdong': {
+                    status: true,
+                    remark: '广东分公司指标分配配置',
+                    indicators: [
+                        { id: 'indicator_1', name: '优惠交易占比', category: '交易风险指标', configPermission: true, riskBlock: false },
+                        { id: 'indicator_3', name: '笔均交易', category: '交易风险指标', configPermission: false, riskBlock: true },
+                        { id: 'indicator_6', name: '小微进件次数', category: '资料风险指标', configPermission: true, riskBlock: true }
+                    ]
+                },
+                'beijing': {
+                    status: true,
+                    remark: '北京分公司指标分配配置',
+                    indicators: [
+                        { id: 'indicator_2', name: '信用卡交易占比', category: '交易风险指标', configPermission: true, riskBlock: false },
+                        { id: 'indicator_7', name: '非小微进件次数', category: '资料风险指标', configPermission: false, riskBlock: true }
+                    ]
+                }
+            };
+            
+            const data = mockData[companyId];
+            if (data) {
+                // document.getElementById('modalStatus').checked = data.status;
+                // document.getElementById('statusText').textContent = data.status ? '启用' : '禁用';
+                // document.getElementById('modalRemark').value = data.remark;
+                
+                assignedIndicatorsList = data.indicators;
+                updateAssignedIndicators();
+                
+                // 更新可用指标的选中状态
+                data.indicators.forEach(indicator => {
+                    const checkbox = document.getElementById(indicator.id);
+                    if (checkbox) {
+                        checkbox.checked = true;
+                    }
+                });
+            }
+        }
+
+        /**
+         * 切换指标组的展开/折叠状态
+         * @param {Element} element - 点击的组标题元素
+         */
+        function toggleGroup(element) {
+            const group = element.closest('.transfer-group');
+            group.classList.toggle('collapsed');
+        }
+
+        /**
+         * 添加选中的指标
+         */
+        function addSelectedIndicators() {
+            const selectedCheckboxes = document.querySelectorAll('#availableIndicators input[type="checkbox"]:checked');
+            
+            selectedCheckboxes.forEach(checkbox => {
+                const indicatorId = checkbox.id;
+                const indicatorName = checkbox.value;
+                const category = checkbox.closest('.transfer-group').querySelector('.transfer-group-title span').textContent.split(' ')[0];
+                
+                // 检查是否已经存在
+                if (!assignedIndicatorsList.find(item => item.id === indicatorId)) {
+                    assignedIndicatorsList.push({
+                        id: indicatorId,
+                        name: indicatorName,
+                        category: category,
+                        configPermission: false,
+                        riskBlock: false
+                    });
+                }
+            });
+            
+            updateAssignedIndicators();
+        }
+
+
+
+        /**
+         * 更新已分配指标显示
+         */
+        function updateAssignedIndicators() {
+            const container = document.getElementById('assignedIndicators');
+            const countElement = document.getElementById('assignedCount');
+            
+            countElement.textContent = assignedIndicatorsList.length;
+            
+            if (assignedIndicatorsList.length === 0) {
+                container.innerHTML = '<div style="padding: 20px; text-align: center; color: var(--text-secondary);">暂无已分配指标</div>';
+                return;
+            }
+            
+            // 按类别分组
+            const groupedIndicators = {};
+            assignedIndicatorsList.forEach(indicator => {
+                if (!groupedIndicators[indicator.category]) {
+                    groupedIndicators[indicator.category] = [];
+                }
+                groupedIndicators[indicator.category].push(indicator);
+            });
+            
+            let html = '';
+            Object.keys(groupedIndicators).forEach(category => {
+                // 如果该类别没有指标，则跳过不显示
+                if (groupedIndicators[category].length === 0) {
+                    return;
+                }
+                
+                html += `
+                    <div class="transfer-group">
+                        <div class="transfer-group-title" onclick="toggleGroup(this)">
+                            <div class="group-title-left">
+                                <i class="fas fa-chevron-down"></i>
+                                <span>${category} (${groupedIndicators[category].length})</span>
+                            </div>
+                            <span class="group-select-all" onclick="selectAllInGroup(event, '${category}', 'assigned')">全选</span>
+                        </div>
+                        <div class="transfer-group-items">
+                `;
+                
+                groupedIndicators[category].forEach(indicator => {
+                    // 仅资料风险指标显示权限开关
+                    const showPermissionSwitches = indicator.category === '商户画像' || indicator.category === '资料风险指标';
+                    
+                    html += `
+                        <div class="assigned-item">
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <input type="checkbox" value="${indicator.id}">
+                                <span class="assigned-item-name">${indicator.name}</span>
+                            </div>
+                            <div class="assigned-item-controls">`;
+                    
+                    if (showPermissionSwitches) {
+                        html += `
+                                <div class="permission-switch">
+                                    <div class="permission-switch-row">
+                                        <span class="permission-label">允许机构配置风险等级</span>
+                                        <label class="switch" style="width: 32px; height: 16px;">
+                                            <input type="checkbox" ${indicator.configPermission ? 'checked' : ''} 
+                                                   onchange="updatePermission('${indicator.id}', 'configPermission', this.checked)">
+                                            <span class="switch-slider" style="border-radius: 16px;"></span>
+                                        </label>
+                                    </div>
+                                    <div class="permission-switch-row">
+                                        <span class="permission-label">触发高风险后禁止进件</span>
+                                        <label class="switch" style="width: 32px; height: 16px;">
+                                            <input type="checkbox" ${indicator.riskBlock ? 'checked' : ''} 
+                                                   onchange="updatePermission('${indicator.id}', 'riskBlock', this.checked)">
+                                            <span class="switch-slider" style="border-radius: 16px;"></span>
+                                        </label>
+                                    </div>
+                                </div>`;
+                    }
+                    
+                    html += `
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                html += `
+                        </div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+
+        /**
+         * 更新指标权限
+         * @param {string} indicatorId - 指标ID
+         * @param {string} permissionType - 权限类型
+         * @param {boolean} value - 权限值
+         */
+        function updatePermission(indicatorId, permissionType, value) {
+            const indicator = assignedIndicatorsList.find(item => item.id === indicatorId);
+            if (indicator) {
+                indicator[permissionType] = value;
+            }
+        }
+
+        /**
+         * 筛选可用指标
+         */
+        function filterAvailableIndicators() {
+            const searchTerm = document.getElementById('searchAvailable').value.toLowerCase();
+            const items = document.querySelectorAll('#availableIndicators .transfer-item');
+            
+            items.forEach(item => {
+                const label = item.querySelector('label').textContent.toLowerCase();
+                if (label.includes(searchTerm)) {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        /**
+         * 筛选已分配指标
+         */
+        function filterAssignedIndicators() {
+            const searchTerm = document.getElementById('searchAssigned').value.toLowerCase();
+            const items = document.querySelectorAll('#assignedIndicators .assigned-item');
+            
+            items.forEach(item => {
+                const name = item.querySelector('.assigned-item-name').textContent.toLowerCase();
+                if (name.includes(searchTerm)) {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        /**
+         * 筛选已分配指标
+         */
+        function filterAssignedIndicators() {
+            const searchTerm = document.getElementById('searchAssigned').value.toLowerCase();
+            const items = document.querySelectorAll('#assignedIndicators .assigned-item');
+            
+            items.forEach(item => {
+                const name = item.querySelector('.assigned-item-name').textContent.toLowerCase();
+                if (name.includes(searchTerm)) {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        /**
+         * 保存分配配置
+         */
+        function saveAssignment() {
+            const company = document.getElementById('modalCompany').value;
+            // const status = document.getElementById('modalStatus').checked;
+            const remark = document.getElementById('modalRemark').value;
+            
+            if (!company) {
+                alert('请选择省级分公司');
+                return;
+            }
+            
+            if (assignedIndicatorsList.length === 0) {
+                alert('请至少分配一个指标');
+                return;
+            }
+            
+            // 模拟保存操作
+            console.log('保存分配配置:', {
+                company,
+                status,
+                remark,
+                indicators: assignedIndicatorsList
+            });
+            
+            alert('保存成功！');
+            closeAssignmentModal();
+            
+            // 刷新列表（这里可以调用实际的刷新方法）
+            // refreshAssignmentList();
+        }
+
+        /**
+         * 搜索分配记录
+         */
+        function searchAssignments() {
+            const company = document.getElementById('companyFilter').value;
+            const startDate = document.getElementById('startDate').value;
+            const endDate = document.getElementById('endDate').value;
+            
+            console.log('搜索条件:', { company, startDate, endDate });
+            
+            // 这里可以实现实际的搜索逻辑
+            alert('搜索功能待实现');
+        }
+
+        /**
+         * 重置筛选条件
+         */
+        function resetFilters() {
+            document.getElementById('companyFilter').value = '';
+            document.getElementById('startDate').value = '';
+            document.getElementById('endDate').value = '';
+        }
+
+        // 状态开关变化事件
+        // document.getElementById('modalStatus').addEventListener('change', function() {
+        //     document.getElementById('statusText').textContent = this.checked ? '启用' : '禁用';
+        // });
+
+        /**
+         * 移除选中的指标
+         */
+        function removeSelectedIndicators() {
+            const assignedPanel = document.getElementById('assignedIndicators');
+            const checkedBoxes = assignedPanel.querySelectorAll('.assigned-item > div:first-child input[type="checkbox"]:checked');
+            
+            if (checkedBoxes.length === 0) {
+                alert('请先选择要移除的指标');
+                return;
+            }
+            
+            // 收集要移除的指标ID
+            const indicatorsToRemove = [];
+            checkedBoxes.forEach(checkbox => {
+                indicatorsToRemove.push(checkbox.value);
+            });
+            
+            // 从assignedIndicatorsList中移除指标
+            assignedIndicatorsList = assignedIndicatorsList.filter(indicator => 
+                !indicatorsToRemove.includes(indicator.id)
+            );
+            
+            // 重新渲染已分配指标列表
+            updateAssignedIndicators();
+            
+            // 更新可用指标的选中状态
+            indicatorsToRemove.forEach(indicatorId => {
+                const checkbox = document.getElementById(indicatorId);
+                if (checkbox) {
+                    checkbox.checked = false;
+                }
+            });
+        }
+        
+        /**
+         * 更新已分配指标数量
+         */
+        function updateAssignedCount() {
+            const assignedPanel = document.getElementById('assignedIndicators');
+            const items = assignedPanel.querySelectorAll('.assigned-item');
+            document.getElementById('assignedCount').textContent = items.length;
+        }
+
+        /**
+         * 按组全选/取消全选指标
+         * @param {Event} event - 事件对象
+         * @param {string} groupType - 组类型
+         * @param {string} panelType - 面板类型：'available' 或 'assigned'
+         */
+        function selectAllInGroup(event, groupType, panelType) {
+            event.stopPropagation(); // 阻止事件冒泡，避免触发组折叠
+            
+            if (panelType === 'available') {
+                const group = event.target.closest('.transfer-group');
+                const checkboxes = group.querySelectorAll('input[type="checkbox"]');
+                const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+                
+                checkboxes.forEach(checkbox => {
+                    checkbox.checked = !allChecked;
+                });
+                
+                event.target.textContent = allChecked ? '全选' : '取消';
+            } else if (panelType === 'assigned') {
+                const group = event.target.closest('.transfer-group');
+                // 只选择指标复选框，不包括权限开关
+                const checkboxes = group.querySelectorAll('.assigned-item > div:first-child input[type="checkbox"]');
+                const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+                
+                checkboxes.forEach(checkbox => {
+                    checkbox.checked = !allChecked;
+                });
+                
+                event.target.textContent = allChecked ? '全选' : '取消';
+            }
+        }
+
+
+
+        // 页面加载完成后的初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('指标分配页面加载完成');
+        });
+    </script>
+</body>
+</html>

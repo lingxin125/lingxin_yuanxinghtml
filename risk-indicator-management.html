@@ -611,7 +611,7 @@
                         <th>指标名称</th>
                         
                         <th>指标分类</th>
-                        
+                        <th>关联关键字</th>
                         <th>状态</th>
                         <th>创建时间</th>
                         <th>更新时间</th>
@@ -653,6 +653,7 @@
                 indicatorName: '小微进件次数',
                 category: 'PROFILE',
                 categoryName: '资料风险',
+                keyword: ['进件'],
                 applicableMerchants: ['个体工商户', '小微商户'],
                 status: 1,
                 createdTime: '2024-01-15 10:30:00',
@@ -664,6 +665,7 @@
                 indicatorName: '笔均交易',
                 category: 'TRANSACTION',
                 categoryName: '交易风险',
+                keyword: ['交易'],
                 applicableMerchants: ['企业商户', '个体工商户'],
                 status: 1,
                 createdTime: '2024-01-16 09:15:00',
@@ -675,6 +677,7 @@
                 indicatorName: '上月实际耗能',
                 category: 'SUBSIDY',
                 categoryName: '补贴风险',
+                keyword: '耗能',
                 applicableMerchants: ['个体工商户'],
                 status: 0,
                 createdTime: '2024-01-17 11:20:00',
@@ -686,6 +689,7 @@
                 indicatorName: '门头照次数',
                 category: 'PROFILE',
                 categoryName: '资料风险',
+                keyword: '门头照',
                 applicableMerchants: ['个体工商户', '小微商户', '企业商户'],
                 status: 1,
                 createdTime: '2024-01-18 14:10:00',
@@ -697,6 +701,7 @@
                 indicatorName: 'IP异常交易',
                 category: 'TRANSACTION',
                 categoryName: '交易风险',
+                keyword: 'IP',
                 applicableMerchants: ['企业商户', '个体工商户商户', '小微商户'],
                 status: 1,
                 createdTime: '2024-01-19 16:40:00',
@@ -757,7 +762,9 @@
                     <td>
                         <span class="category-tag">${item.categoryName}</span>
                     </td>
-                    
+                    <td>
+                        ${item.keyword}
+                    </td>
                     <td>
                         <label class="status-switch">
                             <input type="checkbox" ${item.status ? 'checked' : ''} onchange="toggleIndicatorStatus(${item.id}, this.checked)">

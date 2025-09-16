@@ -89,49 +89,10 @@
             background: var(--primary-blue-light);
             color: var(--primary-blue);
             font-size: 12px;
-            cursor: pointer;
             user-select: none;
             position: relative;
-            transition: all 0.2s ease;
             min-width: 120px;
             min-height: 28px;
-        }
-
-        .configurable-tag:hover {
-            background: #bae0ff;
-            border-color: var(--primary-blue-hover);
-            transform: translateY(-1px);
-            box-shadow: 0 2px 4px rgba(22, 119, 255, 0.2);
-        }
-
-        .configurable-tag.selected {
-            background: var(--primary-blue);
-            color: #fff;
-            border-color: var(--primary-blue);
-            box-shadow: 0 2px 8px rgba(22, 119, 255, 0.3);
-            padding-right: 32px;
-        }
-
-        .configurable-tag.selected:hover {
-            background: var(--primary-blue-hover);
-            border-color: var(--primary-blue-hover);
-        }
-
-        .configurable-tag .check-icon {
-            position: absolute;
-            right: 8px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 14px;
-            height: 14px;
-            opacity: 0;
-            transition: opacity 0.2s ease;
-            color: var(--primary-blue);
-        }
-
-        .configurable-tag.selected .check-icon {
-            opacity: 1;
-            color: #fff;
         }
 
         .config-panel {
@@ -141,8 +102,13 @@
             border-left: 1px solid var(--border-color-light);
         }
 
-        .config-panel.hidden {
-            display: none;
+        .config-panel.readonly input,
+        .config-panel.readonly select {
+            background: #f5f5f5;
+            border-color: #d9d9d9;
+            color: #666;
+            cursor: not-allowed;
+            pointer-events: none;
         }
 
         .tag-list {
@@ -181,48 +147,10 @@
             background: var(--primary-blue-light);
             color: var(--primary-blue);
             font-size: 12px;
-            cursor: pointer;
             user-select: none;
             position: relative;
-            transition: all 0.2s ease;
             min-height: 28px;
-        }
-
-        .fixed-tag:hover {
-            background: #bae0ff;
-            border-color: var(--primary-blue-hover);
-            transform: translateY(-1px);
-            box-shadow: 0 2px 4px rgba(22, 119, 255, 0.2);
-        }
-
-        .fixed-item.selected .fixed-tag {
-            background: var(--primary-blue);
-            color: #fff;
-            border-color: var(--primary-blue);
-            box-shadow: 0 2px 8px rgba(22, 119, 255, 0.3);
-            padding-right: 32px;
-        }
-
-        .fixed-item.selected .fixed-tag:hover {
-            background: var(--primary-blue-hover);
-            border-color: var(--primary-blue-hover);
-        }
-
-        .fixed-tag .check-icon {
-            position: absolute;
-            right: 8px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 14px;
-            height: 14px;
-            opacity: 0;
-            transition: opacity 0.2s ease;
-            color: var(--primary-blue);
-        }
-
-        .fixed-item.selected .fixed-tag .check-icon {
-            opacity: 1;
-            color: #fff;
+            min-width: 120px;
         }
 
         .fixed-item-right {
@@ -347,11 +275,11 @@
         }
 
         .calc-readonly {
-            background: var(--bg-layout);
-            border: 1px solid var(--border-color-light);
+            background: var(--primary-blue-light);
+            border: 1px solid #91caff;
             border-radius: 6px;
             padding: 10px 12px;
-            color: var(--text-secondary);
+            color: var(--primary-blue);
             margin-bottom: 12px;
         }
 
@@ -442,17 +370,7 @@
     <div class="module-section">
         <h3 class="module-title">可配置风险等级指标</h3>
         <div id="configurableContainer"></div>
-        <div class="config-tip" style="background: #fff7e6; color: #fa8c16; border-radius: 6px; padding: 12px 16px; margin-top: 8px; font-size: 13px; display: flex; align-items: flex-start; gap: 8px;">
-                    <svg class="info-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                        <circle cx="12" cy="12" r="10" fill="#fff7e6" stroke="#fa8c16" stroke-width="1.5" />
-                        <line x1="12" y1="8" x2="12" y2="8" stroke="#fa8c16" stroke-width="2" stroke-linecap="round" />
-                        <line x1="12" y1="11" x2="12" y2="16" stroke="#fa8c16" stroke-width="2" stroke-linecap="round" />
-                    </svg>
-                    <div>
-                        <b>指标配置后：</b><br>
-                        <b>请耐心等待数据重跑1-2小时后生效，避免重复操作。</b>
-                    </div>
-                </div>
+        
     </div>
 
     <!-- 不可配置指标模块 -->
@@ -463,7 +381,7 @@
 
     <!-- 固定底部操作栏 -->
     <div class="page-footer">
-        <div class="footer-count"><span id="enabledCount">启用指标数量 0/0</span></div>
+        <div style="flex: 1;"></div>
         <button class="btn btn-default" onclick="goBack()">返回</button>
         <button class="btn btn-primary" onclick="saveAllConfig()">保存</button>
     </div>
@@ -503,7 +421,6 @@
         function render() {
             renderConfigurableItems();
             renderFixedItems();
-            updateCount();
         }
 
         /**
@@ -515,21 +432,13 @@
             const configurableItems = indicators.filter(ind => ind.configurable);
             
             container.innerHTML = configurableItems.map(ind => {
-                const selectedClass = ind.enabled ? 'selected' : '';
-                const configPanelClass = ind.enabled ? '' : 'hidden';
-                
                 return `
                     <div class="configurable-item">
-                        <div class="configurable-tag ${selectedClass}" 
-                             data-id="${ind.id}" 
-                             onclick="onToggleConfigurable('${ind.id}')">
-                            <svg class="check-icon" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z" fill="currentColor"/>
-                            </svg>
+                        <div class="configurable-tag" data-id="${ind.id}">
                             <span>${ind.name}</span>
                         </div>
-                        <div class="config-panel ${configPanelClass}" id="config-${ind.id}">
-                            ${ind.enabled ? renderDetails(ind) : ''}
+                        <div class="config-panel" id="config-${ind.id}">
+                            ${renderDetails(ind)}
                         </div>
                     </div>
                 `;
@@ -545,24 +454,13 @@
             const fixedItems = indicators.filter(ind => !ind.configurable);
             
             container.innerHTML = fixedItems.map(ind => {
-                const selectedClass = ind.enabled ? 'selected' : '';
                 return `
-                    <div class="fixed-item ${selectedClass}" data-id="${ind.id}">
-                        <div class="fixed-item-left">
-                            <div class="fixed-tag" onclick="onToggleFixed('${ind.id}')">
-                                <svg class="check-icon" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z" fill="currentColor"/>
-                                </svg>
-                                <span>${ind.name}</span>
-                            </div>
+                    <div class="configurable-item">
+                        <div class="configurable-tag" data-id="${ind.id}">
+                            <span>${ind.name}</span>
                         </div>
-                        <div class="fixed-item-right">
-                            <div class="calc-info">指标计算方式：${ind.calc}</div>
-                            <div class="risk-levels">
-                                <span class="risk-high">高风险：指标值${ind.high?.op || '>='} ${ind.high?.value || 0}</span>
-                                <span class="risk-medium">中风险：指标值${ind.medium?.op || '>='} ${ind.medium?.value || 0}</span>
-                                <span class="risk-low">低风险：指标值${ind.low?.op || '<'} ${ind.low?.value || 0}</span>
-                            </div>
+                        <div class="config-panel readonly" id="fixed-config-${ind.id}">
+                            ${renderFixedDetails(ind)}
                         </div>
                     </div>
                 `;
@@ -610,8 +508,32 @@
                     configPanel.classList.remove('hidden');
                 }
             }
-            
-            updateCount();
+        }
+
+        /**
+         * 渲染固定指标详情（只读）
+         * @param {Object} ind 指标对象
+         * @returns {string} 渲染的HTML字符串
+         */
+        function renderFixedDetails(ind) {
+            if (!ind) {
+                return '';
+            }
+            return `
+                <div class="calc-readonly">指标计算方式：${ind.calc}</div>
+                <div class="threshold-row">
+                    <label>高风险：</label>
+                    <span>指标值${ind.high?.op || ''} ${ind.high?.value || ''}${ind.id === 8 ? '元' : '%'}</span>
+                </div>
+                <div class="threshold-row">
+                    <label>中风险：</label>
+                    <span>指标值${ind.medium?.op || ''} ${ind.medium?.value || ''}${ind.id === 8 ? '元' : '%'}</span>
+                </div>
+                <div class="threshold-row">
+                    <label>低风险：</label>
+                    <span>指标值${ind.low?.op || ''} ${ind.low?.value || ''}${ind.id === 8 ? '元' : '%'}</span>
+                </div>
+            `;
         }
 
         /**
@@ -620,11 +542,31 @@
          * @returns {string} 渲染的HTML字符串
          */
         function renderDetails(ind) {
-            if (!ind || !ind.enabled) {
+            if (!ind) {
                 return '';
             }
+            
+            // 如果指标未启用，显示只读的计算方式和风险等级
+            if (!ind.enabled) {
+                return `
+                    <div class="calc-readonly">指标计算方式：${ind.calc}</div>
+                    <div class="threshold-row">
+                        <label>高风险：</label>
+                        <span>指标值${ind.high?.op || ''} ${ind.high?.value || ''}%</span>
+                    </div>
+                    <div class="threshold-row">
+                        <label>中风险：</label>
+                        <span>指标值${ind.medium?.op || ''} ${ind.medium?.value || ''}%</span>
+                    </div>
+                    <div class="threshold-row">
+                        <label>低风险：</label>
+                        <span>指标值${ind.low?.op || ''} ${ind.low?.value || ''}%</span>
+                    </div>
+                `;
+            }
+            
+            // 如果指标已启用，显示可配置的详情面板
             return `
-                
                 <div class="calc-readonly">指标计算方式：${ind.calc}</div>
                 <div class="threshold-row">
                     <label>高风险：</label>
@@ -654,15 +596,6 @@
                    
                     <span >小于中风险的指标值</span>
                 </div>
-                <br>
-                <div class="checkbox-group">
-                    <label class="checkbox-item" for="allowProceedAfterHighRisk">
-                    <input type="checkbox" id="allowProceedAfterHighRisk">
-                     <span>触发高风险商户不允许进件</span>
-                     </label>             
-                                
-                 </div>
-                
             `;
         }
 
@@ -823,16 +756,6 @@
             const obj = ind[level] || { op: '>=', value: 0 };
             obj.value = Number.isFinite(num) ? num : 0;
             ind[level] = obj;
-        }
-
-        /**
-         * 更新底部“已启用数量”
-         * @returns {void}
-         */
-        function updateCount() {
-            const enabledCount = indicators.filter(x => x.enabled).length;
-            const totalCount = indicators.length;
-            document.getElementById('enabledCount').textContent = `启用指标数量 ${enabledCount}/${totalCount}`;
         }
 
         /**

@@ -29,27 +29,23 @@
 
     .tag-list { display: flex; flex-direction: column; gap: 8px; }
     
-    .fixed-item {
+    .configurable-item {
       display: flex;
       align-items: center;
       padding: 12px 16px;
       border: 1px solid var(--border-color-light);
       border-radius: 8px;
+      margin-bottom: 8px;
       background: var(--bg-container);
       transition: all 0.2s ease;
     }
 
-    .fixed-item:hover {
+    .configurable-item:hover {
       border-color: var(--primary-blue);
       box-shadow: 0 2px 8px rgba(22, 119, 255, 0.1);
     }
 
-    .fixed-item-left {
-      min-width: 120px;
-      margin-right: 16px;
-    }
-
-    .fixed-tag {
+    .configurable-tag {
       display: inline-flex;
       align-items: center;
       gap: 6px;
@@ -59,78 +55,58 @@
       background: var(--primary-blue-light);
       color: var(--primary-blue);
       font-size: 12px;
-      cursor: pointer;
       user-select: none;
       position: relative;
-      transition: all 0.2s ease;
+      min-width: 120px;
       min-height: 28px;
     }
 
-    .fixed-tag:hover {
-      background: #bae0ff;
-      border-color: var(--primary-blue-hover);
-      transform: translateY(-1px);
-      box-shadow: 0 2px 4px rgba(22, 119, 255, 0.2);
-    }
-
-    .fixed-item.selected .fixed-tag {
-      background: var(--primary-blue);
-      color: #fff;
-      border-color: var(--primary-blue);
-      box-shadow: 0 2px 8px rgba(22, 119, 255, 0.3);
-      padding-right: 32px;
-    }
-
-    .fixed-item.selected .fixed-tag:hover {
-      background: var(--primary-blue-hover);
-      border-color: var(--primary-blue-hover);
-    }
-
-    .fixed-tag .check-icon {
-      position: absolute;
-      right: 8px;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 14px;
-      height: 14px;
-      opacity: 0;
-      transition: opacity 0.2s ease;
-      color: var(--primary-blue);
-    }
-
-    .fixed-item.selected .fixed-tag .check-icon {
-      opacity: 1;
-      color: #fff;
-    }
-
-    .fixed-item-right {
+    .config-panel {
       flex: 1;
+      margin-left: 16px;
       padding-left: 16px;
       border-left: 1px solid var(--border-color-light);
     }
 
     .calc-info {
-      color: var(--text-secondary);
+      background: var(--primary-blue-light);
+      border: 1px solid #91caff;
+      border-radius: 6px;
+      padding: 10px 12px;
+      color: var(--primary-blue);
+      margin-bottom: 12px;
       font-size: 13px;
-      margin-bottom: 8px;
     }
 
     .risk-levels {
       display: flex;
-      gap: 16px;
+      flex-direction: column;
+      gap: 8px;
       font-size: 12px;
+    }
+    
+    .threshold-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+    
+    .threshold-row label {
+      width: 64px;
+      font-weight: 500;
     }
 
     .risk-high {
-      color: var(--error-red);
+      color: var(--text-primary);
     }
 
     .risk-medium {
-      color: var(--warning-orange);
+      color: var(--text-primary);
     }
 
     .risk-low {
-      color: var(--success-green);
+      color: var(--text-primary);
     }
      .module-title {
             font-size: 16px;
@@ -142,7 +118,7 @@
             display: inline-block;
         }
     .page-footer { 
-      position: absolute; 
+      position: fixed; 
       bottom: 0; 
       left: 0; 
       right: 0; 
@@ -173,7 +149,7 @@
   
   <!-- 固定底部操作栏 -->
   <div class="page-footer">
-    <div class="footer-count"><span id="enabledCount">启用指标数量 0/0</span></div>
+    <div style="flex: 1;"></div>
     <button class="btn btn-default" onclick="goBack()">返回</button>
     <button class="btn btn-primary" onclick="saveAllConfig()">保存</button>
   </div>
@@ -197,7 +173,6 @@
 
     document.addEventListener('DOMContentLoaded', () => {
       renderTagList();
-      updateCount();
     });
 
     /**
@@ -207,49 +182,32 @@
     function renderTagList() {
       const container = document.getElementById('tagContainer');
       container.innerHTML = indicators.map(item => `
-        <div class="fixed-item ${item.enabled ? 'selected' : ''}">
-          <div class="fixed-item-left">
-            <div class="fixed-tag" onclick="onToggleSelect(${item.id})">
-              <span>${item.name}</span>
-              <svg class="check-icon" viewBox="0 0 16 16" fill="currentColor">
-                <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
-              </svg>
-            </div>
+        <div class="configurable-item">
+          <div class="configurable-tag">
+            <span>${item.name}</span>
           </div>
-          <div class="fixed-item-right">
+          <div class="config-panel">
             <div class="calc-info">指标计算方式：${item.calc}</div>
             <div class="risk-levels">
-              <span class="risk-high">高风险：指标值${item.high.op} ${item.high.value}${item.id === 8 ? '元' : '%'}</span>
-              <span class="risk-medium">中风险：指标值${item.medium.op} ${item.medium.value}${item.id === 8 ? '元' : '%'}</span>
-              <span class="risk-low">低风险：指标值${item.low.op} ${item.low.value}${item.id === 8 ? '元' : '%'}</span>
+              <div class="threshold-row">
+                <label>高风险：</label>
+                <span class="risk-high">指标值${item.high.op} ${item.high.value}${item.id === 8 ? '元' : '%'}</span>
+              </div>
+              <div class="threshold-row">
+                <label>中风险：</label>
+                <span class="risk-medium">指标值${item.medium.op} ${item.medium.value}${item.id === 8 ? '元' : '%'}</span>
+              </div>
+              <div class="threshold-row">
+                <label>低风险：</label>
+                <span class="risk-low">指标值${item.low.op} ${item.low.value}${item.id === 8 ? '元' : '%'}</span>
+              </div>
             </div>
           </div>
         </div>
       `).join('');
     }
 
-    /**
-     * 切换选中（启用/禁用）
-     * @param {number} id 指标ID
-     * @returns {void}
-     */
-    function onToggleSelect(id) {
-      const ind = indicators.find(x => x.id === id);
-      if (!ind) return;
-      ind.enabled = !ind.enabled;
-      renderTagList();
-      updateCount();
-    }
 
-    /**
-     * 更新底部"已启用数量"
-     * @returns {void}
-     */
-    function updateCount() {
-      const enabledCount = indicators.filter(x => x.enabled).length;
-      const totalCount = indicators.length;
-      document.getElementById('enabledCount').textContent = `启用指标数量 ${enabledCount}/${totalCount}`;
-    }
 
     /**
      * 返回上一页/关闭弹窗（由父页面接管或直接关闭窗口）

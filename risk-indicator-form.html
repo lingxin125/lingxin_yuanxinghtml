@@ -314,23 +314,30 @@
                         </div>
                     </div>
 
+                    <div class="form-row">
+                        <div class="form-group" style="flex: 0 0 50%;">
+                            <label class="form-label required">关联关键字</label>
+                            <input type="text" class="form-input" id="keyword" placeholder="请输入关联关键字" required>
+                        </div>
+                    </div>
+
                     <!-- 资料风险专属布尔配置（仅当分类为资料风险时显示） -->
-                    <div class="form-row" id="profileRiskOptions" style="display: none;">
+                    <!-- <div class="form-row" id="profileRiskOptions" style="display: none;">
                         <div class="form-group full-width">
                             <label class="form-label">指标配置</label>
                             <div class="checkbox-group">
                                 <label class="checkbox-item" for="allowOrgConfig">
                                     <input type="checkbox" id="allowOrgConfig">
                                     <span>允许机构配置指标风险等级</span>
-                                </label>
+                                </label> -->
                                 <!-- <label class="checkbox-item" for="allowProceedAfterHighRisk">
                                     <input type="checkbox" id="allowProceedAfterHighRisk">
                                     <span>触发高风险商户不允许进件</span>
                                 </label> -->
-                            </div>
+                            <!-- </div> -->
                             <!-- <div class="help-text">仅当指标分类为“资料风险”时可见</div> -->
-                        </div>
-                    </div>
+                        <!-- </div> -->
+                    <!-- </div> -->
 
                     <!-- <div class="form-row">
                         <div class="form-group full-width">
@@ -358,23 +365,23 @@
                         </div>
                     </div> -->
 
-                    <div class="form-row">
+                    <!-- <div class="form-row">
                         <div class="form-group full-width">
                             <label class="form-label required">指标描述</label>
                             <textarea class="form-textarea" id="description" placeholder="请输入指标描述" required></textarea>
                             
                         </div>
-                    </div>
+                    </div> -->
                 </div>
 
                 <!-- 判定规则 -->
                 <div class="form-section">
-                    <h2 class="section-title">判定规则</h2>
+                    <h2 class="section-title">判定标准</h2>
 
                     <div class="form-row">
                         <div class="form-group full-width">
-                            <label class="form-label required">计算方式</label>
-                            <textarea class="form-textarea" id="judgmentStandard" placeholder="请输入指标计算方式，如：根据商户类型统计结算人证件或营业执照号进件次数" required></textarea>
+                            <!-- <label class="form-label required">计算方式</label> -->
+                            <textarea class="form-textarea" id="judgmentStandard" placeholder="请输入指标的统计逻辑、计算方式等，如：根据商户类型统计结算人证件或营业执照号进件次数" required></textarea>
                            
                         </div>
                     </div>
@@ -481,11 +488,11 @@
          * 根据分类显示/隐藏资料风险专属布尔字段
          * @returns {void}
          */
-        function updateProfileOptionsVisibility() {
-            const category = document.getElementById('category').value;
-            const options = document.getElementById('profileRiskOptions');
-            options.style.display = category === 'PROFILE' ? 'flex' : 'none';
-        }
+        // function updateProfileOptionsVisibility() {
+        //     const category = document.getElementById('category').value;
+        //     const options = document.getElementById('profileRiskOptions');
+        //     options.style.display = category === 'PROFILE' ? 'flex' : 'none';
+        // }
 
         /**
          * 加载指标数据（编辑模式）
