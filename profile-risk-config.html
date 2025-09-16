@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>资料风险指标配置</title>
+    <title>本省资料风险指标</title>
     <style>
         :root {
             --primary-blue: #1677ff;
@@ -363,12 +363,12 @@
 
 <body>
     <div class="config-header">
-        <p class="config-description">机构可根据实际情况，灵活启用、停用或配置资料风险指标</p>
+        <p class="config-description">可查看或进一步配置本省分配的资料风险指标</p>
     </div>
 
     <!-- 可配置指标模块 -->
     <div class="module-section">
-        <h3 class="module-title">可配置风险等级指标</h3>
+        <h3 class="module-title">可配置指标</h3>
         <div id="configurableContainer"></div>
         
     </div>
@@ -405,7 +405,7 @@
         /** 模拟数据（资料风险） */
         const indicators = [
             { id: 1, name: '小微进件次数', configurable: true, enabled: true,  calc: '统计小微商户结算人证件历史进件次数', high: {op: '>=', value: 5}, medium: {op: '>=', value: 3}, low: {op: '>=', value: 1} },
-            { id: 2, name: '营业执照进件次数', configurable: true, enabled: false, calc: '统计非小微商户营业执照历史进件次数', high: {op: '>=', value: 3}, medium: {op: '>=', value: 2}, low: {op: '>=', value: 1} },
+            { id: 2, name: '营业执照进件次数', configurable: true, enabled: true, calc: '统计非小微商户营业执照历史进件次数', high: {op: '>=', value: 3}, medium: {op: '>=', value: 2}, low: {op: '>=', value: 1} },
             { id: 3, name: '三照导入方式', configurable: false, enabled: true, calc: '三照是否来源于相册上传', high: {op: '=', value: 3}, medium: {op: '>=', value: 1}, low: {op: '=', value: 0} },
             { id: 4, name: '通道复审驳回', configurable: false, enabled: false, calc: '统计通道复审是否驳回', high: {op: '=', value: 0}, medium: {op: '=', value: 1}, low: {op: '=', value: 1} }
         ];
