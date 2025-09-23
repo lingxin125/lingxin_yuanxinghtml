@@ -141,7 +141,7 @@
 </head>
 <body>
   <div class="config-header">
-    <p class="config-description">可快速查看本省分配的交易风险指标</p>
+    <p class="config-description">可快速查看本省分配的交易预警指标</p>
   </div>
   <h3 class="module-title">默认指标</h3>
   <!-- 指标标签列表（仅不可配置） -->
@@ -190,15 +190,15 @@
             <div class="calc-info">指标计算方式：${item.calc}</div>
             <div class="risk-levels">
               <div class="threshold-row">
-                <label>高风险：</label>
+                <label>高度关注：</label>
                 <span class="risk-high">指标值${item.high.op} ${item.high.value}${item.id === 8 ? '元' : '%'}</span>
               </div>
               <div class="threshold-row">
-                <label>中风险：</label>
+                <label>中度关注：</label>
                 <span class="risk-medium">指标值${item.medium.op} ${item.medium.value}${item.id === 8 ? '元' : '%'}</span>
               </div>
               <div class="threshold-row">
-                <label>低风险：</label>
+                <label>轻度关注：</label>
                 <span class="risk-low">指标值${item.low.op} ${item.low.value}${item.id === 8 ? '元' : '%'}</span>
               </div>
             </div>

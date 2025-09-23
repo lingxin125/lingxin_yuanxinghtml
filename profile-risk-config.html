@@ -290,7 +290,7 @@
             margin-bottom: 10px;
         }
 
-        .threshold-row label { width: 64px; font-weight: 500; }
+        .threshold-row label { width: 70px; font-weight: 500; }
 
         .op-select, .num-input {
             padding: 6px 8px;
@@ -363,7 +363,7 @@
 
 <body>
     <div class="config-header">
-        <p class="config-description">可查看或进一步配置本省分配的资料风险指标</p>
+        <p class="config-description">可查看或进一步配置本省分配的资料预警指标</p>
     </div>
 
     <!-- 可配置指标模块 -->
@@ -397,9 +397,9 @@
          * @property {boolean} configurable 是否可配置
          * @property {boolean} enabled 是否启用（选择）
          * @property {string} calc 只读计算方式描述
-         * @property {{op:Operator,value:number}|null} high 高风险阈值
-         * @property {{op:Operator,value:number}|null} medium 中风险阈值
-         * @property {{op:Operator,value:number}|null} low 低风险阈值
+         * @property {{op:Operator,value:number}|null} high 高度关注阈值
+         * @property {{op:Operator,value:number}|null} medium 中度关注阈值
+         * @property {{op:Operator,value:number}|null} low 轻度关注阈值
          */
 
         /** 模拟数据（资料风险） */
@@ -522,15 +522,15 @@
             return `
                 <div class="calc-readonly">指标计算方式：${ind.calc}</div>
                 <div class="threshold-row">
-                    <label>高风险：</label>
+                    <label>高度关注：</label>
                     <span>指标值${ind.high?.op || ''} ${ind.high?.value || ''}${ind.id === 8 ? '元' : '%'}</span>
                 </div>
                 <div class="threshold-row">
-                    <label>中风险：</label>
+                    <label>中度关注：</label>
                     <span>指标值${ind.medium?.op || ''} ${ind.medium?.value || ''}${ind.id === 8 ? '元' : '%'}</span>
                 </div>
                 <div class="threshold-row">
-                    <label>低风险：</label>
+                    <label>轻度关注：</label>
                     <span>指标值${ind.low?.op || ''} ${ind.low?.value || ''}${ind.id === 8 ? '元' : '%'}</span>
                 </div>
             `;
@@ -551,15 +551,15 @@
                 return `
                     <div class="calc-readonly">指标计算方式：${ind.calc}</div>
                     <div class="threshold-row">
-                        <label>高风险：</label>
+                        <label>高度关注：</label>
                         <span>指标值${ind.high?.op || ''} ${ind.high?.value || ''}%</span>
                     </div>
                     <div class="threshold-row">
-                        <label>中风险：</label>
+                        <label>中度关注：</label>
                         <span>指标值${ind.medium?.op || ''} ${ind.medium?.value || ''}%</span>
                     </div>
                     <div class="threshold-row">
-                        <label>低风险：</label>
+                        <label>轻度关注：</label>
                         <span>指标值${ind.low?.op || ''} ${ind.low?.value || ''}%</span>
                     </div>
                 `;
@@ -569,7 +569,7 @@
             return `
                 <div class="calc-readonly">指标计算方式：${ind.calc}</div>
                 <div class="threshold-row">
-                    <label>高风险：</label>
+                    <label>高度关注：</label>
                     <span>指标值</span>
                     <select class="op-select" onchange="onOpChange(${ind.id}, 'high', this.value)">
                         ${renderOpOptions(ind.high?.op)}
@@ -580,7 +580,7 @@
                     <span style="color: var(--text-secondary)"></span>
                 </div>
                 <div class="threshold-row">
-                    <label>中风险：</label>
+                    <label>中度关注：</label>
                     <span>指标值</span>
                     <select class="op-select" onchange="onOpChange(${ind.id}, 'medium', this.value)">
                         ${renderOpOptions(ind.medium?.op)}
@@ -588,13 +588,13 @@
                     <div id="${ind.id}_medium_value_container" class="value-container">
                         ${renderValueInputs(ind.id, 'medium', ind.medium)}
                     </div>
-                    <span >且小于高风险的指标值</span>
+                    <span >且小于高度关注的指标值</span>
                 </div>
                 <div class="threshold-row">
-                    <label>低风险：</label>
+                    <label>轻度关注：</label>
                     <span>指标值</span>
                    
-                    <span >小于中风险的指标值</span>
+                    <span >小于中度关注的指标值</span>
                 </div>
             `;
         }

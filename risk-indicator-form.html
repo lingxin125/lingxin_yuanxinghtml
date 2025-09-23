@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>风险指标配置 - 微邮付商户健康度监测系统</title>
+    <title>预警指标配置 - 微邮付商户健康度监测系统</title>
     <link href="https://cdn.tailwindcss.com/2.2.19/tailwind.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -286,7 +286,7 @@
     <div class="form-container">
         <!-- 表单头部 -->
         <!-- <div class="form-header">
-            <h1 class="form-title" id="formTitle">新增风险指标</h1>
+            <h1 class="form-title" id="formTitle">新增预警指标</h1>
             
         </div> -->
 
@@ -307,9 +307,9 @@
                             <label class="form-label required">指标分类</label>
                             <select class="form-select" id="category" required>
                                 <option value="">请选择分类</option>
-                                <option value="PROFILE">资料风险</option>
-                                <option value="TRANSACTION">交易风险</option>
-                                <option value="SUBSIDY">补贴风险</option>
+                                <option value="PROFILE">资料预警</option>
+                                <option value="TRANSACTION">交易预警</option>
+                                <option value="SUBSIDY">补贴预警</option>
                             </select>
                         </div>
                     </div>
@@ -321,21 +321,21 @@
                         </div>
                     </div>
 
-                    <!-- 资料风险专属布尔配置（仅当分类为资料风险时显示） -->
+                    <!-- 资料预警专属布尔配置（仅当分类为资料预警时显示） -->
                     <!-- <div class="form-row" id="profileRiskOptions" style="display: none;">
                         <div class="form-group full-width">
                             <label class="form-label">指标配置</label>
                             <div class="checkbox-group">
                                 <label class="checkbox-item" for="allowOrgConfig">
                                     <input type="checkbox" id="allowOrgConfig">
-                                    <span>允许机构配置指标风险等级</span>
+                                    <span>允许机构配置指标预警等级</span>
                                 </label> -->
                                 <!-- <label class="checkbox-item" for="allowProceedAfterHighRisk">
                                     <input type="checkbox" id="allowProceedAfterHighRisk">
-                                    <span>触发高风险商户不允许进件</span>
+                                    <span>触发高预警商户不允许进件</span>
                                 </label> -->
                             <!-- </div> -->
-                            <!-- <div class="help-text">仅当指标分类为“资料风险”时可见</div> -->
+                            <!-- <div class="help-text">仅当指标分类为“资料预警”时可见</div> -->
                         <!-- </div> -->
                     <!-- </div> -->
 
@@ -389,11 +389,11 @@
 
                 <!-- 风险等级阈值（重构：指标值 + 连接符 + 数值输入框） -->
                 <div class="form-section">
-                    <h2 class="section-title">风险等级标准</h2>
+                    <h2 class="section-title">预警等级标准</h2>
 
                     <div class="threshold-config">
                         <div class="threshold-item">
-                            <span class="threshold-label high-risk">高风险：</span>
+                            <span class="threshold-label high-risk">高度关注：</span>
                              <span>指标值</span>
                             <select id="highOperator" class="form-select" style="width: 120px;" onchange="onOperatorChange('high', this.value)">
                                 <!-- <option value=">">&gt;</option> -->
@@ -412,7 +412,7 @@
                             <!-- <span class="help-text">触发高风险的条件</span> -->
                         </div>
                         <div class="threshold-item">
-                            <span class="threshold-label medium-risk">中风险：</span>
+                            <span class="threshold-label medium-risk">中度关注：</span>
                             <span>指标值</span>
                             <select id="mediumOperator" class="form-select" style="width: 120px;" onchange="onOperatorChange('medium', this.value)">
                                 <!-- <option value=">">&gt;</option> -->
@@ -428,10 +428,10 @@
                             <div id="mediumValueContainer" class="value-container">
                                 <input type="number" id="mediumValue" class="form-input threshold-input" placeholder="请输入数值" step="0.01" min="0">
                             </div>
-                            <span >且小于高风险的指标值</span>
+                            <span >且小于高度关注的指标值</span>
                         </div>
                         <div class="threshold-item">
-                            <span class="threshold-label low-risk">低风险：</span>
+                            <span class="threshold-label low-risk">轻度关注：</span>
                             <span>指标值</span>
                             <!-- <select id="lowOperator" class="form-select" style="width: 120px;" onchange="onOperatorChange('low', this.value)">
                                 <option value=">">&gt;</option>
@@ -447,7 +447,7 @@
                             <div id="lowValueContainer" class="value-container">
                                 <input type="number" id="lowValue" class="form-input threshold-input" placeholder="请输入数值" step="0.01" min="0">
                             </div> -->
-                            <span>小于中风险的指标值</span>
+                            <span>小于中度关注的指标值</span>
                         </div>
                     </div>
                 </div>
@@ -471,21 +471,21 @@
             const indicatorId = urlParams.get('id');
 
             if (indicatorId) {
-                // document.getElementById('formTitle').textContent = '编辑风险指标';
+                // document.getElementById('formTitle').textContent = '编辑预警指标';
                 loadIndicatorData(indicatorId);
             }
 
             // 绑定表单验证
             setupFormValidation();
 
-            // 分类切换时控制资料风险字段显隐
+            // 分类切换时控制资料预警字段显隐
             const categorySelect = document.getElementById('category');
             categorySelect.addEventListener('change', updateProfileOptionsVisibility);
             updateProfileOptionsVisibility();
         });
 
         /**
-         * 根据分类显示/隐藏资料风险专属布尔字段
+         * 根据分类显示/隐藏资料预警专属布尔字段
          * @returns {void}
          */
         // function updateProfileOptionsVisibility() {

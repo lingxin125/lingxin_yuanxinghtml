@@ -267,34 +267,36 @@
         </div>
         <nav class="sidebar-nav">
             <!-- <div class="nav-section">
-                <div class="nav-section-title">风险管理</div>
+                <div class="nav-section-title">预警管理</div>
                 <a href="#" class="nav-item" onclick="loadPage('risk-indicator-management')">
                     <i class="fas fa-cogs nav-icon"></i>
-                    <span>风险指标库</span>
+                    <span>预警指标库</span>
                 </a>
             </div> -->
             <div class="nav-section">
-                <div class="nav-section-title">商户风险管理</div>
+                <div class="nav-section-title">预警中心</div>
                 <a href="#" class="nav-item" onclick="loadPage('risk-indicator-management')">
                     <i class="fas fa-cogs nav-icon"></i>
-                    <span>风险指标库</span>
+                    <span>预警指标库</span>
                 </a>
                 <a href="#" class="nav-item" onclick="loadPage('indicator-assignment')">
                     <i class="fas fa-tasks nav-icon"></i>
-                    <span>指标分配</span>
+                    <span>预警指标分配</span>
                 </a>
                 <a href="#" class="nav-item active" onclick="loadPage('new-merchant-audit')">
                     <i class="fas fa-user-plus nav-icon"></i>
-                    <span>商户资料风险评估</span>
+                    <span>商户资料预警</span>
                 </a>
                 <a href="#" class="nav-item" onclick="loadPage('existing-merchant-risk')">
                     <i class="fas fa-chart-line nav-icon"></i>
-                    <span>商户交易风险评估</span>
+                    <span>商户交易预警</span>
                 </a>
                 <a href="#" class="nav-item" onclick="loadPage('merchant-subsidy-risk')">
                     <i class="fas fa-coins nav-icon"></i>
-                    <span>商户补贴风险评估</span>
+                    <span>商户补贴预警</span>
                 </a>
+
+        
                 
             </div>
         </nav>
@@ -307,7 +309,7 @@
             <div class="breadcrumb">
                 <span>商户管理</span>
                 <span class="breadcrumb-separator">/</span>
-                <span class="breadcrumb-active" id="current-page">商户资料风险评估</span>
+                <span class="breadcrumb-active" id="current-page">商户资料预警</span>
             </div>
             <div class="user-info">
                 <span class="text-sm text-gray-600">欢迎，张经理</span>
@@ -335,14 +337,14 @@
             
             // 更新面包屑
             const pageNames = {
-                'risk-indicator-management': '风险指标库',
-                'new-merchant-audit': '商户资料风险评估',
-                'existing-merchant-risk': '商户交易风险评估',
-                'merchant-subsidy-risk': '商户补贴风险评估',
-                'indicator-assignment': '指标分配'
+                'risk-indicator-management': '预警指标库',
+                'new-merchant-audit': '商户资料预警',
+                'existing-merchant-risk': '商户交易预警',
+                'merchant-subsidy-risk': '商户补贴预警',
+                'indicator-assignment': '预警指标分配'
             };
             
-            document.getElementById('current-page').textContent = pageNames[pageName] || '商户资料风险评估';
+            document.getElementById('current-page').textContent = pageNames[pageName] || '商户资料预警';
             
             // 加载对应页面
             loadPageContent(pageName);

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>商户补贴风险评估</title>
+    <title>商户补贴预警</title>
     <link href="https://cdn.tailwindcss.com/2.2.19/tailwind.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -463,13 +463,13 @@
                    
                     
                     <div class="form-group">
-                        <label class="form-label">风险等级</label>
+                        <label class="form-label">预警等级</label>
                         <select class="form-select" id="riskLevel">
                             <option value="">默认</option>
                             <option value="">全部等级</option>
-                            <option value="high">高风险</option>
-                            <option value="medium">中风险</option>
-                            <option value="low">低风险</option>
+                            <option value="high">高度关注</option>
+                            <option value="medium">中度关注</option>
+                            <option value="low">轻度关注</option>
                         </select>
                     </div>
                     <div class="flex gap-2">
@@ -494,15 +494,15 @@
             </div>
             <div class="stats-card high-risk">
                 <div class="stats-number">156</div>
-                <div class="stats-label">高风险商户</div>
+                <div class="stats-label">高度关注商户</div>
             </div>
             <div class="stats-card medium-risk">
                 <div class="stats-number">432</div>
-                <div class="stats-label">中风险商户</div>
+                <div class="stats-label">中度关注商户</div>
             </div>
             <div class="stats-card low-risk">
                 <div class="stats-number">1,568</div>
-                <div class="stats-label">低风险商户</div>
+                <div class="stats-label">轻度关注商户</div>
             </div>
         </div>
 
@@ -526,11 +526,11 @@
                 <div class="flex gap-2">
                     <button class="btn btn-primary" onclick="openIndicatorConfig()" style="background: var(--primary-blue); color: white; border-color: var(--primary-blue);">
                         <i class="fas fa-cogs"></i>
-                        本省风险指标
+                        本省预警指标
                     </button>
                     <button class="btn btn-primary" onclick="batchSendRiskNotification()">
                         <i class="fas fa-bullhorn"></i>
-                        批量下发风险通知
+                        批量下发预警通知
                     </button>
                     <button class="btn btn-default" onclick="exportAll()">
                         <i class="fas fa-download"></i>
@@ -571,7 +571,7 @@
                             <td>朝阳路营业所</td>
                             
                             <!-- <td>¥12,580</td> -->
-                            <td><span class="risk-tag risk-high">高风险</span></td>
+                            <td><span class="risk-tag risk-high">高度关注</span></td>
                             
                             <td>2024-01-20</td>
                             <td>
@@ -589,7 +589,7 @@
                             <td>海淀区分公司</td>
                             <td>建国门营业所</td>
                              <!-- <td>¥8,200</td> -->
-                             <td><span class="risk-tag risk-medium">中风险</span></td>
+                             <td><span class="risk-tag risk-medium">中度关注</span></td>
                              <td>2024-01-20</td>
                            
                             <td>
@@ -607,7 +607,7 @@
                             <td>浦东新区分公司</td>
                             <td>陆家嘴营业所</td>
                              <!-- <td>¥15,600</td> -->
-                             <td><span class="risk-tag risk-low">低风险</span></td>
+                             <td><span class="risk-tag risk-low">轻度关注</span></td>
                              <td>2024-01-20</td>
                             <td>
                                 <button class="btn-link" onclick="viewMerchantDetail('M202401003')">
@@ -624,7 +624,7 @@
                             <td>天河区分公司</td>
                             <td>珠江新城营业所</td>
                              <!-- <td>¥22,300</td> -->
-                             <td><span class="risk-tag risk-medium">中风险</span></td>
+                             <td><span class="risk-tag risk-medium">中度关注</span></td>
                              <td>2024-01-20</td>
                             <td>
                                 <button class="btn-link" onclick="viewMerchantDetail('M202401004')">
@@ -641,7 +641,7 @@
                             <td>南山区分公司</td>
                             <td>科技园营业所</td>
                              <!-- <td>¥9,800</td> -->
-                             <td><span class="risk-tag risk-high">高风险</span></td>
+                             <td><span class="risk-tag risk-high">高度关注</span></td>
                              <td>2024-01-20</td>
                             <td>
                                 <button class="btn-link" onclick="viewMerchantDetail('M202401005')">
@@ -675,7 +675,7 @@
     <div id="detailModal" class="modal-overlay">
         <div class="modal-content">
             <div class="modal-header">
-                <h3>商户补贴风险评估报告</h3>
+                <h3>商户补贴预警报告</h3>
                 <button class="modal-close" onclick="closeDetailModal()">&times;</button>
             </div>
             <div class="modal-body">
@@ -968,7 +968,7 @@
                 <div id="indicatorConfigModal" class="modal" style="display: none;">
                     <div class="modal-content" style="width: 80%; max-width: 900px; height: 70%;">
                         <div class="modal-header">
-                            <h3>本省补贴风险指标</h3>
+                            <h3>本省补贴预警指标</h3>
                             <button class="modal-close" onclick="closeIndicatorConfigModal()">&times;</button>
                         </div>
                         <div class="modal-body" style="padding: 0;">

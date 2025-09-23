@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>新商户风险评估与审查</title>
+    <title>商户资料预警</title>
     <link href="https://cdn.tailwindcss.com/2.2.19/tailwind.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -478,17 +478,18 @@
                             <option value="pending">待审查</option>
                             <option value="rectification">待整改</option>
                             <option value="processing">整改中</option>
-                            <option value="completed">已完成</option>
+                            <option value="completed">整改完成</option>
+                            <option value="completed1">标记完成</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label class="form-label">风险等级</label>
+                        <label class="form-label">预警等级</label>
                         <select class="form-select" id="riskLevel">
                              <option value="">默认</option>
                             <option value="">全部等级</option>
-                            <option value="high">高风险</option>
-                            <option value="medium">中风险</option>
-                            <option value="low">低风险</option>
+                            <option value="high">高度关注</option>
+                            <option value="medium">中度关注</option>
+                            <option value="low">轻度关注</option>
                         </select>
                     </div>
                     <div class="flex gap-2 ">
@@ -511,11 +512,11 @@
             
             <div class="stats-card high-risk">
                 <div class="stats-number">8</div>
-                <div class="stats-label">高风险商户</div>
+                <div class="stats-label">高度关注商户</div>
             </div>
             <div class="stats-card medium-risk">
                 <div class="stats-number">15</div>
-                <div class="stats-label">中风险商户</div>
+                <div class="stats-label">中度关注商户</div>
             </div>
             <div class="stats-card pending">
                 <div class="stats-number">23</div>
@@ -534,7 +535,7 @@
                 <div class="flex gap-2">
                     <button class="btn1 btn-primary" onclick="openIndicatorConfig()" style="background: var(--primary-blue); color: white; border-color: var(--primary-blue);">
                         <i class="fas fa-cogs"></i>
-                        本省风险指标
+                        本省预警指标
                     </button>
                     <button class="btn1 btn-default">
                         <i class="fas fa-location-arrow"></i>
@@ -575,7 +576,7 @@
                             <td>2024-01-15</td>
                             <td>2024-01-15</td>
                             
-                            <td><span class="risk-tag risk-high">高风险</span></td>
+                            <td><span class="risk-tag risk-high">高度关注</span></td>
                             <td><span class="status-tag status-pending">待审查</span></td>
                             
                             <td>
@@ -593,7 +594,7 @@
                             <td>2024-01-14</td>
                             <td>2024-01-14</td>
                             
-                            <td><span class="risk-tag risk-medium">中风险</span></td>
+                            <td><span class="risk-tag risk-medium">中度关注</span></td>
                             <td><span class="status-tag status-rectification">待整改</span></td>
                             
                             <td>
@@ -611,7 +612,7 @@
                             <td>2024-01-13</td>
                             <td>2024-01-13</td>
                             
-                            <td><span class="risk-tag risk-low">低风险</span></td>
+                            <td><span class="risk-tag risk-low">轻度关注</span></td>
                             <td><span class="status-tag status-processing">整改中</span></td>
                            
                             <td>
@@ -629,8 +630,8 @@
                             <td>2024-01-12</td> 
                             <td>2024-01-15</td>
                             
-                            <td><span class="risk-tag risk-medium">中风险</span></td>
-                            <td><span class="status-tag status-completed">已完成</span></td>
+                            <td><span class="risk-tag risk-medium">中度关注</span></td>
+                            <td><span class="status-tag status-completed">整改完成</span></td>
                             
                             <td>
                                 <button class="btn-link" onclick="viewMerchantDetail('M202401004')">
@@ -647,8 +648,8 @@
                             <td>2024-01-11</td>
                             <td>2024-01-11</td>
                             
-                            <td><span class="risk-tag risk-high">高风险</span></td>
-                            <td><span class="status-tag status-pending">待审查</span></td>
+                            <td><span class="risk-tag risk-high">高度关注</span></td>
+                            <td><span class="status-tag status-completed">标记完成</span></td>
                            
                              <td>
                                 <button class="btn-link" onclick="viewMerchantDetail('M202401005')">
@@ -876,7 +877,7 @@
                 <div id="indicatorConfigModal" class="modal" style="display: none;">
                     <div class="modal-content" style="width: 80%; max-width: 900px; height: 70%;">
                         <div class="modal-header">
-                            <h3>本身资料风险指标</h3>
+                            <h3>本省资料预警指标</h3>
                             <button class="modal-close" onclick="closeIndicatorConfigModal()">&times;</button>
                         </div>
                         <div class="modal-body" style="padding: 0;">

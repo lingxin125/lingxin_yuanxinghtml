@@ -843,7 +843,7 @@
                                     <div class="transfer-group-title" onclick="toggleGroup(this)">
                                         <div class="group-title-left">
                                             <i class="fas fa-chevron-down"></i>
-                                            <span>资料风险指标 (30)</span>
+                                            <span>资料预警指标 (30)</span>
                                         </div>
                                         <span class="group-select-all" onclick="selectAllInGroup(event, 'profile', 'available')">全选</span>
                                     </div>
@@ -867,12 +867,12 @@
                                     </div>
                                 </div>
 
-                                <!-- 交易风险指标组 -->
+                                <!-- 交易预警指标组 -->
                                 <div class="transfer-group">
                                     <div class="transfer-group-title" onclick="toggleGroup(this)">
                                         <div class="group-title-left">
                                             <i class="fas fa-chevron-down"></i>
-                                            <span>交易风险指标 (40)</span>
+                                            <span>交易预警指标 (40)</span>
                                         </div>
                                         <span class="group-select-all" onclick="selectAllInGroup(event, 'transaction', 'available')">全选</span>
                                     </div>
@@ -901,12 +901,12 @@
                                 </div>
 
                                
-                                <!-- 补贴风险指标组 -->
+                                <!-- 补贴预警指标组 -->
                                 <div class="transfer-group">
                                     <div class="transfer-group-title" onclick="toggleGroup(this)">
                                         <div class="group-title-left">
                                             <i class="fas fa-chevron-down"></i>
-                                            <span>补贴风险指标 (32)</span>
+                                            <span>补贴预警指标 (32)</span>
                                         </div>
                                         <span class="group-select-all" onclick="selectAllInGroup(event, 'subsidy', 'available')">全选</span>
                                     </div>
@@ -1067,17 +1067,17 @@
                     status: true,
                     remark: '广东分公司指标分配配置',
                     indicators: [
-                        { id: 'indicator_1', name: '优惠交易占比', category: '交易风险指标', configPermission: true, riskBlock: false },
-                        { id: 'indicator_3', name: '笔均交易', category: '交易风险指标', configPermission: false, riskBlock: true },
-                        { id: 'indicator_6', name: '小微进件次数', category: '资料风险指标', configPermission: true, riskBlock: true }
+                        { id: 'indicator_1', name: '优惠交易占比', category: '交易预警指标', configPermission: true, riskBlock: false },
+                        { id: 'indicator_3', name: '笔均交易', category: '交易预警指标', configPermission: false, riskBlock: true },
+                        { id: 'indicator_6', name: '小微进件次数', category: '资料预警指标', configPermission: true, riskBlock: true }
                     ]
                 },
                 'beijing': {
                     status: true,
                     remark: '北京分公司指标分配配置',
                     indicators: [
-                        { id: 'indicator_2', name: '信用卡交易占比', category: '交易风险指标', configPermission: true, riskBlock: false },
-                        { id: 'indicator_7', name: '非小微进件次数', category: '资料风险指标', configPermission: false, riskBlock: true }
+                        { id: 'indicator_2', name: '信用卡交易占比', category: '交易预警指标', configPermission: true, riskBlock: false },
+                        { id: 'indicator_7', name: '非小微进件次数', category: '资料预警指标', configPermission: false, riskBlock: true }
                     ]
                 }
             };
@@ -1181,8 +1181,8 @@
                 `;
                 
                 groupedIndicators[category].forEach(indicator => {
-                    // 仅资料风险指标显示权限开关
-                    const showPermissionSwitches = indicator.category === '商户画像' || indicator.category === '资料风险指标';
+                    // 仅资料预警指标显示权限开关
+                    const showPermissionSwitches = indicator.category === '商户画像' || indicator.category === '资料预警指标';
                     
                     html += `
                         <div class="assigned-item">
@@ -1196,7 +1196,7 @@
                         html += `
                                 <div class="permission-switch">
                                     <div class="permission-switch-row">
-                                        <span class="permission-label">允许机构配置风险等级</span>
+                                        <span class="permission-label">允许机构配置预警等级</span>
                                         <label class="switch" style="width: 32px; height: 16px;">
                                             <input type="checkbox" ${indicator.configPermission ? 'checked' : ''} 
                                                    onchange="updatePermission('${indicator.id}', 'configPermission', this.checked)">
@@ -1204,7 +1204,7 @@
                                         </label>
                                     </div>
                                     <div class="permission-switch-row">
-                                        <span class="permission-label">触发高风险后禁止进件</span>
+                                        <span class="permission-label">触发高度关注禁止进件</span>
                                         <label class="switch" style="width: 32px; height: 16px;">
                                             <input type="checkbox" ${indicator.riskBlock ? 'checked' : ''} 
                                                    onchange="updatePermission('${indicator.id}', 'riskBlock', this.checked)">

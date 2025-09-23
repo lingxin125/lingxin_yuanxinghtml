@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>风险指标库 - 微邮付商户健康度监测系统</title>
+    <title>预警指标库 - 微邮付商户健康度监测系统</title>
     <link href="https://cdn.tailwindcss.com/2.2.19/tailwind.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -499,9 +499,9 @@
                     <label class="form-label">分类</label>
                     <select class="form-select" id="filterCategory">
                         <option value="">全部分类</option>
-                        <option value="PROFILE">资料风险</option>
-                        <option value="TRANSACTION">交易风险</option>
-                        <option value="SUBSIDY">补贴风险</option>
+                        <option value="PROFILE">资料预警</option>
+                        <option value="TRANSACTION">交易预警</option>
+                        <option value="SUBSIDY">补贴预警</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -563,9 +563,9 @@
                 <label class="form-label">分类</label>
                 <select class="form-select" id="filterCategory">
                     <option value="">全部分类</option>
-                    <option value="PROFILE">资料风险</option>
-                    <option value="TRANSACTION">交易风险</option>
-                    <option value="SUBSIDY">补贴风险</option>
+                    <option value="PROFILE">资料预警</option>
+                    <option value="TRANSACTION">交易预警</option>
+                    <option value="SUBSIDY">补贴预警</option>
                 </select>
             </div>
             <div class="form-group">
@@ -652,7 +652,7 @@
                 indicatorCode: 'FXZB_001',
                 indicatorName: '小微进件次数',
                 category: 'PROFILE',
-                categoryName: '资料风险',
+                categoryName: '资料预警',
                 keyword: ['进件'],
                 applicableMerchants: ['个体工商户', '小微商户'],
                 status: 1,
@@ -664,7 +664,7 @@
                 indicatorCode: 'FXZB_002',
                 indicatorName: '笔均交易',
                 category: 'TRANSACTION',
-                categoryName: '交易风险',
+                categoryName: '交易预警',
                 keyword: ['交易'],
                 applicableMerchants: ['企业商户', '个体工商户'],
                 status: 1,
@@ -676,7 +676,7 @@
                 indicatorCode: 'FXZB_003',
                 indicatorName: '上月实际耗能',
                 category: 'SUBSIDY',
-                categoryName: '补贴风险',
+                categoryName: '补贴预警',
                 keyword: '耗能',
                 applicableMerchants: ['个体工商户'],
                 status: 0,
@@ -688,7 +688,7 @@
                 indicatorCode: 'FXZB_004',
                 indicatorName: '门头照次数',
                 category: 'PROFILE',
-                categoryName: '资料风险',
+                categoryName: '资料预警',
                 keyword: '门头照',
                 applicableMerchants: ['个体工商户', '小微商户', '企业商户'],
                 status: 1,
@@ -700,7 +700,7 @@
                 indicatorCode: 'FXZB_005',
                 indicatorName: 'IP异常交易',
                 category: 'TRANSACTION',
-                categoryName: '交易风险',
+                categoryName: '交易预警',
                 keyword: 'IP',
                 applicableMerchants: ['企业商户', '个体工商户商户', '小微商户'],
                 status: 1,
@@ -884,7 +884,7 @@
                 // 禁用时显示确认对话框
                 showConfirmDialog(
                     '确认禁用指标',
-                    '禁用后该指标将不再参与风险评估，确定要禁用吗？',
+                    '禁用后该指标将不再参与预警，确定要禁用吗？',
                     () => {
                         updateIndicatorStatus(id, false);
                         loadIndicators();
@@ -978,10 +978,10 @@
             };
 
             if (id) {
-                title.textContent = '编辑风险指标';
+                title.textContent = '编辑预警指标';
                 iframe.src = `risk-indicator-form.html?id=${id}`;
             } else {
-                title.textContent = '新增风险指标';
+                title.textContent = '新增预警指标';
                 iframe.src = 'risk-indicator-form.html';
             }
 
@@ -1073,7 +1073,7 @@
     <div id="indicatorModal" class="modal" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5);">
         <div class="modal-content" style="background-color: var(--bg-container); margin: 5% auto; border-radius: 8px; width: 90%; max-width: 800px; height: 80%; box-shadow: var(--shadow-card); display: flex; flex-direction: column;">
             <div class="modal-header" style="padding: 16px 24px; border-bottom: 1px solid var(--border-color-light); display: flex; justify-content: space-between; align-items: center;">
-                <h3 id="indicatorModalTitle" style="margin: 0; font-size: 16px; font-weight: 600; color: var(--text-primary);">新增风险指标</h3>
+                <h3 id="indicatorModalTitle" style="margin: 0; font-size: 16px; font-weight: 600; color: var(--text-primary);">新增预警指标</h3>
                 <button class="modal-close" onclick="closeIndicatorModal()" style="background: none; border: none; font-size: 24px; cursor: pointer; color: var(--text-secondary); padding: 0; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center;">&times;</button>
             </div>
             <div class="modal-body" style="flex: 1; padding: 0;">

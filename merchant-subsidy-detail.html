@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>商户补贴风险评估详情</title>
+    <title>商户补贴预警报告详情</title>
     <link href="https://cdn.tailwindcss.com/2.2.19/tailwind.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -481,7 +481,7 @@
             margin-right: 8px;
         }
 
-        /* 高风险卡片样式 */
+        /* 高度关注卡片样式 */
         .unified-risk-card.high-risk .unified-risk-card-header {
             background: #fff2f0;
         }
@@ -495,7 +495,7 @@
             color: var(--error-red);
         }
 
-        /* 中风险卡片样式 */
+        /* 中度关注卡片样式 */
         .unified-risk-card.medium-risk .unified-risk-card-header {
             background: #fff7e6;
         }
@@ -509,7 +509,7 @@
             color: var(--warning-orange);
         }
 
-        /* 低风险卡片样式 */
+        /* 轻度关注卡片样式 */
         .unified-risk-card.low-risk .unified-risk-card-header {
             background: #f6ffed;
         }
@@ -615,17 +615,17 @@
             transform: scale(1.1);
         }
 
-        /* 高风险卡片的信息图标 */
+        /* 高度关注卡片的信息图标 */
         .unified-risk-card.high-risk .info-icon {
             color: var(--error-red);
         }
 
-        /* 中风险卡片的信息图标 */
+        /* 中度关注卡片的信息图标 */
         .unified-risk-card.medium-risk .info-icon {
             color: var(--warning-orange);
         }
 
-        /* 低风险卡片的信息图标 */
+        /* 轻度关注卡片的信息图标 */
         .unified-risk-card.low-risk .info-icon {
             color: var(--success-green);
         }
@@ -1072,7 +1072,7 @@
             <div class="tabs-nav">
                 <div class="tab active" onclick="switchTab('risk-report-tab')">
                     <i class="fas fa-chart-line"></i>
-                    补贴风险评估报告
+                    补贴预警报告
                 </div>
                 <div class="tab" onclick="switchTab('current-month-tab')">
                     <i class="fas fa-calendar-day"></i>
@@ -1090,34 +1090,34 @@
                 <!-- 补贴风险评估报告Tab -->
                 <div id="risk-report-tab" class="tab-content active">
                     <div class="tab-header">
-                        <h3 class="card-title">补贴风险评估报告</h3>
+                        <h3 class="card-title">补贴预警报告</h3>
                         <div class="tab-actions">
                             <button class="btn btn-primary" id="notifyRiskBtn" onclick="sendRiskNotification()" style="border-radius: 8px; padding: 8px 16px;">
                                 <i class="fas fa-bullhorn"></i>
-                                下发风险通知
+                                下发预警通知
                             </button>
                         </div>
                     </div>
                     <div class="tab-body" style="padding: 24px;">
         <!-- 评估概要 -->
         <div class="evaluation-summary">
-            <h3><i class="fas fa-chart-line"></i> 补贴风险评估概要</h3>
+            <h3><i class="fas fa-chart-line"></i> 预警概览</h3>
             <div class="summary-grid">
                 <div class="summary-item">
                     <div class="summary-number">张三便利店</div>
                     <div class="summary-label">商户名称</div>
                 </div>
                 <div class="summary-item">
-                    <div class="summary-number">高风险</div>
-                    <div class="summary-label">综合风险等级</div>
+                    <div class="summary-number">高度关注</div>
+                    <div class="summary-label">综合预警等级</div>
                 </div>
                 <div class="summary-item">
                     <div class="summary-number">1个</div>
-                    <div class="summary-label">高风险指标</div>
+                    <div class="summary-label">高度关注指标</div>
                 </div>
                 <div class="summary-item">
                     <div class="summary-number">1个</div>
-                    <div class="summary-label">中风险指标</div>
+                    <div class="summary-label">中度关注指标</div>
                 </div>
             </div>
         </div>
@@ -1181,11 +1181,11 @@
                 <h3 class="card-title">商户补贴风险画像</h3>
             </div>
             <div class="card-body">
-                <!-- 高风险指标区域 -->
+                <!-- 高度关注指标区域 -->
                 <div class="risk-section">
                     <div class="risk-section-title high-risk">
                         <i class="fas fa-exclamation-circle"></i>
-                        高风险指标
+                        高度关注指标
                     </div>
                     <div class="risk-cards-grid">
                         <div class="unified-risk-card high-risk">
@@ -1200,13 +1200,13 @@
                                             本月累计补贴消耗：每日凌晨更新前一日数据并累计汇总，本月累计数据统计范围为本月1日至当前日期<br>
                                             客户月均收益：统计商户结算人近6个月月均收益数据。
                                             <div class="tooltip-title">风险阈值</div>
-                                            • 高风险：本月累计补贴消耗与月均收益的比例≥ 90%<br>
-                                            • 中风险：本月累计补贴消耗与月均收益的比例70-89%<br>
-                                            • 低风险：本月累计补贴消耗与月均收益的比例 < 70%<br>
+                                            • 高度关注：本月累计补贴消耗与月均收益的比例≥ 90%<br>
+                                            • 中度关注：本月累计补贴消耗与月均收益的比例70-89%<br>
+                                            • 轻度关注：本月累计补贴消耗与月均收益的比例 < 70%<br>
                                         </div>
                                     </div>
                                 </div>
-                                <span class="risk-tag">高风险</span>
+                                <span class="risk-tag">高度关注</span>
                             </div>
                             <div class="unified-risk-card-content">
                                 <div class="unified-risk-item">
@@ -1226,11 +1226,11 @@
                     </div>
                 </div>
                 
-                <!-- 中风险指标区域 -->
+                <!-- 中度关注指标区域 -->
                 <div class="risk-section">
                     <div class="risk-section-title medium-risk">
                         <i class="fas fa-exclamation-triangle"></i>
-                        中风险指标
+                        中度关注指标
                     </div>
                     <div class="risk-cards-grid">
                         <div class="unified-risk-card medium-risk">
@@ -1245,13 +1245,13 @@
                                             上月补贴消耗数据：每月1号更新上个月数据。<br>
                                             上月新增收益：统计上个月商户结算人的月增全省收益。
                                             <div class="tooltip-title">风险阈值</div>
-                                            • 高风险：上月补贴消耗与上月新增收益的比例≥ 100%<br>
-                                            • 中风险：上月补贴消耗与上月新增收益的比例70-99%<br>
-                                            • 低风险：上月补贴消耗与上月新增收益的比例 < 70%<br>
+                                            • 高度关注：上月补贴消耗与上月新增收益的比例≥ 100%<br>
+                                            • 中度关注：上月补贴消耗与上月新增收益的比例70-99%<br>
+                                            • 轻度关注：上月补贴消耗与上月新增收益的比例 < 70%<br>
                                         </div>
                                     </div>
                                 </div>
-                                <span class="risk-tag">中风险</span>
+                                <span class="risk-tag">中度关注</span>
                             </div>
                             <div class="unified-risk-card-content">
                                 
@@ -1272,11 +1272,11 @@
                     </div>
                 </div>
 
-                <!-- 低风险指标区域 -->
+                <!-- 轻度关注指标区域 -->
                 <div class="risk-section">
                     <div class="risk-section-title low-risk">
                         <i class="fas fa-check-circle"></i>
-                        低风险指标
+                        轻度关注指标
                     </div>
                     <div class="risk-cards-grid">
                         <div class="unified-risk-card low-risk">
@@ -1291,13 +1291,13 @@
                                             本月累计补贴消耗：每日凌晨更新前一日数据并累计汇总，本月累计数据统计范围为本月1日至当前日期。<br>
                                             上月同期补贴消耗：统计上月同周期补贴消耗数据。
                                             <div class="tooltip-title">风险阈值</div>
-                                            • 高风险：本月累计补贴消耗与上月同期补贴消耗的同比≥ 50%<br>
-                                            • 中风险：本月累计补贴消耗与上月同期补贴消耗的同比20-49%<br>
-                                            • 低风险：本月累计补贴消耗与上月同期补贴消耗的同比< 20%<br>
+                                            • 高度关注：本月累计补贴消耗与上月同期补贴消耗的同比≥ 50%<br>
+                                            • 中度关注：本月累计补贴消耗与上月同期补贴消耗的同比20-49%<br>
+                                            • 轻度关注：本月累计补贴消耗与上月同期补贴消耗的同比< 20%<br>
                                         </div>
                                     </div>
                                 </div>
-                                <span class="risk-tag">低风险</span>
+                                <span class="risk-tag">轻度关注</span>
                             </div>
                             <div class="unified-risk-card-content">
                                 
@@ -1361,7 +1361,7 @@
                         <div class="card">
                             <div class="card-header">
                                 <h3 class="card-title">本月预警-商户网点成本及收益情况</h3> 
-                                <span class="risk-tag" style="background: #fff2f0; color: var(--error-red);">高风险</span>
+                                <span class="risk-tag" style="background: #fff2f0; color: var(--error-red);">高度关注</span>
                                    
                             </div>
                             <div class="card-body">
@@ -1377,7 +1377,7 @@
                                     </div>
                                     <div class="info-item">
                                         <div class="info-label">网点耗能预警等级</div>
-                                        <div class="info-value"><span class="risk-tag" style="background: #fff2f0; color: var(--error-red);">高风险</span></div>
+                                        <div class="info-value"><span class="risk-tag" style="background: #fff2f0; color: var(--error-red);">高度关注</span></div>
                                     </div>
                                 </div> -->
                                 
@@ -1430,7 +1430,7 @@
                         <div class="card">
                             <div class="card-header">
                                 <h3 class="card-title">本月预警-商户全省成本及收益情况</h3>
-                                <span class="risk-tag" style="background: #fff7e6; color: var(--warning-orange);">中风险</span>
+                                <span class="risk-tag" style="background: #fff7e6; color: var(--warning-orange);">中度关注</span>
                             </div>
                             <div class="card-body">
                                 <!-- 主表字段展示 -->
@@ -1445,7 +1445,7 @@
                                     </div>
                                     <div class="info-item">
                                         <div class="info-label">全省耗能预警等级</div>
-                                        <div class="info-value"><span class="risk-tag" style="background: #fff7e6; color: var(--warning-orange);">中风险</span></div>
+                                        <div class="info-value"><span class="risk-tag" style="background: #fff7e6; color: var(--warning-orange);">中度关注</span></div>
                                     </div>
                                 </div> -->
                                 
@@ -1591,7 +1591,7 @@
                         <div class="card">
                             <div class="card-header">
                                 <h3 class="card-title">往期预警-商户网点成本及收益情况</h3>
-                                <span class="risk-tag" style="background: #fff2f0; color: var(--error-red);">高风险</span>
+                                <span class="risk-tag" style="background: #fff2f0; color: var(--error-red);">高度关注</span>
                             </div>
                             <div class="card-body">
                                 <!-- 主表字段展示 -->
@@ -1606,7 +1606,7 @@
                                     </div>
                                     <div class="info-item">
                                         <div class="info-label">网点耗能预警等级</div>
-                                        <div class="info-value"><span class="risk-tag" style="background: #fff2f0; color: var(--error-red);">高风险</span></div>
+                                        <div class="info-value"><span class="risk-tag" style="background: #fff2f0; color: var(--error-red);">高度关注</span></div>
                                     </div>
                                 </div> -->
                                 
@@ -1658,7 +1658,7 @@
                         <div class="card">
                             <div class="card-header">
                                 <h3 class="card-title">往期预警-商户全省成本及收益情况</h3>
-                                <span class="risk-tag" style="background: #fff7e6; color: var(--warning-orange);">中风险</span>
+                                <span class="risk-tag" style="background: #fff7e6; color: var(--warning-orange);">中度关注</span>
                             </div>
                             <div class="card-body">
                                 <!-- 主表字段展示 -->
@@ -1673,7 +1673,7 @@
                                     </div>
                                     <div class="info-item">
                                         <div class="info-label">全省耗能预警等级</div>
-                                        <div class="info-value"><span class="risk-tag" style="background: #fff7e6; color: var(--warning-orange);">中风险</span></div>
+                                        <div class="info-value"><span class="risk-tag" style="background: #fff7e6; color: var(--warning-orange);">中度关注</span></div>
                                     </div>
                                 </div> -->
                                 

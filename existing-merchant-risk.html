@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>商户交易风险评估</title>
+    <title>商户交易预警</title>
     <link href="https://cdn.tailwindcss.com/2.2.19/tailwind.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -487,13 +487,13 @@
                     </div>
                     
                     <div class="form-group">
-                        <label class="form-label">风险等级</label>
+                        <label class="form-label">预警等级</label>
                         <select class="form-select" id="riskLevel">
                              <option value="">默认</option>
                             <option value="">全部等级</option>
-                            <option value="high">高风险</option>
-                            <option value="medium">中风险</option>
-                            <option value="low">低风险</option>
+                            <option value="high">高度关注</option>
+                            <option value="medium">中度关注</option>
+                            <option value="low">轻度关注</option>
                         </select>
                     </div>
                     <div class="flex gap-2">
@@ -518,15 +518,15 @@
             </div>
             <div class="stats-card high-risk">
                 <div class="stats-number">89</div>
-                <div class="stats-label">高风险商户</div>
+                <div class="stats-label">高度关注商户</div>
             </div>
             <div class="stats-card medium-risk">
                 <div class="stats-number">234</div>
-                <div class="stats-label">中风险商户</div>
+                <div class="stats-label">中度关注商户</div>
             </div>
             <div class="stats-card low-risk">
                 <div class="stats-number">933</div>
-                <div class="stats-label">低风险商户</div>
+                <div class="stats-label">轻度关注商户</div>
             </div>
         </div>
         <!-- 批量操作 -->
@@ -549,7 +549,7 @@
                 <div class="flex gap-2">
                     <button class="btn btn-primary" onclick="openIndicatorConfig()" style="background: var(--primary-blue); color: white; border-color: var(--primary-blue);">
                         <i class="fas fa-cogs"></i>
-                        本省风险指标
+                        本省预警指标
                     </button>
                     <button class="btn btn-default" onclick="exportAll()">
                         <i class="fas fa-download"></i>
@@ -571,7 +571,7 @@
                             <th>区县分公司</th>
                             <th>营业所</th>
                             <th>评估月份</th>
-                            <th>风险等级</th>
+                            <th>预警等级</th>
                             
                             <th>操作</th>
                         </tr>
@@ -585,7 +585,7 @@
                             <td>朝阳区分公司</td>
                             <td>朝阳路营业所</td>
                             <td>2024-01</td>
-                            <td><span class="risk-tag risk-high">高风险</span></td>
+                            <td><span class="risk-tag risk-high">高度关注</span></td>
                             <td>
                                 <button class="btn-link" onclick="viewMerchantDetail('M202301001')">
                                     详情
@@ -600,7 +600,7 @@
                             <td>海淀区分公司</td>
                             <td>建国门营业所</td>
                             <td>2024-01</td>
-                            <td><span class="risk-tag risk-medium">中风险</span></td>
+                            <td><span class="risk-tag risk-medium">中度关注</span></td>
                              <td>
                                 <button class="btn-link" onclick="viewMerchantDetail('M202301002')">
                                     详情
@@ -615,7 +615,7 @@
                             <td>浦东新区分公司</td>
                             <td>陆家嘴营业所</td>
                             <td>2024-01</td>
-                            <td><span class="risk-tag risk-low">低风险</span></td>
+                            <td><span class="risk-tag risk-low">轻度关注</span></td>
                             <td>
                                 <button class="btn-link" onclick="viewMerchantDetail('M202301003')">
                                     详情
@@ -630,7 +630,7 @@
                             <td>天河区分公司</td>
                             <td>珠江新城营业所</td>
                             <td>2024-01</td>
-                            <td><span class="risk-tag risk-medium">中风险</span></td>
+                            <td><span class="risk-tag risk-medium">中度关注</span></td>
                             <td>
                                 <button class="btn-link" onclick="viewMerchantDetail('M202301004')">
                                     详情
@@ -645,7 +645,7 @@
                             <td>南山区分公司</td>
                             <td>科技园营业所</td>
                             <td>2024-01</td>
-                            <td><span class="risk-tag risk-high">高风险</span></td>
+                            <td><span class="risk-tag risk-high">高度关注</span></td>
                             <td>
                                 <button class="btn-link" onclick="viewMerchantDetail('M202301005')">
                                     详情
@@ -678,7 +678,7 @@
     <div id="detailModal" class="modal-overlay">
         <div class="modal-content">
             <div class="modal-header">
-                <h3>商户风险评估报告</h3>
+                <h3>商户交易预警报告</h3>
                 <button class="modal-close" onclick="closeDetailModal()">&times;</button>
             </div>
             <div class="modal-body">
@@ -915,14 +915,14 @@
             
             const merchantIds = Array.from(selectedItems);
             console.log('批量导出商户:', merchantIds);
-            alert(`正在导出 ${merchantIds.length} 个商户的风险评估报告...`);
+            alert(`正在导出 ${merchantIds.length} 个商户的预警评估报告...`);
             // 这里可以调用API进行批量导出
         }
         
         // 导出全部
         function exportAll() {
-            if (confirm('确定要导出所有商户的风险评估报告吗？')) {
-                alert('正在导出全部商户的风险评估报告，请稍候...');
+            if (confirm('确定要导出所有商户的预警评估报告吗？')) {
+                alert('正在导出全部商户的预警评估报告，请稍候...');
                 // 这里可以调用API导出全部
             }
         }
@@ -971,7 +971,7 @@
                 <div id="indicatorConfigModal" class="modal" style="display: none;">
                     <div class="modal-content" style="width: 80%; max-width: 900px; height: 70%;">
                         <div class="modal-header">
-                            <h3>本身交易风险指标</h3>
+                            <h3>本省交易预警指标</h3>
                             <button class="modal-close" onclick="closeIndicatorConfigModal()">&times;</button>
                         </div>
                         <div class="modal-body" style="padding: 0;">

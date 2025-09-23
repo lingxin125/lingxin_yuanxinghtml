@@ -502,7 +502,7 @@
             color: var(--success-green);
         }
 
-        /* 风险卡片位置 - 只显示中高风险 */
+        /* 风险卡片位置 - 只显示中高度关注 */
         .risk-card-2 {
             top: 10%;
             left: 10%;
@@ -520,7 +520,7 @@
             transform: none !important;
         }
 
-        /* 低风险指标底部排列 */
+        /* 轻度关注指标底部排列 */
         .low-risk-section {
             margin-top: 40px;
             padding: 20px;
@@ -659,7 +659,7 @@
             margin-right: 8px;
         }
 
-        /* 中风险卡片样式 */
+        /* 中度关注卡片样式 */
         .unified-risk-card.medium-risk .unified-risk-card-header {
             background: #fff7e6;
         }
@@ -673,7 +673,7 @@
             color: var(--warning-orange);
         }
 
-        /* 低风险卡片样式 */
+        /* 轻度关注卡片样式 */
         .unified-risk-card.low-risk .unified-risk-card-header {
             background: #f6ffed;
         }
@@ -701,17 +701,17 @@
             transform: scale(1.1);
         }
 
-        /* 高风险卡片的信息图标 */
+        /* 高度关注卡片的信息图标 */
         .unified-risk-card.high-risk .info-icon {
             color: var(--error-red);
         }
 
-        /* 中风险卡片的信息图标 */
+        /* 中度关注卡片的信息图标 */
         .unified-risk-card.medium-risk .info-icon {
             color: var(--warning-orange);
         }
 
-        /* 低风险卡片的信息图标 */
+        /* 轻度关注卡片的信息图标 */
         .unified-risk-card.low-risk .info-icon {
             color: var(--success-green);
         }
@@ -795,23 +795,23 @@
 
         <!-- 评估概要 -->
         <div class="evaluation-summary">
-            <h3><i class="fas fa-chart-line"></i> 风险评估概要</h3>
+            <h3><i class="fas fa-chart-line"></i> 预警概览</h3>
             <div class="summary-grid">
                 <div class="summary-item">
                     <div class="summary-number">小李超市 </div>
                     <div class="summary-label">商户名称</div>
                 </div>
                 <div class="summary-item">
-                    <div class="summary-number">中风险</div>
-                    <div class="summary-label">综合风险等级</div>
+                    <div class="summary-number">中度关注</div>
+                    <div class="summary-label">综合预警等级</div>
                 </div>
                 <div class="summary-item">
                     <div class="summary-number">0个</div>
-                    <div class="summary-label">高风险指标</div>
+                    <div class="summary-label">高度关注指标</div>
                 </div>
                 <div class="summary-item">
                     <div class="summary-number">3个</div>
-                    <div class="summary-label">中风险指标</div>
+                    <div class="summary-label">中度关注指标</div>
                 </div>
             </div>
         </div>
@@ -870,15 +870,15 @@
         <!-- 360度风险画像 -->
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">商户风险画像</h3>
+                <h3 class="card-title">商户预警画像</h3>
 
             </div>
             <div class="card-body">
-                <!-- 中风险指标区域 -->
+                <!-- 中度关注指标区域 -->
                 <div class="risk-section">
                     <div class="risk-section-title medium-risk">
                         <i class="fas fa-exclamation-triangle"></i>
-                        中风险指标
+                        中度关注指标
                     </div>
                     <div class="risk-cards-grid">
                         <div class="unified-risk-card medium-risk">
@@ -892,14 +892,14 @@
                                         <div class="tooltip-content">
                                             统计该商户近30天内每日笔均大额交易金额<br>
                                             <div class="tooltip-title">风险阈值</div>
-                                            • 高风险：每日笔均大额交易金额 ≥ 5000元<br>
-                                            • 中风险：每日笔均大额交易金额 2000-4999元<br>
-                                            • 低风险：每日笔均大额交易金额 < 2000元<br>
+                                            • 高度关注：每日笔均大额交易金额 ≥ 5000元<br>
+                                            • 中度关注：每日笔均大额交易金额 2000-4999元<br>
+                                            • 轻度关注：每日笔均大额交易金额 < 2000元<br>
                                             
                                         </div>
                                     </div>
                                 </div>
-                                <span class="risk-tag">中风险</span>
+                                <span class="risk-tag">中度关注</span>
                             </div>
                             <div class="unified-risk-card-content">
                                 <div class="unified-risk-item">
@@ -919,14 +919,14 @@
                                         <div class="tooltip-content">
                                             统计该商户近30天内日均交易地址与商户常用地址2公里外交易笔数
                                             <div class="tooltip-title">风险阈值</div>
-                                            • 高风险：异地交易笔数 ≥ 10笔<br>
-                                            • 中风险：异地交易笔数 2-9笔<br>
-                                            • 低风险：异地交易笔数 < 2笔<br>
+                                            • 高度关注：异地交易笔数 ≥ 10笔<br>
+                                            • 中度关注：异地交易笔数 2-9笔<br>
+                                            • 轻度关注：异地交易笔数 < 2笔<br>
                                             
                                         </div>
                                     </div>
                                 </div>
-                                <span class="risk-tag">中风险</span>
+                                <span class="risk-tag">中度关注</span>
                             </div>
                             <div class="unified-risk-card-content">
                                 <div class="unified-risk-item">
@@ -946,14 +946,14 @@
                                         <div class="tooltip-content">
                                             统计该商户近30天内日均信用卡交易占比
                                             <div class="tooltip-title">风险阈值</div>
-                                            • 高风险：信用卡交易占比 ≥ 80%<br>
-                                            • 中风险：信用卡交易占比 50-79%<br>
-                                            • 低风险：信用卡交易占比 < 50%<br>
+                                            • 高度关注：信用卡交易占比 ≥ 80%<br>
+                                            • 中度关注：信用卡交易占比 50-79%<br>
+                                            • 轻度关注：信用卡交易占比 < 50%<br>
                                             
                                         </div>
                                     </div>
                                 </div>
-                                <span class="risk-tag">中风险</span>
+                                <span class="risk-tag">中度关注</span>
                             </div>
                             <div class="unified-risk-card-content">
                                 <div class="unified-risk-item">
@@ -965,11 +965,11 @@
                     </div>
                 </div>
 
-                <!-- 低风险指标区域 -->
+                <!-- 轻度关注指标区域 -->
                 <div class="risk-section">
                     <div class="risk-section-title low-risk">
                         <i class="fas fa-check-circle"></i>
-                        低风险指标
+                        轻度关注指标
                     </div>
                     <div class="risk-cards-grid">
                         <div class="unified-risk-card low-risk">
@@ -983,14 +983,14 @@
                                         <div class="tooltip-content">
                                             统计该商户近30天内日均交易时间分布
                                             <div class="tooltip-title">风险阈值</div>
-                                            • 高风险：全部交易笔数集中在1h内<br>
-                                            • 中风险：全部交易笔数集中在3h内<br>
-                                            • 低风险：全部交易笔数在24h内有分布<br>
+                                            • 高度关注：全部交易笔数集中在1h内<br>
+                                            • 中度关注：全部交易笔数集中在3h内<br>
+                                            • 轻度关注：全部交易笔数在24h内有分布<br>
                                            
                                         </div>
                                     </div>
                                 </div>
-                                <span class="risk-tag">低风险</span>
+                                <span class="risk-tag">轻度关注</span>
                             </div>
                             <div class="unified-risk-card-content">
                                 <div class="unified-risk-item">
@@ -1010,14 +1010,14 @@
                                         <div class="tooltip-content">
                                             统计该商户近30天内存在重复交易订单笔数占比
                                             <div class="tooltip-title">风险阈值</div>
-                                            • 高风险：重复交易订单比例 ≥ 60%<br>
-                                            • 中风险：重复交易者订单比例 20-59%<br>
-                                            • 低风险：重复交易者订单比例 < 20%<br>
+                                            • 高度关注：重复交易订单比例 ≥ 60%<br>
+                                            • 中度关注：重复交易者订单比例 20-59%<br>
+                                            • 轻度关注：重复交易者订单比例 < 20%<br>
                                            
                                         </div>
                                     </div>
                                 </div>
-                                <span class="risk-tag">低风险</span>
+                                <span class="risk-tag">轻度关注</span>
                             </div>
                             <div class="unified-risk-card-content">
                                 <div class="unified-risk-item">
@@ -1038,14 +1038,14 @@
                                         <div class="tooltip-content">
                                             统计该商户近30天内日均优惠券使用占比
                                             <div class="tooltip-title">风险阈值</div>
-                                            • 高风险：优惠券使用占比 ≥ 60%<br>
-                                            • 中风险：优惠券使用占比 40-59%<br>
-                                            • 低风险：优惠券使用占比 < 40%<br>
+                                            • 高度关注：优惠券使用占比 ≥ 60%<br>
+                                            • 中度关注：优惠券使用占比 40-59%<br>
+                                            • 轻度关注：优惠券使用占比 < 40%<br>
                                             
                                         </div>
                                     </div>
                                 </div>
-                                <span class="risk-tag">低风险</span>
+                                <span class="risk-tag">轻度关注</span>
                             </div>
                             <div class="unified-risk-card-content">
                                 <div class="unified-risk-item">

@@ -129,7 +129,7 @@
 </head>
 <body>
   <div class="config-header">
-    <p class="config-description">可快速查看本省分配的补贴风险指标</p>
+    <p class="config-description">可快速查看本省分配的补贴预警指标</p>
   </div>
   <h3 class="module-title">默认指标</h3>
   <!-- 指标标签列表（仅不可配置） -->
@@ -153,10 +153,10 @@
 
     /** 模拟数据（补贴风险，全部不可配置） */
     const indicators = [
-      { id: 101, name: '本月网点耗能预警', enabled: true, calc: '网点下当月累计消耗成本/预估当月收益，高风险含预估当月0收益商户', high: {op: '>=', value: 150}, medium: {op: '>=', value: 90}, low: {op: '<', value: 90} },
-      { id: 102, name: '上月网点耗能预警', enabled: false, calc: '网点下上月累计消耗成本/上月实际收益，高风险含预估当月0收益商户', high: {op: '>=', value: 150}, medium: {op: '>=', value: 90}, low: {op: '<', value: 90} },
+      { id: 101, name: '本月网点耗能预警', enabled: true, calc: '网点下当月累计消耗成本/预估当月收益，高度关注含预估当月0收益商户', high: {op: '>=', value: 150}, medium: {op: '>=', value: 90}, low: {op: '<', value: 90} },
+      { id: 102, name: '上月网点耗能预警', enabled: false, calc: '网点下上月累计消耗成本/上月实际收益，高度关注含预估当月0收益商户', high: {op: '>=', value: 150}, medium: {op: '>=', value: 90}, low: {op: '<', value: 90} },
       { id: 103, name: '补贴激增预警', enabled: true, calc: '与上月同期消耗成本对比', high: {op: '>=', value: 150}, medium: {op: '>=', value: 90}, low: {op: '<', value: 90} },
-      { id: 104, name: '本月全省耗能预警', enabled: false, calc: '全省网点下当月累计消耗成本/预估当月收益，高风险含预估当月0收益商户', high: {op: '>=', value: 150}, medium: {op: '>=', value: 90}, low: {op: '<', value: 90} }
+      { id: 104, name: '本月全省耗能预警', enabled: false, calc: '全省网点下当月累计消耗成本/预估当月收益，高度关注含预估当月0收益商户', high: {op: '>=', value: 150}, medium: {op: '>=', value: 90}, low: {op: '<', value: 90} }
     ];
 
     document.addEventListener('DOMContentLoaded', () => {
@@ -195,15 +195,15 @@
         riskLevels.className = 'risk-levels';
         riskLevels.innerHTML = `
           <div class="threshold-row">
-            <label>高风险：</label>
+            <label>高度关注：</label>
             <span class="risk-high">指标值${ind.high.op} ${ind.high.value}%</span>
           </div>
           <div class="threshold-row">
-            <label>中风险：</label>
+            <label>中度关注：</label>
             <span class="risk-medium">指标值${ind.medium.op} ${ind.medium.value}%</span>
           </div>
           <div class="threshold-row">
-            <label>低风险：</label>
+            <label>轻度关注：</label>
             <span class="risk-low">指标值${ind.low.op} ${ind.low.value}%</span>
           </div>
         `;

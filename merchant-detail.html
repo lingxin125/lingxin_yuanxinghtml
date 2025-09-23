@@ -631,7 +631,7 @@
             right: 10%;
         }
 
-        /* 低风险指标底部排列 */
+        /* 轻度关注指标底部排列 */
         .low-risk-section {
             margin-top: 40px;
             padding: 20px;
@@ -1049,7 +1049,7 @@
             margin-right: 8px;
         }
 
-        /* 高风险卡片样式 */
+        /* 高度关注卡片样式 */
         .unified-risk-card.high-risk .unified-risk-card-header {
             background: #fff2f0;
         }
@@ -1063,7 +1063,7 @@
             color: var(--error-red);
         }
 
-        /* 中风险卡片样式 */
+        /* 中度关注卡片样式 */
         .unified-risk-card.medium-risk .unified-risk-card-header {
             background: #fff7e6;
         }
@@ -1077,7 +1077,7 @@
             color: var(--warning-orange);
         }
 
-        /* 低风险卡片样式 */
+        /* 轻度关注卡片样式 */
         .unified-risk-card.low-risk .unified-risk-card-header {
             background: #f6ffed;
         }
@@ -1296,17 +1296,17 @@
             transform: scale(1.1);
         }
 
-        /* 高风险卡片的信息图标 */
+        /* 高度关注卡片的信息图标 */
         .unified-risk-card.high-risk .info-icon {
             color: var(--error-red);
         }
 
-        /* 中风险卡片的信息图标 */
+        /* 中度关注卡片的信息图标 */
         .unified-risk-card.medium-risk .info-icon {
             color: var(--warning-orange);
         }
 
-        /* 低风险卡片的信息图标 */
+        /* 轻度关注卡片的信息图标 */
         .unified-risk-card.low-risk .info-icon {
             color: var(--success-green);
         }
@@ -1385,7 +1385,7 @@
             <div class="tabs-nav">
                 <div class="tab active" onclick="switchTab('risk')">
                     <i class="fas fa-exclamation-triangle"></i>
-                    风险评估
+                    资料预警报告
                 </div>
                 <div class="tab" onclick="switchTab('audit')">
                     <i class="fas fa-clipboard-check"></i>
@@ -1916,12 +1916,12 @@
                 <!-- 风险详情Tab -->
                 <div id="risk-tab" class="tab-content active" style="display: block;">
                     <div class="tab-header">
-                        <h3 class="card-title1">风险评估</h3>
+                        <h3 class="card-title1">预警报告</h3>
                     </div>
                     <div class="tab-body">
                         <!-- 风险评估概要 -->
                         <div class="evaluation-summary">
-                            <h3><i class="fas fa-chart-line"></i> 风险评估概要</h3>
+                            <h3><i class="fas fa-chart-line"></i> 预警概览</h3>
                             <div class="summary-grid">
                                 <div class="summary-item">
                                     <div class="summary-number0">张三便利店</span>
@@ -1929,27 +1929,27 @@
                                     <div class="summary-label">商户名称 </div>
                                 </div>
                                 <div class="summary-item">
-                                    <div class="summary-number">高风险</div>
-                                    <div class="summary-label">综合风险等级</div>
+                                    <div class="summary-number">高度关注</div>
+                                    <div class="summary-label">综合预警等级</div>
                                 </div>
                                 <div class="summary-item">
                                     <div class="summary-number">1个</div>
-                                    <div class="summary-label">高风险指标</div>
+                                    <div class="summary-label">高度关注指标</div>
                                 </div>
                                 <div class="summary-item">
                                     <div class="summary-number">3个</div>
-                                    <div class="summary-label">中风险指标</div>
+                                    <div class="summary-label">中度关注指标</div>
                                 </div>
                             </div>
                         </div>
 
 
 
-                        <!-- 高风险指标区域 -->
+                        <!-- 高度关注指标区域 -->
                         <div class="risk-section">
                             <div class="risk-section-title high-risk">
                                 <i class="fas fa-exclamation-circle"></i>
-                                高风险指标
+                                高度关注指标
                             </div>
                             <div class="risk-cards-grid">
                                 <div class="unified-risk-card high-risk">
@@ -1963,13 +1963,13 @@
                                                 <div class="tooltip-content">
                                                     根据商户类型统计结算人证件或营业执照号进件次数<br>
                                                     <div class="tooltip-title">风险阈值</div>
-                                                    • 高风险：历史进件次数 ≥ 5次<br>
-                                                    • 中风险：历史进件次数 3-4次<br>
-                                                    • 低风险：历史进件次数 ≤ 2次<br><br>
+                                                    • 高度关注：历史进件次数 ≥ 5次<br>
+                                                    • 中度关注：历史进件次数 3-4次<br>
+                                                    • 轻度关注：历史进件次数 ≤ 2次<br><br>
                                                      </div>
                                             </div>
                                         </div>
-                                        <span class="risk-tag">高风险</span>
+                                        <span class="risk-tag">高度关注</span>
                                     </div>
                                     <div class="unified-risk-card-content">
                                         <div class="unified-risk-item">
@@ -1990,13 +1990,13 @@
                                                 <div class="tooltip-content">
                                                     接收上游通道审核结果<br>
                                                     <div class="tooltip-title">风险阈值</div>
-                                                    • 高风险：上游审核驳回<br>
+                                                    • 高度关注：上游审核驳回<br>
                                                    
-                                                    • 低风险：上游审核通过<br><br>
+                                                    • 轻度关注：上游审核通过<br><br>
                                                      </div>
                                             </div>
                                         </div>
-                                        <span class="risk-tag">高风险</span>
+                                        <span class="risk-tag">高度关注</span>
                                     </div>
                                     <div class="unified-risk-card-content">
                                         <div class="unified-risk-item">
@@ -2011,11 +2011,11 @@
 
                         </div>
 
-                        <!-- 中风险指标区域 -->
+                        <!-- 中度关注指标区域 -->
                         <div class="risk-section">
                             <div class="risk-section-title medium-risk">
                                 <i class="fas fa-exclamation-triangle"></i>
-                                中风险指标
+                                中度关注指标
                             </div>
                             <div class="risk-cards-grid">
                                 <div class="unified-risk-card medium-risk">
@@ -2030,14 +2030,14 @@
                                                     
                                                     统计该商户门头照在平台信息库中（含本次）被重复使用次数<br>
                                                     <div class="tooltip-title">风险阈值</div>
-                                                    • 高风险：门头照重复使用 ≥ 5次<br>
-                                                    • 中风险：门头照重复使用 2-4次<br>
-                                                    • 低风险：门头照使用1次<br><br>
+                                                    • 高度关注：门头照重复使用 ≥ 5次<br>
+                                                    • 中度关注：门头照重复使用 2-4次<br>
+                                                    • 轻度关注：门头照使用1次<br><br>
                                                     
                                                 </div>
                                             </div>
                                         </div>
-                                        <span class="risk-tag">中风险</span>
+                                        <span class="risk-tag">中度关注</span>
                                     </div>
                                     <div class="unified-risk-card-content">
                                         <div class="unified-risk-item">
@@ -2057,14 +2057,14 @@
                                                 <div class="tooltip-content">
                                                     统计该商户收银台照在平台信息库中（含本次）被重复使用次数<br>
                                                     <div class="tooltip-title">风险阈值</div>
-                                                    • 高风险：收银台照重复使用 ≥ 5次<br>
-                                                    • 中风险：收银台照重复使用 2-4次<br>
-                                                    • 低风险：收银台照使用1次<br><br>
+                                                    • 高度关注：收银台照重复使用 ≥ 5次<br>
+                                                    • 中度关注：收银台照重复使用 2-4次<br>
+                                                    • 轻度关注：收银台照使用1次<br><br>
                                                    
                                                 </div>
                                             </div>
                                         </div>
-                                        <span class="risk-tag">中风险</span>
+                                        <span class="risk-tag">中度关注</span>
                                     </div>
                                     <div class="unified-risk-card-content">
                                         <div class="unified-risk-item">
@@ -2084,14 +2084,14 @@
                                                 <div class="tooltip-content">
                                                     统计该商户店内场景照在平台信息库中（含本次）被重复使用次数<br>
                                                     <div class="tooltip-title">风险阈值</div>
-                                                    • 高风险：场景照重复使用 ≥ 5次<br>
-                                                    • 中风险：场景照重复使用 2-4次<br>
-                                                    • 低风险：场景照使用1次<br><br>
+                                                    • 高度关注：场景照重复使用 ≥ 5次<br>
+                                                    • 中度关注：场景照重复使用 2-4次<br>
+                                                    • 轻度关注：场景照使用1次<br><br>
                                                    
                                                 </div>
                                             </div>
                                         </div>
-                                        <span class="risk-tag">中风险</span>
+                                        <span class="risk-tag">中度关注</span>
                                     </div>
                                     <div class="unified-risk-card-content">
                                         <div class="unified-risk-item">
@@ -2103,11 +2103,11 @@
                             </div>
                         </div>
 
-                        <!-- 低风险指标区域 -->
+                        <!-- 轻度关注指标区域 -->
                         <div class="risk-section">
                             <div class="risk-section-title low-risk">
                                 <i class="fas fa-check-circle"></i>
-                                低风险指标
+                                轻度关注指标
                             </div>
                             <div class="risk-cards-grid">
                                 <div class="unified-risk-card low-risk">
@@ -2121,14 +2121,14 @@
                                                 <div class="tooltip-content">
                                                  统计该商户门头、场景、收银台照上传方式为相册上传或拍摄上传<br>  
                                                     <div class="tooltip-title">风险阈值</div>
-                                                    • 高风险：三张均为相册上传<br>
-                                                    • 中风险：1-2张为相册上传<br>
-                                                    • 低风险：三张均为拍摄上传<br><br>
+                                                    • 高度关注：三张均为相册上传<br>
+                                                    • 中度关注：1-2张为相册上传<br>
+                                                    • 轻度关注：三张均为拍摄上传<br><br>
                                                     
                                                 </div>
                                             </div>
                                         </div>
-                                        <span class="risk-tag">低风险</span>
+                                        <span class="risk-tag">轻度关注</span>
                                     </div>
                                     <div class="unified-risk-card-content">
                                         <div class="unified-risk-item">
@@ -2169,7 +2169,7 @@
                                     <td>内部</td>
                                     <td>风险评估</td>
                                     <td>--</td>
-                                    <td>商户资料风险评估更新：高风险——>中风险</td>
+                                    <td>商户资料风险评估更新：高度关注——>中度关注</td>
                                     </tr>
                                     <tr>
                                         <td>2024-01-15 14:30:00</td>
@@ -2177,7 +2177,7 @@
                                         <td>自贡市分公司</td>
                                         <td>走访</td>
                                         <td>打卡</td>
-                                        <td>高风险商户，需走访确认</td>
+                                        <td>高度关注商户，需走访确认</td>
                                     </tr>
                                     <tr>
                                         <td>2024-01-15 15:00:00</td>
@@ -2209,7 +2209,7 @@
                                         <td>内部</td>
                                         <td>风险评估</td>
                                         <td>-</td>
-                                        <td>商户首次资料风险评估：高风险</td>
+                                        <td>商户首次资料风险评估：高度关注</td>
                                     </tr>
                                 </tbody>
                             </table>
