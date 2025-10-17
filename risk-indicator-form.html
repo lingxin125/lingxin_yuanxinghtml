@@ -398,9 +398,9 @@
                             <select id="highOperator" class="form-select" style="width: 120px;" onchange="onOperatorChange('high', this.value)">
                                 <!-- <option value=">">&gt;</option> -->
                                 <option value=">=">&gt;=</option>
-                                <!-- <option value="=">=</option>
+                                 <option value="=">=</option>
                                 <option value="<=">&lt;=</option>
-                                <option value="<">&lt;</option>
+                                <!-- <option value="<">&lt;</option>
                                 <option value="(,)">开区间 (a,b)</option>
                                 <option value="[,]">闭区间 [a,b]</option>
                                 <option value="(,]">左开右闭 (a,b]</option>
@@ -417,13 +417,13 @@
                             <select id="mediumOperator" class="form-select" style="width: 120px;" onchange="onOperatorChange('medium', this.value)">
                                 <!-- <option value=">">&gt;</option> -->
                                 <option value=">=">&gt;=</option>
-                                <!-- <option value="=">=</option>
+                                <option value="=">=</option>
                                 <option value="<=">&lt;=</option>
-                                <option value="<">&lt;</option>
+                                <!-- <option value="<">&lt;</option>
                                 <option value="(,)">开区间 (a,b)</option>
                                 <option value="[,]">闭区间 [a,b]</option>
                                 <option value="(,]">左开右闭 (a,b]</option>
-                                <option value="[,)">左闭右开 [a,b)</option> -->
+                                <option value="[,)">左闭右开 [a,b)</option>  -->
                             </select>
                             <div id="mediumValueContainer" class="value-container">
                                 <input type="number" id="mediumValue" class="form-input threshold-input" placeholder="请输入数值" step="0.01" min="0">
@@ -448,6 +448,17 @@
                                 <input type="number" id="lowValue" class="form-input threshold-input" placeholder="请输入数值" step="0.01" min="0">
                             </div> -->
                             <span>小于中度关注的指标值</span>
+                        </div>
+                    </div>
+                    <!-- 提示说明框 -->
+                    <div class="form-row">
+                        <div class="form-group full-width">
+                            <div class="help-text" style="background:#fff7e6;border:1px solid #ffd591;border-radius:6px;padding:10px 12px;color:#d46b08;margin-top:8px;">
+                                <i class="fas fa-info-circle" style="margin-right:6px;"></i>
+                                提示：<br>
+                                若关系符号为≥，以当前原型为主；<br>
+                                若关系符号为≤，高度关注与中度关注都为≤，后面跟的汉字说明“小于”改为“大于”。
+                            </div>
                         </div>
                     </div>
                 </div>

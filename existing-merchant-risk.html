@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -107,7 +108,7 @@
 
         .form-input,
         .form-select {
-            height: 32px;
+            height: 28px;
             padding: 4px 11px;
             border: 1px solid var(--border-color);
             border-radius: 6px;
@@ -145,6 +146,7 @@
             text-decoration: none;
             white-space: nowrap;
         }
+
         .btn1 {
             height: 32px;
             padding: 8px 15px;
@@ -314,6 +316,18 @@
             align-items: center;
             gap: 8px;
         }
+         .alert {
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 4px;
+            border: 1px solid;
+        }
+
+        .alert-warning {
+            background: #fffbe6;
+            border-color: #ffe58f;
+            color: #d48806;
+        }
 
         .pagination-btn {
             width: 32px;
@@ -432,19 +446,20 @@
         }
     </style>
 </head>
+
 <body>
     <div class="page-container">
-        
 
-        
 
-       
+
+
+
 
         <!-- 筛选区域 -->
         <div class="card">
             <div class="card-header">
                 <h3 class="card-title">筛选条件</h3>
-                
+
             </div>
             <div class="card-body">
                 <div class="form-grid">
@@ -456,7 +471,7 @@
                         <label class="form-label">商户名称</label>
                         <input type="text" class="form-input" placeholder="请输入商户名称" id="merchantName">
                     </div>
-                    
+
                     <div class="form-group">
                         <label class="form-label">市级分公司</label>
                         <select class="form-select" id="cityCompany">
@@ -489,12 +504,16 @@
                     <div class="form-group">
                         <label class="form-label">预警等级</label>
                         <select class="form-select" id="riskLevel">
-                             <option value="">默认</option>
+                            <option value="">默认</option>
                             <option value="">全部等级</option>
                             <option value="high">高度关注</option>
                             <option value="medium">中度关注</option>
                             <option value="low">轻度关注</option>
                         </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">评估月份</label>
+                        <input type="month" class="form-input" id="evaluationDate">
                     </div>
                     <div class="flex gap-2">
                         <button class="btn1 btn-primary" onclick="searchMerchants()">
@@ -507,11 +526,11 @@
                         </button>
                     </div>
                 </div>
-                
+
             </div>
         </div>
-         <!-- 统计卡片 -->
-         <div class="stats-grid">
+        <!-- 统计卡片 -->
+        <div class="stats-grid">
             <div class="stats-card total">
                 <div class="stats-number">1,256</div>
                 <div class="stats-label">交易商户总数</div>
@@ -541,433 +560,445 @@
                 取消选择
             </button>
         </div>
-
-        <!-- 数据列表 -->
-        <div class="card">
-            <div class="card-header">
-                <h3 class="card-title">商户列表</h3>
-                <div class="flex gap-2">
-                    <button class="btn btn-primary" onclick="openIndicatorConfig()" style="background: var(--primary-blue); color: white; border-color: var(--primary-blue);">
-                        <i class="fas fa-cogs"></i>
-                        本省预警指标
-                    </button>
-                    <button class="btn btn-default" onclick="exportAll()">
-                        <i class="fas fa-download"></i>
-                        导出报告
-                    </button>
-                    
-                </div>
-            </div>
-            <div class="table-wrapper">
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>
-                                <input type="checkbox" id="selectAll" onchange="toggleSelectAll()">
-                            </th>
-                            <th>商户号</th>
-                            <th>商户名称</th>
-                            <th>市级分公司</th>
-                            <th>区县分公司</th>
-                            <th>营业所</th>
-                            <th>评估月份</th>
-                            <th>预警等级</th>
-                            
-                            <th>操作</th>
-                        </tr>
-                    </thead>
-                    <tbody id="merchantTableBody">
-                        <tr>
-                            <td><input type="checkbox" class="row-checkbox" value="M202301001" onchange="updateSelection()"></td>
-                            <td>M202301001</td>
-                            <td>老王便利店</td>
-                            <td>北京分公司</td>
-                            <td>朝阳区分公司</td>
-                            <td>朝阳路营业所</td>
-                            <td>2024-01</td>
-                            <td><span class="risk-tag risk-high">高度关注</span></td>
-                            <td>
-                                <button class="btn-link" onclick="viewMerchantDetail('M202301001')">
-                                    详情
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><input type="checkbox" class="row-checkbox" value="M202301002" onchange="updateSelection()"></td>
-                            <td>M202301002</td>
-                            <td>小李超市</td>
-                            <td>北京分公司</td>
-                            <td>海淀区分公司</td>
-                            <td>建国门营业所</td>
-                            <td>2024-01</td>
-                            <td><span class="risk-tag risk-medium">中度关注</span></td>
-                             <td>
-                                <button class="btn-link" onclick="viewMerchantDetail('M202301002')">
-                                    详情
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><input type="checkbox" class="row-checkbox" value="M202301003" onchange="updateSelection()"></td>
-                            <td>M202301003</td>
-                            <td>张三餐厅</td>
-                            <td>上海分公司</td>
-                            <td>浦东新区分公司</td>
-                            <td>陆家嘴营业所</td>
-                            <td>2024-01</td>
-                            <td><span class="risk-tag risk-low">轻度关注</span></td>
-                            <td>
-                                <button class="btn-link" onclick="viewMerchantDetail('M202301003')">
-                                    详情
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><input type="checkbox" class="row-checkbox" value="M202301004" onchange="updateSelection()"></td>
-                            <td>M202301004</td>
-                            <td>赵四药店</td>
-                            <td>广州分公司</td>
-                            <td>天河区分公司</td>
-                            <td>珠江新城营业所</td>
-                            <td>2024-01</td>
-                            <td><span class="risk-tag risk-medium">中度关注</span></td>
-                            <td>
-                                <button class="btn-link" onclick="viewMerchantDetail('M202301004')">
-                                    详情
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><input type="checkbox" class="row-checkbox" value="M202301005" onchange="updateSelection()"></td>
-                            <td>M202301005</td>
-                            <td>孙五服装店</td>
-                            <td>深圳分公司</td>
-                            <td>南山区分公司</td>
-                            <td>科技园营业所</td>
-                            <td>2024-01</td>
-                            <td><span class="risk-tag risk-high">高度关注</span></td>
-                            <td>
-                                <button class="btn-link" onclick="viewMerchantDetail('M202301005')">
-                                    详情
-                                </button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="pagination">
-                <div class="pagination-info">
-                    显示第 1-5 条，共 1,256 条记录
-                </div>
-                <div class="pagination-controls">
-                    <button class="pagination-btn" disabled>
-                        <i class="fas fa-chevron-left"></i>
-                    </button>
-                    <button class="pagination-btn active">1</button>
-                    <button class="pagination-btn">2</button>
-                    <button class="pagination-btn">3</button>
-                    <button class="pagination-btn">
-                        <i class="fas fa-chevron-right"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- 详情弹窗 -->
-    <div id="detailModal" class="modal-overlay">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>商户交易预警报告</h3>
-                <button class="modal-close" onclick="closeDetailModal()">&times;</button>
-            </div>
-            <div class="modal-body">
-                <iframe id="detailFrame" src="" frameborder="0" width="100%" height="100%"></iframe>
-                <!-- 弹窗返回按钮 -->
-                <div class="modal-footer">
-                    <button class="btn2 btn-primary" onclick="closeDetailModal()">
-                        <i class="fas fa-arrow-left"></i>
-                        返回列表
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <style>
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 1000;
-        }
-
-        .modal-content {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 90%;
-            height: 90%;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-            display: flex;
-            flex-direction: column;
-        }
-
-        .modal-header {
-            padding: 20px;
-            border-bottom: 1px solid #e8e8e8;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-shrink: 0;
-        }
-
-        .modal-header h3 {
-            margin: 0;
-            color: #333;
-            font-size: 18px;
-        }
-
-        .modal-close {
-            background: none;
-            border: none;
-            font-size: 24px;
-            cursor: pointer;
-            color: #999;
-            padding: 0;
-            width: 30px;
-            height: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal-close:hover {
-            color: #333;
-        }
-
-        .modal-body {
-            flex: 1;
-            padding: 0;
-            overflow: hidden;
-        }
-
-        .modal-body iframe {
-            border: none;
-            width: 100%;
-            height: calc(100% - 0px); /* 为底部按钮留出空间 */
-        }
-
-        .btn2 {
-            height: 32px;
-            padding: 8px 15px;
-            margin-top: 2px;
-            border-radius: 6px;
-            font-weight: 400;
-            font-size: 14px;
-            border: 1px solid transparent;
-            cursor: pointer;
-            transition: all 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            text-decoration: none;
-            white-space: nowrap;
-        }
-
-        .modal-footer {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 16px 20px;
-            background: white;
-            border-top: 1px solid #e8e8e8;
-            display: flex;
-            justify-content: flex-end;
-            z-index: 10;
-        }
-    </style>
-
-    <script>
-        let selectedItems = new Set();
-        
-        // 搜索功能
-        function searchMerchants() {
-            const filters = {
-                merchantId: document.getElementById('merchantId').value,
-                merchantName: document.getElementById('merchantName').value,
-                contactPhone: document.getElementById('contactPhone').value,
-                cityCompany: document.getElementById('cityCompany').value,
-                districtCompany: document.getElementById('districtCompany').value,
-                branch: document.getElementById('branch').value,
-                evaluationDate: document.getElementById('evaluationDate').value,
-                riskLevel: document.getElementById('riskLevel').value
-            };
-            
-            console.log('搜索条件:', filters);
-            alert('搜索功能已触发，请查看控制台');
-        }
-        
-        // 重置筛选条件
-        function resetFilters() {
-            document.getElementById('merchantId').value = '';
-            document.getElementById('merchantName').value = '';
-            document.getElementById('contactPhone').value = '';
-            document.getElementById('cityCompany').value = '';
-            document.getElementById('districtCompany').value = '';
-            document.getElementById('branch').value = '';
-            document.getElementById('evaluationDate').value = '';
-            document.getElementById('riskLevel').value = '';
-        }
-        
-        // 查看商户详情
-        function viewMerchantDetail(merchantId) {
-            // 在弹窗中打开详情页
-            const modal = document.getElementById('detailModal');
-            const iframe = document.getElementById('detailFrame');
-            iframe.src = `existing-merchant-detail.html?id=${merchantId}`;
-            modal.style.display = 'block';
-        }
-
-        // 关闭详情弹窗
-        function closeDetailModal() {
-            const modal = document.getElementById('detailModal');
-            const iframe = document.getElementById('detailFrame');
-            modal.style.display = 'none';
-            iframe.src = '';
-        }
-        
-        // 全选/取消全选
-        function toggleSelectAll() {
-            const selectAll = document.getElementById('selectAll');
-            const checkboxes = document.querySelectorAll('.row-checkbox');
-            
-            checkboxes.forEach(checkbox => {
-                checkbox.checked = selectAll.checked;
-                if (selectAll.checked) {
-                    selectedItems.add(checkbox.value);
-                } else {
-                    selectedItems.delete(checkbox.value);
-                }
-            });
-            
-            updateSelection();
-        }
-        
-        // 更新选择状态
-        function updateSelection() {
-            const checkboxes = document.querySelectorAll('.row-checkbox');
-            const selectAll = document.getElementById('selectAll');
-            const batchActions = document.getElementById('batchActions');
-            const selectedCount = document.getElementById('selectedCount');
-            
-            // 更新selectedItems
-            selectedItems.clear();
-            checkboxes.forEach(checkbox => {
-                if (checkbox.checked) {
-                    selectedItems.add(checkbox.value);
-                }
-            });
-            
-            // 更新全选状态
-            const checkedCount = selectedItems.size;
-            const totalCount = checkboxes.length;
-            selectAll.checked = checkedCount === totalCount;
-            selectAll.indeterminate = checkedCount > 0 && checkedCount < totalCount;
-            
-            // 显示/隐藏批量操作
-            if (checkedCount > 0) {
-                batchActions.style.display = 'flex';
-                selectedCount.textContent = checkedCount;
-            } else {
-                batchActions.style.display = 'none';
-            }
-        }
-        
-        // 清除选择
-        function clearSelection() {
-            const checkboxes = document.querySelectorAll('.row-checkbox');
-            const selectAll = document.getElementById('selectAll');
-            
-            checkboxes.forEach(checkbox => {
-                checkbox.checked = false;
-            });
-            selectAll.checked = false;
-            selectedItems.clear();
-            updateSelection();
-        }
-        
-        // 批量导出
-        function batchExport() {
-            if (selectedItems.size === 0) {
-                alert('请先选择要导出的商户');
-                return;
-            }
-            
-            const merchantIds = Array.from(selectedItems);
-            console.log('批量导出商户:', merchantIds);
-            alert(`正在导出 ${merchantIds.length} 个商户的预警评估报告...`);
-            // 这里可以调用API进行批量导出
-        }
-        
-        // 导出全部
-        function exportAll() {
-            if (confirm('确定要导出所有商户的预警评估报告吗？')) {
-                alert('正在导出全部商户的预警评估报告，请稍候...');
-                // 这里可以调用API导出全部
-            }
-        }
-        
        
-
-        // 添加事件监听器
-        document.addEventListener('DOMContentLoaded', function() {
-            const modal = document.getElementById('detailModal');
+            <div class="alert alert-warning" style="margin-bottom: 10px;">
+                <i class="fas fa-info-circle"></i>
+                <span style="margin-left: 8px;">基于当前日期，对上月月累计交易笔数超过 5 笔的正常商户进行评估预警</span>
+            </div>
             
-            // 点击弹窗背景关闭弹窗
-            modal.addEventListener('click', function(e) {
-                if (e.target === modal) {
-                    closeDetailModal();
+            <!-- 数据列表 -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">商户列表</h3>
+                    <div class="flex gap-2">
+                        <button class="btn btn-primary" onclick="openIndicatorConfig()"
+                            style="background: var(--primary-blue); color: white; border-color: var(--primary-blue);">
+                            <i class="fas fa-cogs"></i>
+                            本省预警指标
+                        </button>
+                        <button class="btn btn-default" onclick="exportAll()">
+                            <i class="fas fa-download"></i>
+                            导出报告
+                        </button>
+
+                    </div>
+                </div>
+                <div class="table-wrapper">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <input type="checkbox" id="selectAll" onchange="toggleSelectAll()">
+                                </th>
+                                <th>商户号</th>
+                                <th>商户名称</th>
+                                <th>市级分公司</th>
+                                <th>区县分公司</th>
+                                <th>营业所</th>
+                                <th>评估月份</th>
+                                <th>预警等级</th>
+
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="merchantTableBody">
+                            <tr>
+                                <td><input type="checkbox" class="row-checkbox" value="M202301001"
+                                        onchange="updateSelection()"></td>
+                                <td>M202301001</td>
+                                <td>老王便利店</td>
+                                <td>北京分公司</td>
+                                <td>朝阳区分公司</td>
+                                <td>朝阳路营业所</td>
+                                <td>2024-01</td>
+                                <td><span class="risk-tag risk-high">高度关注</span></td>
+                                <td>
+                                    <button class="btn-link" onclick="viewMerchantDetail('M202301001')">
+                                        详情
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" class="row-checkbox" value="M202301002"
+                                        onchange="updateSelection()"></td>
+                                <td>M202301002</td>
+                                <td>小李超市</td>
+                                <td>北京分公司</td>
+                                <td>海淀区分公司</td>
+                                <td>建国门营业所</td>
+                                <td>2024-01</td>
+                                <td><span class="risk-tag risk-medium">中度关注</span></td>
+                                <td>
+                                    <button class="btn-link" onclick="viewMerchantDetail('M202301002')">
+                                        详情
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" class="row-checkbox" value="M202301003"
+                                        onchange="updateSelection()"></td>
+                                <td>M202301003</td>
+                                <td>张三餐厅</td>
+                                <td>上海分公司</td>
+                                <td>浦东新区分公司</td>
+                                <td>陆家嘴营业所</td>
+                                <td>2024-01</td>
+                                <td><span class="risk-tag risk-low">轻度关注</span></td>
+                                <td>
+                                    <button class="btn-link" onclick="viewMerchantDetail('M202301003')">
+                                        详情
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" class="row-checkbox" value="M202301004"
+                                        onchange="updateSelection()"></td>
+                                <td>M202301004</td>
+                                <td>赵四药店</td>
+                                <td>广州分公司</td>
+                                <td>天河区分公司</td>
+                                <td>珠江新城营业所</td>
+                                <td>2024-01</td>
+                                <td><span class="risk-tag risk-medium">中度关注</span></td>
+                                <td>
+                                    <button class="btn-link" onclick="viewMerchantDetail('M202301004')">
+                                        详情
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" class="row-checkbox" value="M202301005"
+                                        onchange="updateSelection()"></td>
+                                <td>M202301005</td>
+                                <td>孙五服装店</td>
+                                <td>深圳分公司</td>
+                                <td>南山区分公司</td>
+                                <td>科技园营业所</td>
+                                <td>2024-01</td>
+                                <td><span class="risk-tag risk-high">高度关注</span></td>
+                                <td>
+                                    <button class="btn-link" onclick="viewMerchantDetail('M202301005')">
+                                        详情
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="pagination">
+                    <div class="pagination-info">
+                        显示第 1-5 条，共 1,256 条记录
+                    </div>
+                    <div class="pagination-controls">
+                        <button class="pagination-btn" disabled>
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <button class="pagination-btn active">1</button>
+                        <button class="pagination-btn">2</button>
+                        <button class="pagination-btn">3</button>
+                        <button class="pagination-btn">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 详情弹窗 -->
+        <div id="detailModal" class="modal-overlay">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>商户交易预警报告</h3>
+                    <button class="modal-close" onclick="closeDetailModal()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <iframe id="detailFrame" src="" frameborder="0" width="100%" height="100%"></iframe>
+                    <!-- 弹窗返回按钮 -->
+                    <div class="modal-footer">
+                        <button class="btn2 btn-primary" onclick="closeDetailModal()">
+                            <i class="fas fa-arrow-left"></i>
+                            返回列表
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <style>
+            .modal-overlay {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.5);
+                z-index: 1000;
+            }
+
+            .modal-content {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 90%;
+                height: 90%;
+                background: white;
+                border-radius: 8px;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+                display: flex;
+                flex-direction: column;
+            }
+
+            .modal-header {
+                padding: 20px;
+                border-bottom: 1px solid #e8e8e8;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                flex-shrink: 0;
+            }
+
+            .modal-header h3 {
+                margin: 0;
+                color: #333;
+                font-size: 18px;
+            }
+
+            .modal-close {
+                background: none;
+                border: none;
+                font-size: 24px;
+                cursor: pointer;
+                color: #999;
+                padding: 0;
+                width: 30px;
+                height: 30px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .modal-close:hover {
+                color: #333;
+            }
+
+            .modal-body {
+                flex: 1;
+                padding: 0;
+                overflow: hidden;
+            }
+
+            .modal-body iframe {
+                border: none;
+                width: 100%;
+                height: calc(100% - 0px);
+                /* 为底部按钮留出空间 */
+            }
+
+            .btn2 {
+                height: 32px;
+                padding: 8px 15px;
+                margin-top: 2px;
+                border-radius: 6px;
+                font-weight: 400;
+                font-size: 14px;
+                border: 1px solid transparent;
+                cursor: pointer;
+                transition: all 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                gap: 8px;
+                text-decoration: none;
+                white-space: nowrap;
+            }
+
+            .modal-footer {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                padding: 16px 20px;
+                background: white;
+                border-top: 1px solid #e8e8e8;
+                display: flex;
+                justify-content: flex-end;
+                z-index: 10;
+            }
+        </style>
+
+        <script>
+            let selectedItems = new Set();
+
+            // 搜索功能
+            function searchMerchants() {
+                const filters = {
+                    merchantId: document.getElementById('merchantId').value,
+                    merchantName: document.getElementById('merchantName').value,
+                    contactPhone: document.getElementById('contactPhone').value,
+                    cityCompany: document.getElementById('cityCompany').value,
+                    districtCompany: document.getElementById('districtCompany').value,
+                    branch: document.getElementById('branch').value,
+                    evaluationDate: document.getElementById('evaluationDate').value,
+                    riskLevel: document.getElementById('riskLevel').value
+                };
+
+                console.log('搜索条件:', filters);
+                alert('搜索功能已触发，请查看控制台');
+            }
+
+            // 重置筛选条件
+            function resetFilters() {
+                document.getElementById('merchantId').value = '';
+                document.getElementById('merchantName').value = '';
+                document.getElementById('contactPhone').value = '';
+                document.getElementById('cityCompany').value = '';
+                document.getElementById('districtCompany').value = '';
+                document.getElementById('branch').value = '';
+                document.getElementById('evaluationDate').value = '';
+                document.getElementById('riskLevel').value = '';
+            }
+
+            // 查看商户详情
+            function viewMerchantDetail(merchantId) {
+                // 在弹窗中打开详情页
+                const modal = document.getElementById('detailModal');
+                const iframe = document.getElementById('detailFrame');
+                iframe.src = `existing-merchant-detail.html?id=${merchantId}`;
+                modal.style.display = 'block';
+            }
+
+            // 关闭详情弹窗
+            function closeDetailModal() {
+                const modal = document.getElementById('detailModal');
+                const iframe = document.getElementById('detailFrame');
+                modal.style.display = 'none';
+                iframe.src = '';
+            }
+
+            // 全选/取消全选
+            function toggleSelectAll() {
+                const selectAll = document.getElementById('selectAll');
+                const checkboxes = document.querySelectorAll('.row-checkbox');
+
+                checkboxes.forEach(checkbox => {
+                    checkbox.checked = selectAll.checked;
+                    if (selectAll.checked) {
+                        selectedItems.add(checkbox.value);
+                    } else {
+                        selectedItems.delete(checkbox.value);
+                    }
+                });
+
+                updateSelection();
+            }
+
+            // 更新选择状态
+            function updateSelection() {
+                const checkboxes = document.querySelectorAll('.row-checkbox');
+                const selectAll = document.getElementById('selectAll');
+                const batchActions = document.getElementById('batchActions');
+                const selectedCount = document.getElementById('selectedCount');
+
+                // 更新selectedItems
+                selectedItems.clear();
+                checkboxes.forEach(checkbox => {
+                    if (checkbox.checked) {
+                        selectedItems.add(checkbox.value);
+                    }
+                });
+
+                // 更新全选状态
+                const checkedCount = selectedItems.size;
+                const totalCount = checkboxes.length;
+                selectAll.checked = checkedCount === totalCount;
+                selectAll.indeterminate = checkedCount > 0 && checkedCount < totalCount;
+
+                // 显示/隐藏批量操作
+                if (checkedCount > 0) {
+                    batchActions.style.display = 'flex';
+                    selectedCount.textContent = checkedCount;
+                } else {
+                    batchActions.style.display = 'none';
                 }
+            }
+
+            // 清除选择
+            function clearSelection() {
+                const checkboxes = document.querySelectorAll('.row-checkbox');
+                const selectAll = document.getElementById('selectAll');
+
+                checkboxes.forEach(checkbox => {
+                    checkbox.checked = false;
+                });
+                selectAll.checked = false;
+                selectedItems.clear();
+                updateSelection();
+            }
+
+            // 批量导出
+            function batchExport() {
+                if (selectedItems.size === 0) {
+                    alert('请先选择要导出的商户');
+                    return;
+                }
+
+                const merchantIds = Array.from(selectedItems);
+                console.log('批量导出商户:', merchantIds);
+                alert(`正在导出 ${merchantIds.length} 个商户的预警评估报告...`);
+                // 这里可以调用API进行批量导出
+            }
+
+            // 导出全部
+            function exportAll() {
+                if (confirm('确定要导出所有商户的预警评估报告吗？')) {
+                    alert('正在导出全部商户的预警评估报告，请稍候...');
+                    // 这里可以调用API导出全部
+                }
+            }
+
+
+
+            // 添加事件监听器
+            document.addEventListener('DOMContentLoaded', function () {
+                const modal = document.getElementById('detailModal');
+
+                // 点击弹窗背景关闭弹窗
+                modal.addEventListener('click', function (e) {
+                    if (e.target === modal) {
+                        closeDetailModal();
+                    }
+                });
+
+                // ESC键关闭弹窗
+                document.addEventListener('keydown', function (e) {
+                    if (e.key === 'Escape' && modal.style.display === 'block') {
+                        closeDetailModal();
+                    }
+                });
+
+                // 初始化指标配置弹窗
+                initIndicatorConfigModal();
             });
 
-            // ESC键关闭弹窗
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape' && modal.style.display === 'block') {
-                    closeDetailModal();
-                }
-            });
+            // 打开指标配置弹窗
+            function openIndicatorConfig() {
+                const modal = document.getElementById('indicatorConfigModal');
+                modal.style.display = 'block';
+                loadIndicatorConfig();
+            }
+
+            // 关闭指标配置弹窗
+            function closeIndicatorConfigModal() {
+                const modal = document.getElementById('indicatorConfigModal');
+                modal.style.display = 'none';
+            }
 
             // 初始化指标配置弹窗
-            initIndicatorConfigModal();
-        });
-
-        // 打开指标配置弹窗
-        function openIndicatorConfig() {
-            const modal = document.getElementById('indicatorConfigModal');
-            modal.style.display = 'block';
-            loadIndicatorConfig();
-        }
-
-        // 关闭指标配置弹窗
-        function closeIndicatorConfigModal() {
-            const modal = document.getElementById('indicatorConfigModal');
-            modal.style.display = 'none';
-        }
-
-        // 初始化指标配置弹窗
-        function initIndicatorConfigModal() {
-            // 创建指标配置弹窗HTML
-            const modalHtml = `
+            function initIndicatorConfigModal() {
+                // 创建指标配置弹窗HTML
+                const modalHtml = `
                 <div id="indicatorConfigModal" class="modal" style="display: none;">
                     <div class="modal-content" style="width: 80%; max-width: 900px; height: 70%;">
                         <div class="modal-header">
@@ -981,23 +1012,24 @@
                 </div>
             `;
 
-            document.body.insertAdjacentHTML('beforeend', modalHtml);
+                document.body.insertAdjacentHTML('beforeend', modalHtml);
 
-            // 绑定弹窗关闭事件
-            const modal = document.getElementById('indicatorConfigModal');
-            modal.addEventListener('click', function(e) {
-                if (e.target === modal) {
-                    closeIndicatorConfigModal();
-                }
-            });
-        }
+                // 绑定弹窗关闭事件
+                const modal = document.getElementById('indicatorConfigModal');
+                modal.addEventListener('click', function (e) {
+                    if (e.target === modal) {
+                        closeIndicatorConfigModal();
+                    }
+                });
+            }
 
-        // 加载指标配置
-        function loadIndicatorConfig() {
-            const iframe = document.getElementById('indicatorConfigFrame');
-            // 重新加载iframe以刷新数据
-            iframe.src = iframe.src;
-        }
-    </script>
+            // 加载指标配置
+            function loadIndicatorConfig() {
+                const iframe = document.getElementById('indicatorConfigFrame');
+                // 重新加载iframe以刷新数据
+                iframe.src = iframe.src;
+            }
+        </script>
 </body>
+
 </html>
