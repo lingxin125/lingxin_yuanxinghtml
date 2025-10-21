@@ -1942,7 +1942,7 @@
             
             // 计算公式：业务金额 * 收益率% / 12 * 留存月数
             //新计算公式：业务金额*12*留存月数/收益率%
-            const result = (businessAmount * 12 * retentionMonths /profitRate * 100  ).toFixed(2);
+            const result = (businessAmount * 12 / retentionMonths /profitRate * 100  ).toFixed(2);
             
             document.getElementById('resultValue').textContent = result;
             document.getElementById('calculationResult').style.display = 'block';
