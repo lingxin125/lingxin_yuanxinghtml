@@ -3,359 +3,534 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>微邮付 - 商户健康度监测系统</title>
-    <link href="https://cdn.tailwindcss.com/2.2.19/tailwind.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <title>丰收云 - 演示导航</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Poppins:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary-blue: #1677ff;
-            --primary-blue-hover: #4096ff;
-            --primary-blue-active: #0958d9;
-            --primary-blue-light: #e6f4ff;
-            --success-green: #52c41a;
-            --warning-orange: #fa8c16;
-            --error-red: #ff4d4f;
-            --bg-layout: #f5f5f5;
-            --bg-container: #ffffff;
-            --border-color: #d9d9d9;
-            --border-color-light: #f0f0f0;
-            --text-primary: #000000d9;
-            --text-secondary: #00000073;
-            --text-disabled: #00000040;
-            --shadow-card: 0 1px 2px 0 rgba(0, 0, 0, 0.03), 0 1px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px 0 rgba(0, 0, 0, 0.02);
+            --primary: #11A64A;
+            --primary-dark: #388E3C;
+            --bg: #F7F8FA;
+            --card: #FFFFFF;
+            --card-border: rgba(0, 0, 0, 0.04);
+            --text-main: #1F2937;
+            --text-sub: #6B7280;
+            --shadow-1: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+            --shadow-2: 0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04);
+            --shadow-3: 0 8px 24px rgba(0,0,0,0.10), 0 4px 8px rgba(0,0,0,0.06);
         }
 
-        * {
-            font-family: 'PingFang SC', 'Microsoft YaHei', system-ui, -apple-system, sans-serif;
-        }
-
+        * { box-sizing: border-box; }
         body {
-            background: var(--bg-layout);
-            color: var(--text-primary);
-            font-size: 14px;
-            line-height: 1.5715;
             margin: 0;
-            padding: 0;
-        }
-
-        .sidebar {
-            width: 256px;
-            background: var(--bg-container);
-            border-right: 1px solid var(--border-color-light);
-            box-shadow: var(--shadow-card);
-            position: fixed;
-            left: 0;
-            top: 0;
-            height: 100vh;
-            z-index: 1000;
-            overflow-y: auto;
-        }
-
-        .sidebar-header {
-            height: 64px;
-            padding: 16px 24px;
-            display: flex;
-            align-items: center;
-            border-bottom: 1px solid var(--border-color-light);
-            background: var(--bg-container);
-        }
-
-        .sidebar-logo {
-            display: flex;
-            align-items: center;
-            color: var(--text-primary);
-            font-weight: 600;
-            font-size: 16px;
-        }
-
-        .sidebar-logo i {
-            width: 28px;
-            height: 28px;
-            margin-right: 12px;
-            color: var(--primary-blue);
-            font-size: 24px;
-        }
-
-        .sidebar-nav {
-            padding: 16px 8px;
-        }
-
-        .nav-section {
-            margin-bottom: 24px;
-        }
-
-        .nav-section-title {
-            padding: 0 16px 8px;
-            font-size: 12px;
-            color: var(--text-disabled);
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .nav-item {
-            display: flex;
-            align-items: center;
-            padding: 12px 16px;
-            margin: 2px 0;
-            color: var(--text-primary);
-            text-decoration: none;
-            font-weight: 400;
-            font-size: 14px;
-            transition: all 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
-            cursor: pointer;
-            border-radius: 6px;
-            position: relative;
-        }
-
-        .nav-item:hover {
-            background: var(--primary-blue-light);
-            color: var(--primary-blue);
-        }
-
-        .nav-item.active {
-            background: var(--primary-blue-light);
-            color: var(--primary-blue);
-            font-weight: 500;
-        }
-
-        .nav-item .nav-icon {
-            width: 16px;
-            height: 16px;
-            margin-right: 12px;
-            opacity: 0.65;
-        }
-
-        .nav-item:hover .nav-icon,
-        .nav-item.active .nav-icon {
-            opacity: 1;
-        }
-
-        .main-content {
-            margin-left: 256px;
+            font-family: "Poppins", "Noto Sans SC", sans-serif;
+            color: var(--text-main);
+            background: var(--bg);
             min-height: 100vh;
-            background: var(--bg-layout);
         }
 
-        .top-header {
-            background: var(--bg-container);
-            border-bottom: 1px solid var(--border-color-light);
-            padding: 0 24px;
-            height: 64px;
+        .wrap {
+            max-width: 1080px;
+            margin: 0 auto;
+            padding: 36px 18px 28px;
+        }
+
+        .hero {
+            background: var(--card);
+            border: 1px solid var(--card-border);
+            box-shadow: var(--shadow-3);
+            border-radius: 24px;
+            padding: 28px 26px;
+            margin-bottom: 18px;
+        }
+
+        .title {
+            margin: 0;
+            font-size: 34px;
+            line-height: 1.1;
+            letter-spacing: 0.2px;
+        }
+
+        .subtitle {
+            margin: 10px 0 0;
+            color: var(--text-sub);
+            font-size: 14px;
+        }
+
+        .tags {
+            margin-top: 16px;
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            font-size: 12px;
+            color: var(--primary-dark);
+            background: #F0FDF4;
+            border: 1px solid rgba(17,166,74,0.25);
+            border-radius: 999px;
+            padding: 5px 10px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px;
+            margin-top: 12px;
+        }
+
+        .section {
+            margin-top: 18px;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 0;
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 0.2px;
+        }
+
+        .section-title i {
+            color: var(--primary);
+            font-size: 14px;
+        }
+
+        .section-desc {
+            margin: 7px 0 0;
+            font-size: 12px;
+            color: var(--text-sub);
+        }
+
+        .card {
+            display: block;
+            text-decoration: none;
+            color: inherit;
+            background: var(--card);
+            border: 1px solid var(--card-border);
+            box-shadow: var(--shadow-2);
+            border-radius: 20px;
+            padding: 18px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-1px);
+            border-color: rgba(17,166,74,0.35);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08), 0 3px 7px rgba(0,0,0,0.04);
+        }
+
+        .card:active {
+            transform: scale(0.99);
+            box-shadow: var(--shadow-1);
+        }
+
+        .card-head {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            box-shadow: var(--shadow-card);
-            position: sticky;
-            top: 0;
-            z-index: 100;
+            margin-bottom: 10px;
         }
 
-        .breadcrumb {
-            display: flex;
-            align-items: center;
-            color: var(--text-secondary);
-            font-size: 14px;
-        }
-
-        .breadcrumb-separator {
-            margin: 0 8px;
-            color: var(--text-disabled);
-        }
-
-        .breadcrumb-active {
-            color: var(--text-primary);
-            font-weight: 500;
-        }
-
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-
-        .content-frame {
-            width: 100%;
-            height: calc(100vh - 64px);
-            border: none;
-            background: var(--bg-layout);
-        }
-
-        .welcome-container {
-            padding: 40px;
-            text-align: center;
-            background: var(--bg-container);
-            margin: 24px;
-            border-radius: 8px;
-            box-shadow: var(--shadow-card);
-        }
-
-        .welcome-title {
-            font-size: 24px;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 16px;
-        }
-
-        .welcome-description {
-            font-size: 16px;
-            color: var(--text-secondary);
-            margin-bottom: 32px;
-            line-height: 1.6;
-        }
-
-        .feature-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 24px;
-            margin-top: 32px;
-        }
-
-        .feature-card {
-            background: var(--bg-container);
-            border: 1px solid var(--border-color-light);
-            border-radius: 8px;
-            padding: 24px;
-            text-align: left;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .feature-card:hover {
-            border-color: var(--primary-blue);
-            box-shadow: 0 4px 12px rgba(22, 119, 255, 0.1);
-            transform: translateY(-2px);
-        }
-
-        .feature-icon {
-            width: 48px;
-            height: 48px;
-            background: var(--primary-blue-light);
-            border-radius: 8px;
+        .icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 16px;
-        }
-
-        .feature-icon i {
-            font-size: 24px;
-            color: var(--primary-blue);
-        }
-
-        .feature-title {
             font-size: 18px;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 8px;
         }
 
-        .feature-description {
-            color: var(--text-secondary);
-            line-height: 1.6;
+        .icon-miniapp { background: #DCFCE7; color: #16A34A; }
+        .icon-admin { background: #DBEAFE; color: #2563EB; }
+        .icon-cashier-h5 { background: #FEF3C7; color: #D97706; }
+        .icon-cashier-pc { background: #F3E8FF; color: #7C3AED; }
+        .icon-mock { background: #FCE7F3; color: #BE185D; }
+        .icon-prd { background: #DCFCE7; color: #15803D; }
+        .icon-doc { background: #E0E7FF; color: #3730A3; }
+        .icon-memory { background: #FFF7ED; color: #C2410C; }
+
+        .arrow {
+            color: #9CA3AF;
+            font-size: 12px;
+        }
+
+        .card h2 {
+            margin: 0;
+            font-size: 19px;
+            font-weight: 700;
+            letter-spacing: 0.2px;
+        }
+
+        .card p {
+            margin: 8px 0 0;
+            font-size: 13px;
+            color: var(--text-sub);
+            line-height: 1.55;
+        }
+
+        .doc-group {
+            margin-top: 14px;
+            background: rgba(255,255,255,0.64);
+            border: 1px solid var(--card-border);
+            border-radius: 18px;
+            padding: 14px;
+        }
+
+        .doc-group[hidden] {
+            display: none;
+        }
+
+        .prd-tabs {
+            display: flex;
+            gap: 8px;
+            margin-top: 14px;
+            overflow-x: auto;
+            padding-bottom: 2px;
+        }
+
+        .prd-tab {
+            flex: none;
+            border: 1px solid rgba(17,166,74,0.16);
+            background: #FFFFFF;
+            color: var(--text-sub);
+            border-radius: 999px;
+            padding: 8px 12px;
+            font: inherit;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .prd-tab:hover {
+            color: var(--primary);
+            border-color: rgba(17,166,74,0.32);
+        }
+
+        .prd-tab.active {
+            color: #FFFFFF;
+            background: var(--primary);
+            border-color: var(--primary);
+            box-shadow: 0 8px 18px rgba(17,166,74,0.18);
+        }
+
+        .doc-group-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .doc-group-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 0;
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        .doc-group-title i {
+            color: var(--primary);
+            font-size: 13px;
+        }
+
+        .status-pill {
+            flex: none;
+            border-radius: 999px;
+            padding: 4px 9px;
+            background: #F0FDF4;
+            color: #15803D;
+            border: 1px solid rgba(17,166,74,0.22);
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .status-pill.blue {
+            background: #EFF6FF;
+            color: #2563EB;
+            border-color: rgba(37,99,235,0.18);
+        }
+
+        .doc-subgrid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+        }
+
+        .footer {
+            margin-top: 16px;
+            background: var(--card);
+            border: 1px solid var(--card-border);
+            box-shadow: var(--shadow-1);
+            border-radius: 16px;
+            padding: 12px 14px;
+            font-size: 12px;
+            color: #6B7280;
+        }
+
+        @media (max-width: 768px) {
+            .wrap {
+                padding: 20px 14px;
+            }
+
+            .hero {
+                padding: 20px 16px;
+                border-radius: 18px;
+            }
+
+            .title {
+                font-size: 28px;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .doc-group-head {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .doc-subgrid {
+                grid-template-columns: 1fr;
+            }
+
+            .prd-tabs {
+                margin-right: -14px;
+                padding-right: 14px;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- 侧边栏 -->
-    <div class="sidebar">
-        <div class="sidebar-header">
-            <div class="sidebar-logo">
-                <i class="fas fa-shield-alt"></i>
-                <span>微邮付</span>
-            </div>
+<main class="wrap">
+    <section class="hero">
+        <h1 class="title">丰收云演示入口</h1>
+        <p class="subtitle">用于老板和技术评审的统一导航页。入口分为“原型端入口”和“PRD评审资料”，所有链接均新开页签，便于并行对照评审。</p>
+        <div class="tags">
+            <span class="tag">小程序端</span>
+            <span class="tag">客户经理H5</span>
+            <span class="tag">移动H5收银台</span>
+            <span class="tag">PC收银台</span>
+            <span class="tag">Mock控制台</span>
+            <span class="tag">PRD可视化</span>
+            <span class="tag">评审文档</span>
         </div>
-        <nav class="sidebar-nav">
-            <!-- <div class="nav-section">
-                <div class="nav-section-title">预警管理</div>
-                <a href="#" class="nav-item" onclick="loadPage('risk-indicator-management')">
-                    <i class="fas fa-cogs nav-icon"></i>
-                    <span>预警指标库</span>
-                </a>
-            </div> -->
-            <div class="nav-section">
-                <div class="nav-section-title">预警中心</div>
-                <a href="#" class="nav-item" onclick="loadPage('risk-indicator-management')">
-                    <i class="fas fa-cogs nav-icon"></i>
-                    <span>预警指标库</span>
-                </a>
-                <a href="#" class="nav-item" onclick="loadPage('indicator-assignment')">
-                    <i class="fas fa-tasks nav-icon"></i>
-                    <span>预警指标分配</span>
-                </a>
-                <a href="#" class="nav-item active" onclick="loadPage('new-merchant-audit')">
-                    <i class="fas fa-user-plus nav-icon"></i>
-                    <span>商户资料预警</span>
-                </a>
-                <a href="#" class="nav-item" onclick="loadPage('existing-merchant-risk')">
-                    <i class="fas fa-chart-line nav-icon"></i>
-                    <span>商户交易预警</span>
-                </a>
-                <a href="#" class="nav-item" onclick="loadPage('merchant-subsidy-risk')">
-                    <i class="fas fa-coins nav-icon"></i>
-                    <span>商户补贴预警</span>
-                </a>
+    </section>
 
-        
-                
-            </div>
-        </nav>
-    </div>
-
-    <!-- 主内容区 -->
-    <div class="main-content">
-        <!-- 顶部导航 -->
-        <header class="top-header">
-            <div class="breadcrumb">
-                <span>商户管理</span>
-                <span class="breadcrumb-separator">/</span>
-                <span class="breadcrumb-active" id="current-page">商户资料预警</span>
-            </div>
-            <div class="user-info">
-                <span class="text-sm text-gray-600">欢迎，张经理</span>
-                <div class="flex items-center gap-2">
-                    <span class="text-sm text-gray-500">省级分公司</span>
-                    <i class="fas fa-user-circle text-xl text-gray-400"></i>
+    <section class="section">
+        <h2 class="section-title"><i class="fas fa-diagram-project"></i>原型端入口</h2>
+        <p class="section-desc">用于流程演示和交互走查，覆盖小程序、管理端、收银台及 mock 控制台。</p>
+        <div class="grid">
+            <a class="card" href="login-gateway.html" target="_blank" rel="noopener noreferrer">
+                <div class="card-head">
+                    <div class="icon icon-miniapp"><i class="fas fa-mobile-screen-button"></i></div>
+                    <i class="fas fa-chevron-right arrow"></i>
                 </div>
-            </div>
-        </header>
+                <h2>小程序端</h2>
+                <p>收购商/农户登录入口，覆盖首页、市场、发布、开单、订单、收款等主流程。</p>
+            </a>
 
-        <!-- 内容区域 -->
-        <div id="content-area">
-            <iframe src="new-merchant-audit.html" class="content-frame"></iframe>
+            <a class="card" href="manager-home.html" target="_blank" rel="noopener noreferrer">
+                <div class="card-head">
+                    <div class="icon icon-admin"><i class="fas fa-user-tie"></i></div>
+                    <i class="fas fa-chevron-right arrow"></i>
+                </div>
+                <h2>客户经理 H5 端</h2>
+                <p>开户管理、申请记录、用户查询、数据看板等管理链路原型。</p>
+            </a>
+
+            <a class="card" href="buyer-cashier.html" target="_blank" rel="noopener noreferrer">
+                <div class="card-head">
+                    <div class="icon icon-cashier-h5"><i class="fas fa-receipt"></i></div>
+                    <i class="fas fa-chevron-right arrow"></i>
+                </div>
+                <h2>移动收银台</h2>
+                <p>小程序内收银台支付页演示，包含支付方式选择与确认支付流程。</p>
+            </a>
+
+            <a class="card" href="pc-cashier.html" target="_blank" rel="noopener noreferrer">
+                <div class="card-head">
+                    <div class="icon icon-cashier-pc"><i class="fas fa-desktop"></i></div>
+                    <i class="fas fa-chevron-right arrow"></i>
+                </div>
+                <h2>PC 收银台</h2>
+                <p>PC 端收银台原型</p>
+            </a>
+
+            <a class="card border-blue-100 bg-blue-50/30" href="buyer-bank-h5-pay.html" target="_blank" rel="noopener noreferrer">
+                <div class="card-head">
+                    <div class="icon icon-cashier-h5 bg-blue-500 text-white"><i class="fas fa-building-columns"></i></div>
+                    <i class="fas fa-chevron-right arrow text-blue-500"></i>
+                </div>
+                <h2 class="text-blue-700">银行 App 扫码支付 (单笔)</h2>
+                <p>模拟行业支付模式下，使用手机银行 APP 扫码后唤起的真实手机银行付款落地页。</p>
+            </a>
+
+            <a class="card border-emerald-100 bg-emerald-50/30" href="buyer-bank-merge-h5.html" target="_blank" rel="noopener noreferrer">
+                <div class="card-head">
+                    <div class="icon icon-cashier-h5 bg-emerald-500 text-white"><i class="fas fa-layer-group"></i></div>
+                    <i class="fas fa-chevron-right arrow text-emerald-500"></i>
+                </div>
+                <h2 class="text-emerald-700">银行 App 扫码支付 (合并)</h2>
+                <p>手机银行 APP 扫码后唤起的合并付款落地页，支持折叠多个收款方和子订单明细。</p>
+            </a>
+
+            <a class="card" href="mock-control.html" target="_blank" rel="noopener noreferrer">
+                <div class="card-head">
+                    <div class="icon icon-mock"><i class="fas fa-sliders"></i></div>
+                    <i class="fas fa-chevron-right arrow"></i>
+                </div>
+                <h2>Mock 数据控制台</h2>
+                <p>统一注入/重置收购商订单样例，支持跨页签演示订单状态变化。</p>
+            </a>
+
         </div>
-    </div>
+    </section>
 
+    <section class="section">
+        <h2 class="section-title"><i class="fas fa-book-open"></i>PRD评审资料</h2>
+        <p class="section-desc">用于文字需求对照评审，可与原型页面并行打开。有日期的资料按时间倒序排列，长期资料单独归档。</p>
+
+        <div class="prd-tabs" role="tablist" aria-label="PRD资料分类">
+            <button class="prd-tab active" type="button" role="tab" aria-selected="true" aria-controls="doc-account-test" data-target="doc-account-test">预计5月底-6月初 账户管理提测</button>
+            <button class="prd-tab" type="button" role="tab" aria-selected="false" aria-controls="doc-20260518" data-target="doc-20260518">2026-05-18 至 2026-05-23 小迭代</button>
+            <button class="prd-tab" type="button" role="tab" aria-selected="false" aria-controls="doc-longterm" data-target="doc-longterm">长期资料</button>
+        </div>
+
+        <div class="doc-group" id="doc-account-test" role="tabpanel">
+            <div class="doc-group-head">
+                <h3 class="doc-group-title"><i class="fas fa-building-columns"></i>预计5月底-6月初 账户管理提测</h3>
+                <span class="status-pill">准备提测</span>
+            </div>
+            <div class="doc-subgrid">
+                <a class="card border-green-100 bg-green-50/30" href="PRD-账户管理与多付款账户支付.html" target="_blank" rel="noopener noreferrer">
+                    <div class="card-head">
+                        <div class="icon icon-prd"><i class="fas fa-file-invoice-dollar"></i></div>
+                        <i class="fas fa-chevron-right arrow"></i>
+                    </div>
+                    <h2 class="text-green-700">账户管理与多付款账户支付 PRD</h2>
+                    <p>收购商维护多付款账户后，开单付款、扫码开单和 PC 收银台如何选择账户并分流支付。</p>
+                </a>
+
+                <a class="card border-blue-100 bg-blue-50/30" href="TEST-账户管理与多付款账户支付.html" target="_blank" rel="noopener noreferrer">
+                    <div class="card-head">
+                        <div class="icon icon-doc"><i class="fas fa-list-check"></i></div>
+                        <i class="fas fa-chevron-right arrow"></i>
+                    </div>
+                    <h2 class="text-green-700">账户管理与多付款账户支付测试用例</h2>
+                    <p>覆盖账户维护、默认账户、H5 付款确认、扫码开单付款、PC 收银台和渠道登录态。</p>
+                </a>
+            </div>
+        </div>
+
+        <div class="doc-group" id="doc-20260518" role="tabpanel" hidden>
+            <div class="doc-group-head">
+                <h3 class="doc-group-title"><i class="fas fa-calendar-week"></i>2026-05-18 至 2026-05-23 小迭代</h3>
+                <span class="status-pill blue">已上线 / 验收资料</span>
+            </div>
+            <div class="doc-subgrid">
+                <a class="card border-blue-100 bg-blue-50/30" href="weekly-518-523-plan.html" target="_blank" rel="noopener noreferrer">
+                    <div class="card-head">
+                        <div class="icon icon-doc"><i class="fas fa-calendar-week"></i></div>
+                        <i class="fas fa-chevron-right arrow"></i>
+                    </div>
+                    <h2 class="text-green-700">本周需求讲解页</h2>
+                    <p>5/18-5/23 上线与开发需求可视化总览，适合业务、技术、测试一起评审拆解。</p>
+                </a>
+
+                <a class="card border-green-100 bg-green-50/30" href="PRD-003-phase3-live-small-features.html" target="_blank" rel="noopener noreferrer">
+                    <div class="card-head">
+                        <div class="icon icon-doc"><i class="fas fa-clipboard-list"></i></div>
+                        <i class="fas fa-chevron-right arrow"></i>
+                    </div>
+                    <h2 class="text-green-700">三期小迭代 PRD</h2>
+                    <p>团队管理、结算信息修改、扫码开单及订单管理关联验收口径。</p>
+                </a>
+
+                <a class="card border-blue-100 bg-blue-50/30" href="TEST-003-phase3-live-small-features.html" target="_blank" rel="noopener noreferrer">
+                    <div class="card-head">
+                        <div class="icon icon-doc"><i class="fas fa-vial-circle-check"></i></div>
+                        <i class="fas fa-chevron-right arrow"></i>
+                    </div>
+                    <h2 class="text-green-700">三期小迭代测试用例</h2>
+                    <p>提供给测试执行的用例清单，覆盖首次登录、免登、团队管理、结算纠错和批量付款。</p>
+                </a>
+            </div>
+        </div>
+
+        <div class="doc-group" id="doc-longterm" role="tabpanel" hidden>
+            <div class="doc-group-head">
+                <h3 class="doc-group-title"><i class="fas fa-thumbtack"></i>长期资料</h3>
+                <span class="status-pill">长期可看</span>
+            </div>
+            <div class="doc-subgrid">
+                <a class="card" href="PRD-收粮平台-可视化.html" target="_blank" rel="noopener noreferrer">
+                    <div class="card-head">
+                        <div class="icon icon-prd"><i class="fas fa-file-lines"></i></div>
+                        <i class="fas fa-chevron-right arrow"></i>
+                    </div>
+                    <h2>PRD 可视化页面</h2>
+                    <p>用于产品说明、功能逻辑确认、测试对照验收、流程图和用户故事评审。</p>
+                </a>
+
+                <a class="card border-green-100 bg-green-50/30" href="PRD-003-phase3-billing-upgrade.html" target="_blank" rel="noopener noreferrer">
+                    <div class="card-head">
+                        <div class="icon icon-miniapp"><i class="fas fa-file-lines"></i></div>
+                        <i class="fas fa-chevron-right arrow"></i>
+                    </div>
+                    <h2 class="text-green-700">三期 PRD</h2>
+                    <p>三期开单链路升级评审资料，包含开单、订单管理、客户与付款相关需求说明。</p>
+                </a>
+
+                <a class="card border-emerald-100 bg-emerald-50/30" href="business-flow-overview.html" target="_blank" rel="noopener noreferrer">
+                    <div class="card-head">
+                        <div class="icon icon-prd bg-emerald-500 text-white"><i class="fas fa-diagram-project"></i></div>
+                        <i class="fas fa-chevron-right arrow text-emerald-500"></i>
+                    </div>
+                    <h2 class="text-emerald-700">业务流程全景图</h2>
+                    <p>从进件、建档、出码、扫码开单到单笔付款成功的完整流程图和状态图。</p>
+                </a>
+
+                <a class="card border-blue-100 bg-blue-50/30" href="PRD-开单配置与品类管理优化.html" target="_blank" rel="noopener noreferrer">
+                    <div class="card-head">
+                        <div class="icon icon-doc"><i class="fas fa-sliders"></i></div>
+                        <i class="fas fa-chevron-right arrow"></i>
+                    </div>
+                    <h2 class="text-green-700">开单配置与品类管理优化</h2>
+                    <p>按二级品类配置开单方式，区分极简快收和标准称重，用于后续配置化评审。</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- <section class="footer">
+        当前主线改造范围：<strong>`prototype/` + `Docs/PRD-001-收粮平台.md` + `CLAUDE.md` + `warm-card-ui-style`</strong>
+    </section> -->
     <script>
-        // 页面导航功能
-        function loadPage(pageName) {
-            // 更新导航状态
-            document.querySelectorAll('.nav-item').forEach(item => {
-                item.classList.remove('active');
-            });
-            event.target.closest('.nav-item').classList.add('active');
-            
-            // 更新面包屑
-            const pageNames = {
-                'risk-indicator-management': '预警指标库',
-                'new-merchant-audit': '商户资料预警',
-                'existing-merchant-risk': '商户交易预警',
-                'merchant-subsidy-risk': '商户补贴预警',
-                'indicator-assignment': '预警指标分配'
-            };
-            
-            document.getElementById('current-page').textContent = pageNames[pageName] || '商户资料预警';
-            
-            // 加载对应页面
-            loadPageContent(pageName);
-        }
-        
+        document.querySelectorAll('.prd-tab').forEach((tab) => {
+            tab.addEventListener('click', () => {
+                const target = tab.dataset.target;
 
-        
-        function loadPageContent(pageName) {
-            const contentArea = document.getElementById('content-area');
-            contentArea.innerHTML = `<iframe src="${pageName}.html" class="content-frame"></iframe>`;
-        }
+                document.querySelectorAll('.prd-tab').forEach((item) => {
+                    const active = item === tab;
+                    item.classList.toggle('active', active);
+                    item.setAttribute('aria-selected', active ? 'true' : 'false');
+                });
+
+                document.querySelectorAll('.doc-group[role="tabpanel"]').forEach((panel) => {
+                    panel.hidden = panel.id !== target;
+                });
+            });
+        });
     </script>
+</main>
 </body>
 </html>
